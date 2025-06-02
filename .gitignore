@@ -1,0 +1,61 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+# Build
+dist/
+build/
+.cache/
+.temp/
+.vite/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Mac OS
+.DS_Store
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Test
+coverage/
+*.lcov
+
+# Typescript
+*.tsbuildinfo
+
+# Sass cache
+.sass-cache/
+
+# ESLint / Prettier
+.eslintcache
+
+# Storybook
+storybook-static/
+*.storybook/
+
+# Binaries
+*.exe
+*.dll
+*.so
+
+# Optional lockfiles
+package-lock.json
+yarn.lock
+
+# Local dev server
+serve/
+
+# Others
+*.tgz

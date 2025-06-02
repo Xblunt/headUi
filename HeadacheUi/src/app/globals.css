@@ -1,0 +1,99 @@
+:root {
+  --background: #f6f6f8;
+  --foreground: #000000;
+  --fontfamily: "TT Interphases Pro Trl-Rg";
+}
+@import './theme.css';
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=ABeeZee:400");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px; /* Вертикальный скроллбар */
+  height: 10px; /* Горизонтальный скроллбар */
+}
+
+/* Стилизация дорожки скроллбара */
+::-webkit-scrollbar-track {
+  background-color: #ddd; /* Цвет дорожки */
+}
+
+/* Стилизация ползунка скроллбара */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom right, #333, #333); /* Градиент для ползунка */
+  border-radius: 5px; /* Скругление углов */
+}
+
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  background: var(--background) !important;
+  color: var(--textcolor) !important;
+}
+
+.global_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: "TT Interphases Pro Trl-Rg";
+  src: url("https://anima-uploads.s3.amazonaws.com/projects/66e4212e5a70e46bb6654c2d/fonts/tt-interphases-pro-regular.otf")
+    format("opentype");
+}
+
+.wrapper {
+  display: flex;
+  /* margin-left: 60px; */
+  margin-top: 60px;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  height: 100%;
+  /* padding: 30px; */
+  padding: 0 20px;
+  /* margin-bottom: 130px; */
+  padding-bottom: 100px;
+}
+
+.saveBtn {
+  width: 100%;
+  display: flex;
+  justify-content: stretch;
+  position: sticky;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+}
+
+/* .tabs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+} */

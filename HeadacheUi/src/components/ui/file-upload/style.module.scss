@@ -1,0 +1,17 @@
+.fuwrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 400px;
+  height: auto;
+
+  .file {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    background: white;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+  }
+}

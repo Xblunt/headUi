@@ -1,0 +1,52 @@
+// .card {
+//     display: flex;
+//     align-items: center;
+//     flex-direction: column;
+// }
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.card {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.trackCover {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.trackCover:hover {
+    transform: scale(1.05);
+}
+
+.playButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.coverWrapper:hover .playButton {
+    opacity: 1;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}

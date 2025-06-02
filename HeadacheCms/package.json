@@ -1,0 +1,38 @@
+{
+  "name": "admin-cms",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/estree": "^1.0.6",
+    "clsx": "^2.1.1",
+    "env-cmd": "^10.1.0",
+    "mobx": "^6.13.5",
+    "mobx-react-lite": "^4.1.0",
+    "next": "15.1.4",
+    "next-runtime-env": "^3.2.2",
+    "primefaces": "^14.0.0",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.1",
+    "quill": "^2.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sass": "^1.83.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.4",
+    "typescript": "^5"
+  }
+}

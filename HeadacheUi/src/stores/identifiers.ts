@@ -1,0 +1,9 @@
+// export const APP_STORE = Symbol('AppStore');
+export const AUTH_STORE = Symbol('AuthStore');
+export const ALL_STORE = Symbol('AllStore');
+// export const MAIN_STORE = Symbol('MainStore');
+// export const NEWS_STORE = Symbol('NewsStore')
+// export const DIRECTION_STORE = Symbol('DirectionStore');
+// export const CAREER_STORE = Symbol('CareerStore');
+// export const ABOUT_STORE = Symbol('AboutStore');
+// export const CONTACTS_STORE = Symbol('ContactsStore');

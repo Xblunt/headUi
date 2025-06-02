@@ -1,0 +1,180 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 20px;
+  z-index: 1000;
+  
+
+  .tabContainer {
+    display: flex;
+    gap: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .tab {
+      background: transparent;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 8px 12px;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: rgba(246, 246, 248, 0.2);
+      }
+
+      &.active {
+        background-color: rgba(198, 0, 33, 0.5);
+        font-weight: 600;
+         border-radius: 10px;
+      }
+    }
+  }
+
+  .userContainer {
+    position: relative;
+    margin-left: auto;
+
+    .userAvatar {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid white;
+        transition: all 0.3s ease;
+      }
+
+      .userInfo {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 10px;
+        background: #444;
+        padding: 12px;
+        border-radius: 6px;
+        z-index: 1001;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        transform: translateY(-10px);
+        transition: all 0.2s ease;
+        opacity: 0;
+        pointer-events: none;
+        min-width: 180px;
+        
+        &::before {
+          content: '';
+          position: absolute;
+          right: 15px;
+          bottom: 100%;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-bottom: 8px solid #444;
+        }
+
+        &.visible {
+          pointer-events: auto;
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  .userName {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+
+  .userEmail {
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .userRole {
+    font-size: 12px;
+    text-decoration: underline;
+    color: #ccc;
+  }
+
+  .userActions {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #555;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+    .infoButton {
+      background: white;
+      color: black;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      font-size: 12px;
+      font-weight: 500;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    
+      &:hover:not(:disabled) {
+        background: darken(#e5e7eb, 10%);
+        // transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+      }
+    
+      &:active:not(:disabled) {
+        // transform: translateY(0);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+    
+      &:disabled {
+        background: #f3f4f6;
+        color: #9ca3af;
+        cursor: not-allowed;
+        box-shadow: none;
+        transform: none !important;
+        
+        &:hover {
+          background: #f3f4f6;
+          color: #9ca3af;
+        }
+      }
+    }
+
+    .logoutButton {
+      background: #c60021;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      transition: all 0.2s ease;
+      font-size: 12px;
+
+      &:hover {
+        background: darken(#c60021, 10%);
+      }
+    }
+  }
+}

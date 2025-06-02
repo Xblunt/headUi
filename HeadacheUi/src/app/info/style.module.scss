@@ -1,0 +1,241 @@
+.profileContainer {
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #333;
+}
+
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+
+  h1 {
+    font-size: 31px;
+    margin: 0;
+    color: black;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+
+  button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-size: 14px;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .editButton {
+    background: #c60021;
+    color: white;
+
+    &:hover {
+      background: #7c192a;
+    }
+  }
+
+  .saveButton {
+    background: #c60021;
+    color: white;
+
+    &:hover {
+      background: #7c192a;
+    }
+  }
+
+  .cancelButton {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+
+    &:hover {
+      background: #e2e6ea;
+    }
+  }
+}
+
+.profileContent {
+  display: flex;
+  gap: 75px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.avatarSection {
+  width: 250px;
+  flex-shrink: 0;
+
+  .avatar {
+    border: 1px solid black;
+    width: 250px;
+    height: 250px;
+    border-radius: 25%;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: hidden;
+    font-size: 16px;
+    color: #666;
+  }
+
+ .uploadButton {
+  width: 100%;
+  padding: 8px;
+  background: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  min-height: 36px; // или любой другой подходящий размер
+
+  &:hover {
+    background: #e9ecef;
+    border-color: #999;
+  }
+
+  // Стили для текста внутри кнопки
+  &::after {
+    content: 'Загрузить новый';
+  }
+
+  // Скрытие оригинального input
+  input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+}
+}
+
+.userInfo {
+  flex: 1;
+}
+
+.section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin: 0 0 20px 0;
+    color: black;
+  }
+}
+
+.formGroup {
+  margin-bottom: 15px;
+
+  label {
+    display: block;
+    margin-bottom: 2px;
+    font-weight: 500;
+    font-size: 12px;
+    color: #555;
+    opacity: 0.8;
+  }
+
+  input, textarea, select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: #7c192a;
+      outline: none;
+    }
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  .fieldValue {
+    padding: 8px 0;
+    min-height: 36px;
+    color: black;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 14px;
+  }
+}
+
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #7c192a;
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: black;
+    font-weight: normal;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: auto;
+      accent-color: #7c192a; /* Этот цвет совпадает с цветом текста */
+      
+      /* Альтернативный вариант для более тонкой настройки */
+      /*
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      appearance: none;
+      border: 2px solid #7c192a;
+      border-radius: 4px;
+      position: relative;
+      
+      &:checked {
+        background-color: #7c192a;
+        
+        &::after {
+          content: "✓";
+          position: absolute;
+          color: white;
+          font-size: 12px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+      */
+    }
+  }
+}

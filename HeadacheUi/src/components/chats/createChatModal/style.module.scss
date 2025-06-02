@@ -1,0 +1,198 @@
+// components/CreateChatModal/style.module.scss
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 400px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+.modalTitle {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.chatNameInput {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  outline: none;
+  
+  &:focus {
+    border-color: #7c192a;
+  }
+}
+
+.searchContainer {
+  margin-bottom: 15px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  outline: none;
+  font-size: 14px;
+  
+  &:focus {
+    border-color: #7c192a;
+  }
+}
+
+.selectedUsers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.selectedUser {
+  background-color: #f0f0f0;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  
+  &:hover {
+    color: #333;
+  }
+}
+
+.usersList {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.userItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #f9f9f9;
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.checked {
+    background-color: #7c192a;
+    border-color: #7c192a;
+    color: white;
+  }
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7c192a;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.createButton {
+  background-color: #7c192a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) {
+    background-color: #5a1220;
+  }
+  
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
