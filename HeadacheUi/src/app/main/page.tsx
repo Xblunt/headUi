@@ -491,7 +491,7 @@ export default function MainPage() {
   
     {/* Карточки первых 5 треков */}
 <div className={s.songsGrid}>
-  {mockSongs.slice(0, 5).map((song: Song) => {
+  {mockSongs.slice(0, 4).map((song: Song) => {
     const isCurrent = globalCurrentSong?.uuid === song.uuid;
     const isPlaying = isCurrent && globalIsPlaying;
     return (
@@ -546,7 +546,7 @@ export default function MainPage() {
 
     {/* Список остальных треков */}
     <div className={s.tracksList}>
-      {mockSongs.slice(5).map((song: Song, index: number) => (
+      {mockSongs.slice(4).map((song: Song, index: number) => (
         <TrackRow
           key={`${song.uuid}-${index+5}`}
           song={song}

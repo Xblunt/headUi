@@ -22,10 +22,20 @@ export const tabs: ITab[] = [
     link: 'albums',
     icon: 'pi pi-th-large'
   },
+   {
+    title: 'Чаты',
+    link: 'chats',
+    icon: 'pi pi-comments'
+  },
   {
     title: 'Сотрудничество',
-    link: 'news',
-    icon: 'pi pi-comments'
+    link: 'cooperation',
+    icon: 'pi pi-file'
+  },
+   {
+    title: 'Продвижение',
+    link: 'promo',
+    icon: 'pi pi-chart-bar'
   },
 ];
 

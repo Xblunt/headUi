@@ -1,26 +1,124 @@
 'use client'
 
 import React, { useState, useMemo } from 'react';
-import { Song, Album, User } from '@/models';
+import { Song, Album, User, Tag, FileExtension, FileType, SongStatus } from '@/models';
 
 import styles from './style.module.scss';
-import TrackRow from '@/components/track';
 import AlbumCard from '@/components/album';
+import TrackRow from '@/components/track';
 
-interface TracksPageProps {
-  songs: Song[];
-  albums: Album[];
-  users: User[];
-}
+// Mock данные
+const mockTags: Tag[] = [
+  new Tag({ uuid: '1', tagName: 'rock' }),
+  new Tag({ uuid: '2', tagName: 'pop' }),
+  new Tag({ uuid: '3', tagName: 'jazz' }),
+  new Tag({ uuid: '4', tagName: 'classical' }),
+  new Tag({ uuid: '5', tagName: 'electronic' }),
+];
 
-const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
+const mockUsers: User[] = [
+  new User({ 
+    uuid: '1', 
+    login: 'Queen', 
+    roles: ['ARTIST'], 
+    urlImage: '/covers/queen.jpg',
+    avgRating: 4.8
+  }),
+  new User({ 
+    uuid: '2', 
+    login: 'Michael Jackson', 
+    roles: ['ARTIST'], 
+    urlImage: '/covers/mj.jpg',
+    avgRating: 4.9
+  }),
+  new User({ 
+    uuid: '3', 
+    login: 'The Beatles', 
+    roles: ['ARTIST'], 
+    urlImage: '/covers/beatles.jpg',
+    avgRating: 4.7
+  }),
+];
+
+const mockSongs: Song[] = [
+  new Song({
+    uuid: '2',
+    name: 'Billie Jean',
+    avgRating: 4.8,
+    url: '/songs/billie.mp3',
+     status: SongStatus.APPROVED,
+    authorUUID: '2',
+    tags: [mockTags[1], mockTags[4]], // pop, electronic
+    fileUUID: '2',
+    urlImage: '/covers/mj.jpg'
+  }),
+  new Song({
+    uuid: '3',
+    name: 'Yesterday',
+    avgRating: 4.7,
+    url: '/songs/yesterday.mp3',
+    status: SongStatus.APPROVED,
+    authorUUID: '3',
+    tags: [mockTags[1], mockTags[3]], // pop, classical
+    fileUUID: '3',
+    urlImage: '/covers/beatles.jpg'
+  }),
+  new Song({
+    uuid: '4',
+    name: 'We Will Rock You',
+    avgRating: 4.6,
+    url: '/songs/rockyou.mp3',
+     status: SongStatus.APPROVED,
+    authorUUID: '1',
+    tags: [mockTags[0]], // rock
+    fileUUID: '4',
+    urlImage: '/covers/queen.jpg'
+  }),
+  new Song({
+    uuid: '5',
+    name: 'Thriller',
+    avgRating: 4.9,
+    url: '/songs/thriller.mp3',
+     status: SongStatus.APPROVED,
+    authorUUID: '2',
+    tags: [mockTags[1], mockTags[4]], // pop, electronic
+    fileUUID: '5',
+    urlImage: '/covers/mj.jpg'
+  }),
+];
+
+const mockAlbums: Album[] = [
+  new Album({
+    uuid: '1',
+    name: 'A Night at the Opera',
+    authorUUID: '1',
+    savedSongsUUIDs: ['1', '4'],
+    urlImage: '/covers/queen_album.jpg'
+  }),
+  new Album({
+    uuid: '2',
+    name: 'Thriller',
+    authorUUID: '2',
+    savedSongsUUIDs: ['2', '5'],
+    urlImage: '/covers/mj_album.jpg'
+  }),
+  new Album({
+    uuid: '3',
+    name: 'Help!',
+    authorUUID: '3',
+    savedSongsUUIDs: ['3'],
+    urlImage: '/covers/beatles_album.jpg'
+  }),
+];
+
+const TracksPage = () => {
   // Состояния для активной вкладки
   const [activeTab, setActiveTab] = useState<'tracks' | 'albums'>('tracks');
   
   // Состояния для фильтрации и сортировки треков
   const [trackSearchQuery, setTrackSearchQuery] = useState('');
   const [selectedTrackTags, setSelectedTrackTags] = useState<string[]>([]);
-  const [trackSortOption, setTrackSortOption] = useState<'rating' | 'title' | 'artist' | 'duration'>('rating');
+  const [trackSortOption, setTrackSortOption] = useState<'rating' | 'title' | 'artist'>('rating');
   const [trackSortDirection, setTrackSortDirection] = useState<'asc' | 'desc'>('desc');
   
   // Состояния для фильтрации и сортировки альбомов
@@ -35,47 +133,38 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
   
   // Получаем все уникальные теги для треков
   const allTrackTags = useMemo(() => {
-    const tags = new Set<string>();
-    songs.forEach(song => {
-      song.tags?.forEach(tag => tags.add(typeof tag === 'string' ? tag : String(tag)));
-    });
-    return Array.from(tags);
-  }, [songs]);
+    return Array.from(new Set(mockSongs.flatMap(song => song.tags.map(tag => tag.tagName))));
+  }, []);
   
   // Получаем все уникальные теги для альбомов (из треков)
   const allAlbumTags = useMemo(() => {
-    const tags = new Set<string>();
-    albums.forEach(album => {
-      const albumSongs = songs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
-      albumSongs.forEach(song => {
-        song.tags?.forEach(tag => tags.add(typeof tag === 'string' ? tag : String(tag)));
-      });
-    });
-    return Array.from(tags);
-  }, [albums, songs]);
+    return Array.from(new Set(mockAlbums.flatMap(album => {
+      const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+      return albumSongs.flatMap(song => song.tags.map(tag => tag.tagName));
+    })));
+  }, []);
   
   // Функция для вычисления рейтинга альбома
   const getAlbumRating = (album: Album) => {
-    const albumSongs = songs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+    const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
     if (albumSongs.length === 0) return 0;
     
-    // If Song does not have a 'rating' property, use 0 as default or replace with actual property if available
-    const totalRating = albumSongs.reduce((sum, song) => sum + (typeof (song as any).rating === 'number' ? (song as any).rating : 0), 0);
+    const totalRating = albumSongs.reduce((sum, song) => sum + song.avgRating, 0);
     return totalRating / albumSongs.length;
   };
   
   // Фильтрация и сортировка треков
   const filteredTracks = useMemo(() => {
-    return songs
+    return mockSongs
       .filter(song => {
         // Фильтр по поиску
         const matchesSearch = 
           song.name.toLowerCase().includes(trackSearchQuery.toLowerCase()) || 
-          users.find(u => u.uuid === song.authorUUID)?.login.toLowerCase().includes(trackSearchQuery.toLowerCase());
+          mockUsers.find(u => u.uuid === song.authorUUID)?.login.toLowerCase().includes(trackSearchQuery.toLowerCase());
         
         // Фильтр по тегам
         const matchesTags = selectedTrackTags.length === 0 || 
-          selectedTrackTags.some(tag => song.tags?.includes(tag as any));
+          selectedTrackTags.some(tagName => song.tags.some(tag => tag.tagName === tagName));
         
         return matchesSearch && matchesTags;
       })
@@ -85,44 +174,40 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
         
         switch (trackSortOption) {
           case 'rating':
-            // If Song does not have a 'rating' property, fallback to 0 or use another property
-            comparison = (typeof (a as any).rating === 'number' ? (a as any).rating : 0) - (typeof (b as any).rating === 'number' ? (b as any).rating : 0);
+            comparison = a.avgRating - b.avgRating;
             break;
           case 'title':
             comparison = a.name.localeCompare(b.name);
             break;
           case 'artist':
-            const artistA = users.find(u => u.uuid === a.authorUUID)?.login || '';
-            const artistB = users.find(u => u.uuid === b.authorUUID)?.login || '';
+            const artistA = mockUsers.find(u => u.uuid === a.authorUUID)?.login || '';
+            const artistB = mockUsers.find(u => u.uuid === b.authorUUID)?.login || '';
             comparison = artistA.localeCompare(artistB);
-            break;
-          case 'duration':
-            // comparison = (a.duration || 0) - (b.duration || 0);
-            // Replace 'duration' with the correct property name if it exists, e.g. 'length' or 'time':
-            // comparison = (a.length || 0) - (b.length || 0);
-            // Or, if no such property exists, remove the 'duration' case:
-            comparison = 0; // No duration property on Song
             break;
         }
         
         return trackSortDirection === 'desc' ? -comparison : comparison;
       });
-  }, [songs, users, trackSearchQuery, selectedTrackTags, trackSortOption, trackSortDirection]);
+  }, [trackSearchQuery, selectedTrackTags, trackSortOption, trackSortDirection]);
   
   // Фильтрация и сортировка альбомов
   const filteredAlbums = useMemo(() => {
-    return albums
+    return mockAlbums
       .filter(album => {
         // Фильтр по поиску
         const matchesSearch = 
           album.name.toLowerCase().includes(albumSearchQuery.toLowerCase()) || 
-          users.find(u => u.uuid === album.authorUUID)?.login.toLowerCase().includes(albumSearchQuery.toLowerCase());
+          mockUsers.find(u => u.uuid === album.authorUUID)?.login.toLowerCase().includes(albumSearchQuery.toLowerCase());
         
         // Фильтр по тегам
         const matchesTags = selectedAlbumTags.length === 0;
         if (!matchesTags) {
-          const albumSongs = songs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
-          return albumSongs.some(song => selectedAlbumTags.some(tag => song.tags?.includes(tag as any)));
+          const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+          return albumSongs.some(song => 
+            selectedAlbumTags.some(tagName => 
+              song.tags.some(tag => tag.tagName === tagName)
+            )
+          );
         }
         
         return matchesSearch && matchesTags;
@@ -139,15 +224,15 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
             comparison = a.name.localeCompare(b.name);
             break;
           case 'artist':
-            const artistA = users.find(u => u.uuid === a.authorUUID)?.login || '';
-            const artistB = users.find(u => u.uuid === b.authorUUID)?.login || '';
+            const artistA = mockUsers.find(u => u.uuid === a.authorUUID)?.login || '';
+            const artistB = mockUsers.find(u => u.uuid === b.authorUUID)?.login || '';
             comparison = artistA.localeCompare(artistB);
             break;
         }
         
         return albumSortDirection === 'desc' ? -comparison : comparison;
       });
-  }, [albums, songs, users, albumSearchQuery, selectedAlbumTags, albumSortOption, albumSortDirection]);
+  }, [albumSearchQuery, selectedAlbumTags, albumSortOption, albumSortDirection]);
   
   // Обработчики для треков
   const handleTrackPlay = (song: Song) => {
@@ -160,7 +245,6 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
   };
   
   const handleArtistClick = (login: string) => {
-    // Навигация к странице артиста
     console.log(`Navigate to artist: ${login}`);
   };
   
@@ -175,7 +259,7 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
   };
   
   return (
-    <div className={styles.pageContainer}>
+    <div className={'wrapper'}>
       {/* Переключение вкладок */}
       <div className={styles.tabs}>
         <button
@@ -237,7 +321,6 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
                 <option value="rating">По рейтингу</option>
                 <option value="title">По названию</option>
                 <option value="artist">По исполнителю</option>
-                <option value="duration">По длительности</option>
               </select>
               
               <button
@@ -262,7 +345,7 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
                   onPause={handleTrackPause}
                   onArtistClick={handleArtistClick}
                   index={index}
-                  users={users}
+                  users={mockUsers}
                 />
               ))
             ) : (
@@ -335,8 +418,8 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
                 <AlbumCard
                   key={album.uuid}
                   album={album}
-                  users={users}
-                  songs={songs}
+                  users={mockUsers}
+                  songs={mockSongs}
                   onPlay={handleAlbumPlay}
                   onPause={handleAlbumPause}
                   onArtistClick={handleArtistClick}
@@ -354,13 +437,13 @@ const TracksPage: React.FC<TracksPageProps> = ({ songs, albums, users }) => {
         <div className={styles.miniPlayer}>
           <div className={styles.playerInfo}>
             <img 
-              src="https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg" 
+              src={currentSong.urlImage || '/default-cover.jpg'} 
               alt={currentSong.name}
               className={styles.playerCover}
             />
             <div>
               <h4>{currentSong.name}</h4>
-              <p>{users.find(u => u.uuid === currentSong.authorUUID)?.login || 'Unknown Artist'}</p>
+              <p>{mockUsers.find(u => u.uuid === currentSong.authorUUID)?.login || 'Unknown Artist'}</p>
             </div>
           </div>
           

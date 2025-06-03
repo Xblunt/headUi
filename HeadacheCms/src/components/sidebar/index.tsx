@@ -8,7 +8,7 @@ import 'primeicons/primeicons.css';
 
 interface User {
   name: string;
-  email: string;
+  login: string;
   avatar: string;
   role: string;
 }
@@ -20,7 +20,7 @@ export const Sidebar: FC = () => {
   
   const user: User = {
     name: 'Иван Иванов',
-    email: 'ivan@example.com',
+    login: 'ivanLogin',
     avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
     role: 'Администратор'
   };
@@ -59,11 +59,12 @@ export const Sidebar: FC = () => {
             onMouseLeave={() => setIsUserMenuVisible(false)}
           >
             <div className={s.userName}>{user.name}</div>
-            <div className={s.userEmail}>{user.email}</div>
+            <div className={s.userEmail}>{user.login}</div>
             <div className={s.userRole}>{user.role}</div>
             <div className={s.userActions}>
               <button 
                 className={s.logoutButton}
+                onClick={()=> router.push('auth')}
               >
                 Выйти
               </button>

@@ -8,7 +8,7 @@ const MainPage = observer(() => {
   const router = useRouter();
 
   useEffect(() => {
-    router.push('/main');
+    router.push('/login');
   }, []);
 
   return <></>; // TODO: сюда бы лоадер

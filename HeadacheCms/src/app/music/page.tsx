@@ -1,325 +1,291 @@
 'use client';
 
-import { useStores } from "@/utils/hooks/useStores";
-import { observer } from "mobx-react-lite";
-import { IColumn, PfTable } from "@/components/ui/table";
-import { useEffect, useState } from "react";
-import { main_mock_data } from "@/mocks/main.mock";
-import { PfInputText } from "@/components/ui/input-text";
-import { PfInputTextarea } from "@/components/ui/input-textarea";
-import { FormElements, IPropertyForm } from "@/components/form";
-import { PfButton } from "@/components/ui/button";
-import { TabMenu } from "primereact/tabmenu";
+import { useState } from "react";
 import { tabsMusic } from "@/mocks/other.mock";
 import { PfTabMenu } from "@/components/ui/tabmenu";
+import { Song, SongStatus, Tag } from "@/models";
+import { User } from "@/models";
+import { PfInputText } from "@/components/ui/input-text";
+import { Dropdown } from 'primereact/dropdown';
 import s from './style.module.scss';
-// import { ProductService } from './service/ProductService';
-import { Button } from 'primereact/button';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import { Rating } from 'primereact/rating';
-import { Tag } from 'primereact/tag';
-import { classNames } from 'primereact/utils';
-import TrackList from "@/components/tracklist";
-import { AllService } from "@/services";
-import { Song } from "@/models";
+import TrackRow from "@/components/track";
+import { Pagination } from "@/components/pagination";
 
-interface Product {
-  id: string;
-  code: string;
-  name: string;
-  description: string;
-  image: string;
-  price: number;
-  category: string;
-  quantity: number;
-  inventoryStatus: string;
-  rating: number;
-}
-
-const mockProducts: Product[] = [
-  {
-    id: '1000',
-    code: 'P1000',
-    name: 'Apple iPhone 13',
-    description: 'Latest Apple iPhone with A15 Bionic chip and improved camera.',
-    image: 'https://mimigram.ru/wp-content/uploads/2020/07/chto-takoe-foto.jpg',
-    price: 999,
-    category: 'Smartphones',
-    quantity: 50,
-    inventoryStatus: 'In Stock',
-    rating: 4.8,
-  },
-  {
-    id: '1001',
-    code: 'P1001',
-    name: 'Samsung Galaxy S21',
-    description: 'Samsung flagship smartphone with dynamic AMOLED display.',
-    image: 'https://mimigram.ru/wp-content/uploads/2020/07/chto-takoe-foto.jpg',
-    price: 899,
-    category: 'Smartphones',
-    quantity: 30,
-    inventoryStatus: 'Low Stock',
-    rating: 4.5,
-  },
-  {
-    id: '1002',
-    code: 'P1002',
-    name: 'Sony WH-1000XM4',
-    description: 'Industry leading noise cancelling wireless headphones.',
-    image: 'https://mimigram.ru/wp-content/uploads/2020/07/chto-takoe-foto.jpg',
-    price: 349,
-    category: 'Headphones',
-    quantity: 100,
-    inventoryStatus: 'In Stock',
-    rating: 4.7,
-  },
-  {
-    id: '1003',
-    code: 'P1003',
-    name: 'Dell XPS 13',
-    description: 'Compact and powerful ultrabook with InfinityEdge display.',
-    image: 'https://mimigram.ru/wp-content/uploads/2020/07/chto-takoe-foto.jpg',
-    price: 1199,
-    category: 'Laptops',
-    quantity: 20,
-    inventoryStatus: 'In Stock',
-    rating: 4.6,
-  },
-  {
-    id: '1004',
-    code: 'P1004',
-    name: 'Apple MacBook Pro 16"',
-    description: 'High-performance laptop with M1 Pro chip for professionals.',
-    image: 'https://mimigram.ru/wp-content/uploads/2020/07/chto-takoe-foto.jpg',
-    price: 2499,
-    category: 'Laptops',
-    quantity: 10,
-    inventoryStatus: 'Limited Stock',
-    rating: 4.9,
-  },
+export const tagsMock: Tag[] = [
+  new Tag({ uuid: 'tag-1', tagName: 'Rock' }),
+  new Tag({ uuid: 'tag-2', tagName: 'Pop' }),
+  new Tag({ uuid: 'tag-3', tagName: 'Electronic' }),
+  new Tag({ uuid: 'tag-4', tagName: 'Hip-Hop' }),
+  new Tag({ uuid: 'tag-5', tagName: 'Jazz' }),
 ];
 
-const MusicPageSetting = observer(() => {
-  const { allStore } = useStores();
-  const allService = AllService.getInstance();
-  const [data, setData] = useState<Song | null>(null);
+export const usersMock: User[] = [
+  new User({
+    uuid: 'user-1',
+    login: 'ArtistOne',
+    email: 'artist1@example.com',
+    roles: ['ARTIST'],
+    urlImage: 'https://example.com/artist1.jpg',
+    avgRating: 4.5
+  }),
+  new User({
+    uuid: 'user-2',
+    login: 'LabelOne',
+    email: 'label1@example.com',
+    roles: ['LABEL'],
+    urlImage: 'https://example.com/label1.jpg'
+  }),
+];
 
-  useEffect(() => {
-    // setData(main_mock_data); // Моковые данные (для разработки)
-    const fetchSongs = async () => {
-      try {
-        const dat = await allService.get('song');
-        console.log('dat', dat)
-        setData(allStore.data); // Реальные данные
-        setTimeout(() => {
-          allStore.setCanEdit(false);
-        }, 1);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchSongs();
-  }, []);
+export const songsMock: Song[] = [
+  new Song({
+    uuid: 'song-1',
+    name: 'Rock Anthem',
+    avgRating: 4.8,
+    url: '/music/rock-anthem.mp3',
+    urlImage: 'https://example.com/rock-anthem.jpg',
+    status: SongStatus.APPROVED,
+    authorUUID: 'user-1',
+    tags: [tagsMock[0], tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+  new Song({
+    uuid: 'song-2',
+    name: 'Pop Hit',
+    avgRating: 4.2,
+    url: '/music/pop-hit.mp3',
+    urlImage: 'https://example.com/pop-hit.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'user-1',
+    tags: [tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+    new Song({
+    uuid: 'song-2',
+    name: 'Pop Hit',
+    avgRating: 4.2,
+    url: '/music/pop-hit.mp3',
+    urlImage: 'https://example.com/pop-hit.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'user-1',
+    tags: [tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+    new Song({
+    uuid: 'song-2',
+    name: 'Pop Hit',
+    avgRating: 4.2,
+    url: '/music/pop-hit.mp3',
+    urlImage: 'https://example.com/pop-hit.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'user-1',
+    tags: [tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+    new Song({
+    uuid: 'song-2',
+    name: 'Pop Hit',
+    avgRating: 4.2,
+    url: '/music/pop-hit.mp3',
+    urlImage: 'https://example.com/pop-hit.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'user-1',
+    tags: [tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+    new Song({
+    uuid: 'song-2',
+    name: 'Pop Hit',
+    avgRating: 4.2,
+    url: '/music/pop-hit.mp3',
+    urlImage: 'https://example.com/pop-hit.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'user-1',
+    tags: [tagsMock[1]],
+    fileUUID: 'file-1'
+  }),
+  new Song({
+    uuid: 'song-3',
+    name: 'Electronic Vibes',
+    avgRating: 4.6,
+    url: '/music/electronic-vibes.mp3',
+    urlImage: 'https://example.com/electronic-vibes.jpg',
+    status: SongStatus.DISAPPROVED,
+    authorUUID: 'user-1',
+    tags: [tagsMock[2]],
+    fileUUID: 'file-1'
+  }),
+];
 
-  useEffect(() => {
-    allStore.setCanEdit(true);
-  }, [data]);
+type SortOption = {
+  label: string;
+  value: string;
+};
 
-  // const updateData = async (updata: Song) => {
-  //   const newData = await allService.updateMain(updata);
-  //   setData(newData);
-  //   setTimeout(() => {
-  //     allStore.setCanEdit(false);
-  //   }, 10);
-  // };
+const MusicPage = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [songs, setSongs] = useState<Song[]>(songsMock);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [sortOption, setSortOption] = useState<string>('name-asc');
+  const itemsPerPage = 5;
 
-  const handleDelete = (id: number, type: string) => {
-    setData((prevData: any) => {
-      const updateData = prevData?.[type].filter((item: any) => item.id !== id);
-      return {
-        ...prevData,
-        [type]: updateData
+  const sortOptions: SortOption[] = [
+    { label: 'По названию (А-Я)', value: 'name-asc' },
+    { label: 'По названию (Я-А)', value: 'name-desc' },
+    { label: 'По рейтингу (↑)', value: 'rating-asc' },
+    { label: 'По рейтингу (↓)', value: 'rating-desc' },
+  ];
+
+  const sortSongs = (songs: Song[]) => {
+    return [...songs].sort((a, b) => {
+      switch (sortOption) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'rating-asc':
+          return (a.avgRating || 0) - (b.avgRating || 0);
+        case 'rating-desc':
+          return (b.avgRating || 0) - (a.avgRating || 0);
+        default:
+          return 0;
       }
     });
   };
 
-  const handleUpdate = (row: any, type: string) => {
-    setData((prevData: any) => {
-      const rowExists = prevData[type].find((item: any) => item.id === row.id);
-      const updatedRow = rowExists 
-        ? prevData[type].map((item: any) => item.id === row.id ? row : item)
-        : [...prevData[type], row];
-
-      const updatedData = {
-        ...prevData,
-        [type]: updatedRow
-      };
-
-      // updateData(updatedData);
+  const filteredSongs = sortSongs(
+    songs.filter(song => {
+      let statusMatch = false;
+      switch (activeTab) {
+        case 0: statusMatch = song.status === SongStatus.AWAITING; break;
+        case 1: statusMatch = song.status === SongStatus.APPROVED; break;
+        case 2: statusMatch = song.status === SongStatus.DISAPPROVED; break;
+        default: statusMatch = true;
+      }
       
-      return updatedData;
-    });
+      const artistName = usersMock.find(u => u.uuid === song.authorUUID)?.login || '';
+      const searchMatch = searchQuery === '' || 
+        song.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+        artistName.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      return statusMatch && searchMatch;
+    })
+  );
+
+  const paginatedSongs = filteredSongs.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const totalPages = Math.ceil(filteredSongs.length / itemsPerPage);
+
+  const handlePlay = (song: Song) => {
+    setCurrentSong(song);
+    setIsPlaying(true);
   };
 
-  // ! STAFF
+  const handlePause = () => {
+    setIsPlaying(false);
+  };
 
-  const staffColumns: IColumn[] = [
-    {
-      field: 'username',
-      header: 'ФИО'
-    },
-    {
-      field: 'job',
-      header: 'Должность'
-    }
-  ];
+  const handleArtistClick = (login: string) => {
+    console.log(`Artist clicked: ${login}`);
+  };
 
-  const staffFormProperty: IPropertyForm[] = [
-    {
-      name: 'username',
-      element: FormElements.InputText,
-      label: 'ФИО',
-      placeholder: 'ФИО'
-    },
-    {
-      name: 'job',
-      element: FormElements.InputText,
-      label: 'Должность',
-      placeholder: 'Должность'
-    },
-    {
-      name: 'image',
-      element: FormElements.ImageUpload,
-    }
-  ];
+  const handleApprove = (songId: string) => {
+    setSongs(songs.map(song => 
+      song.uuid === songId ? { ...song, status: SongStatus.APPROVED } : song
+    ));
+  };
 
-  // const emptyStaffRow: MainStaff = {
-  //   username: '',
-  //   job: '',
-  //   image: ''
-  // };
+  const handleReject = (songId: string) => {
+    setSongs(songs.map(song => 
+      song.uuid === songId ? { ...song, status: SongStatus.DISAPPROVED } : song
+    ));
+  };
 
-  // ! COMPANY
+  const handleUpdate = (updatedSong: Song) => {
+    setSongs(songs.map(song => 
+      song.uuid === updatedSong.uuid ? updatedSong : song
+    ));
+  };
 
-  const companyColumns: IColumn[] = [
-    {
-      field: 'description',
-      header: 'Описание'
-    }
-  ];
-
-  const companyFormProperty: IPropertyForm[] = [
-    {
-      name: 'name',
-      element: FormElements.InputText,
-      label: 'Название',
-      placeholder: 'Название'
-    },
-    {
-      name: 'description',
-      element: FormElements.InputTextarea,
-      label: 'Описание',
-      placeholder: 'Описание'
-    },
-    {
-      name: 'image',
-      element: FormElements.ImageUpload,
-    },
-    {
-      name: 'icon',
-      element: FormElements.ImageUpload,
-      isSvg: true
-    }
-  ];
-
-  // const emptyCompanyRow: MainCompany = {
-  //   name: '',
-  //   description: '',
-  //   image: '',
-  //   icon: '',
-  // };
-
- 
   return (
-    <div className="wrapper">
-      <div className="saveBtn">
-        {/* <PfButton
-          onClick={() => { if (data) updateData(data) }}
-          label={'Сохранить'}
-          icon={"pi pi-save"}
-          loading={allStore.loading}
-          disabled={!allStore.canEdit}
-        /> */}
-         <PfTabMenu list={tabsMusic} />
+    <div className={"wrapper"}>
+      <div className={s.header}>
+        <PfTabMenu 
+          list={tabsMusic} 
+          activeIndex={activeTab} 
+          onTabChange={(e) => {
+            setActiveTab(e.index);
+            setCurrentPage(1);
+          }} 
+        />
+        
+         <div className={s.controls}>
+          <div className={s.searchContainer}>
+            <PfInputText
+              value={searchQuery}
+              style={{width: '100%'}}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              title="Search..."
+              placeholder="Album name or artist"
+            />
+          </div>
+          
+          <div className={s.sortContainer}>
+            <Dropdown
+              value={sortOption}
+              options={sortOptions}
+              onChange={(e) => setSortOption(e.value)}
+              placeholder="Sort by"
+              className={s.sortDropdown}
+            />
+          </div>
+        </div>
       </div>
-      {/* STAFF */}
-      {/* <PfInputText 
-        value={data?.teamTitle || ''}
-        title={'Заголовок команды'}
-        placeholder={'Заголовок команды'}
-        onInput={(e: any) => {
-          setData((prev: any) => {
-            return {
-              ...prev,
-              teamTitle: e.target.value
-            };
-          });
-        }}
-      /> */}
-      {/* <PfInputTextarea
-        value={data?.teamDescription}
-        title={'Описание команды'}
-        placeholder={'Описание команды'}
-        onInput={(e: any) => {
-          setData((prev: any) => {
-            return {
-              ...prev,
-              teamDescription: e.target.value
-            };
-          });
-        }}
-      /> */}
-      {/* <PfTable 
-        headerTitle={'Редактирование сотрудника'}
-        data={data?.staffs}
-        columns={staffColumns}
-        title={'Блок «Сотрудники»'}
-        formProperty={staffFormProperty}
-        emptyRow={emptyStaffRow}
-        onEdit={(data) => handleUpdate(data, 'staffs')}
-        onDelete={(data) => handleDelete(data.id, 'staffs')}
-      /> */}
-      <TrackList></TrackList>
-        {/* <div className="card">
-            <DataView value={mockProducts} itemTemplate={itemTemplate} layout={layout} header={header()} />
-        </div> */}
 
-      {/* COMPANY */}
-      {/* <PfInputText
-        value={data?.companyTitle || ''}
-        title={'Заголовок компаний'}
-        placeholder={'Заголовок компаний'}
-        onInput={(e: any) => {
-          setData((prev: any) => {
-            return {
-              ...prev,
-              companyTitle: e.target.value
-            };
-          });
-        }}
-      /> */}
-      {/* <PfTable
-        data={data?.companies}
-        columns={companyColumns}
-        headerTitle={'Редактирование компании'}
-        title={'Блок «Компании»'}
-        formProperty={companyFormProperty}
-        emptyRow={emptyCompanyRow}
-        onEdit={(data) => handleUpdate(data, 'companies')}
-        onDelete={(data) => handleDelete(data.id, 'companies')}
-      /> */}
+      <div className={s.trackList}>
+        {paginatedSongs.length > 0 ? (
+          paginatedSongs.map((song, index) => (
+            <TrackRow
+              key={song.uuid}
+              song={song}
+              currentSong={currentSong}
+              isPlaying={isPlaying}
+              onPlay={handlePlay}
+              onPause={handlePause}
+              onArtistClick={handleArtistClick}
+              index={index}
+              users={usersMock}
+              onApprove={activeTab !== 1 ? handleApprove : undefined}
+              onReject={activeTab !== 2 ? handleReject : undefined}
+              onUpdate={activeTab === 0 ? handleUpdate : undefined}
+            />
+          ))
+        ) : (
+          <div className={s.emptyState}>
+            {searchQuery ? (
+              <p>Ничего не найдено по запросу "{searchQuery}"</p>
+            ) : (
+              <p>Нет треков в этой категории</p>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className={s.pagination}>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </div>
     </div>
   );
-});
+};
 
-export default MusicPageSetting;
+export default MusicPage;

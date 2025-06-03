@@ -22,18 +22,18 @@ const AuthPageSettings = observer(() => {
 
   const handleClick = async () => {
     setError('');
-    setLoading(true);
-
-    try {
-      const result = await authService.singIn(data);
-      if (result) {
-        router.push('/main');
-        setLoading(false);
-      }
-    } catch (err) {
-      setError('Неверный логин или пароль');
-      setLoading(false);
-    }
+    // setLoading(true);
+     router.push('/main');
+    // try {
+    //   const result = await authService.singIn(data);
+    //   if (result) {
+    //     router.push('/main');
+    //     setLoading(false);
+    //   }
+    // } catch (err) {
+    //   setError('Неверный логин или пароль');
+    //   setLoading(false);
+    // }
   };
 
   const disableButton = () => {
