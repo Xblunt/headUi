@@ -1,0 +1,233 @@
+.requestsPage {
+  padding: 20px;
+width: 100%;
+  margin-top: 60px;
+
+  .title {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+  }
+
+  .requestsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .requestsColumn {
+    background: #f5f5f5;
+    border-radius: 8px;
+    padding: 15px;
+    min-height: 300px;
+  }
+
+  .columnTitle {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .requestsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .requestCard {
+    background: white;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .requestHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .requestDate {
+    color: #666;
+    font-size: 12px;
+  }
+
+  .approvedStatus {
+    color: #4CAF50;
+    font-weight: bold;
+  }
+
+  .rejectedStatus {
+    color: #F44336;
+    font-weight: bold;
+  }
+
+  .requestMessage {
+    color: #333;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+
+  .viewButton {
+    background: #7c192a;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #5a1220;
+    }
+  }
+
+  .emptyMessage {
+    color: #999;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+  }
+
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .modalContent {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  .modalTitle {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 20px;
+  }
+
+  .modalDate {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 15px;
+  }
+
+  .modalMessage {
+    color: #333;
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+
+  .modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .approveButton {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #3e8e41;
+    }
+  }
+
+  .rejectButton {
+    background: #F44336;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #d32f2f;
+    }
+  }
+}
+
+// Добавьте эти стили в ваш SCSS файл
+
+.labelLogin {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.modalLabel {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.labelInfo {
+  .labelName {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .labelDescription {
+    color: #555;
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+  
+  .labelContacts {
+    p {
+      margin: 8px 0;
+      color: #333;
+      
+      strong {
+        color: #555;
+      }
+    }
+  }
+}

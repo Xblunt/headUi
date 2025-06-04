@@ -25,6 +25,25 @@ export const userTabs: ITab[] = [
 
 ];
 
+export const authorTabs: ITab[] = [
+  {
+    title: 'Главная',
+    link: 'title',
+  },
+  {
+    title: 'Моя музыка',
+    link: 'music',
+  },
+  {
+    title: 'Статистика',
+    link: 'statistic',
+  },
+  {
+    title: 'Заявки',
+    link: 'requests',
+  },
+];
+
 
 export const labelTabs: ITab[] = [
   {

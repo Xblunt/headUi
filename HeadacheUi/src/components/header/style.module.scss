@@ -40,6 +40,7 @@
       }
     }
   }
+  
 
   .userContainer {
     position: relative;
@@ -162,7 +163,7 @@
     }
 
     .logoutButton {
-      background: #c60021;
+      background: #7c192a;
       color: white;
       border: none;
       padding: 6px 12px;
@@ -173,8 +174,54 @@
       font-size: 12px;
 
       &:hover {
-        background: darken(#c60021, 10%);
+        // background: darken(#c60021, 10%);
+        background: #c60021;
       }
+    }
+  }
+}
+
+.authorHeader {
+  background-color: #7c192a;
+  
+  .tabContainer {
+    .tab {
+      color: white;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &.active {
+        background-color: #333;
+        color: white;
+      }
+    }
+  }
+
+  .userContainer {
+    .userAvatar {
+      img {
+        border-color: white;
+      }
+    }
+  }
+
+  .userInfo {
+    background: #7c192a !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &::before {
+      border-bottom-color: #333 !important;
+    }
+  }
+
+  .logoutButton {
+    background: #333 !important;
+    // color: #7c192a !important;
+
+    &:hover {
+      background: #666 !important;
     }
   }
 }

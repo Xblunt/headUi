@@ -2,10 +2,9 @@
 
 import { FC, useState, useRef, useEffect } from 'react';
 import s from './style.module.scss';
-
 import { usePathname, useRouter } from 'next/navigation';
 import 'primeicons/primeicons.css';
-import { userTabs } from '@/mocks/other.mocks';
+import { userTabs, authorTabs, labelTabs } from '@/mocks/other.mocks';
 
 interface User {
   name: string;
@@ -14,23 +13,79 @@ interface User {
   role: string;
 }
 
+const USERS_DB: Record<string, User> = {
+  'firstUser': {
+    name: 'Иван Иванов',
+    email: 'ivan@mail.ru',
+    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    role: 'Слушатель'
+  },
+   'secondtUser': {
+    name: 'Илья Ильин',
+    email: 'ilya@mail.ru',
+    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    role: 'Слушатель'
+  },
+  'author111': {
+    name: 'Алексей Петров',
+    email: 'alex@mail.ru',
+    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
+    role: 'Автор'
+  },
+  'label78': {
+    name: 'Мария Сидорова',
+    email: 'maria@mail.ru',
+    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+    role: 'Лейбл'
+  },
+  'default': {
+    name: 'Петр Петрович',
+    email: 'petr@mail.ru',
+    avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+    role: 'Гость'
+  }
+};
+
 export const Header: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User>(USERS_DB['default']);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const userAvatarRef = useRef<HTMLDivElement>(null);
-  
-  const user: User = {
-    name: 'Иван Иванов',
-    email: 'ivan@example.com',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
-    role: 'Администратор'
+
+  // Определяем какие вкладки показывать
+  const getTabsForUser = () => {
+    const userKey = localStorage.getItem('user') || 'default';
+    
+    switch(userKey) {
+      case 'label78':
+        return labelTabs;
+      case 'author111':
+        return authorTabs;
+      case 'firstUser':
+      case 'secondtUser':
+      default:
+        return userTabs;
+    }
   };
 
-   if (pathname.includes('chats/session') || pathname.includes('login') || pathname.includes('register')) {
-    return null;
-  }
+  const currentTabs = getTabsForUser();
+  const isAuthor = localStorage.getItem('user') === 'author111';
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const userKey = localStorage.getItem('user') || 'default';
+      setCurrentUser(USERS_DB[userKey] || USERS_DB['default']);
+    };
+
+    handleStorageChange();
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,10 +109,14 @@ export const Header: FC = () => {
     setIsUserMenuVisible(!isUserMenuVisible);
   };
 
+  if (pathname.includes('chats/session') || pathname.includes('login') || pathname.includes('register')) {
+    return null;
+  }
+
   return (
-    <header className={s.header}>
+    <header className={`${s.header} ${isAuthor ? s.authorHeader : ''}`}>
       <div className={s.tabContainer}>
-        {userTabs.map((tab, idx) => {
+        {currentTabs.map((tab, idx) => {
           const isActive = pathname.includes(`/${tab.link}`);
 
           return (
@@ -78,19 +137,29 @@ export const Header: FC = () => {
           onClick={toggleUserMenu}
           ref={userAvatarRef}
         >
-          <img src={user.avatar} alt="User Avatar" />
+          <img src={currentUser.avatar} alt="User Avatar" />
           <div 
             className={`${s.userInfo} ${isUserMenuVisible ? s.visible : ''}`}
             ref={userMenuRef}
           >
-            <div className={s.userName}>{user.name}</div>
-            <div className={s.userEmail}>{user.email}</div>
-            <div className={s.userRole}>{user.role}</div>
+            <div className={s.userName}>{currentUser.name}</div>
+            <div className={s.userEmail}>{currentUser.email}</div>
+            <div className={s.userRole}>{currentUser.role}</div>
             <div className={s.userActions}>
-            <button className={s.infoButton} disabled={pathname.includes(`/info`)}  onClick={() => !pathname.includes('/info') && router.push('/info')}>
+              <button 
+                className={s.infoButton} 
+                disabled={pathname.includes('/info')}  
+                onClick={() => !pathname.includes('/info') && router.push('/info')}
+              >
                 Личный кабинет
               </button>
-              <button className={s.logoutButton}>
+              <button 
+                className={s.logoutButton} 
+                onClick={() => {
+                  localStorage.removeItem('user');
+                  router.push('login');
+                }}
+              >
                 Выйти
               </button>
             </div>

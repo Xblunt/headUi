@@ -1,22 +1,26 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './style.module.scss';
 import { withMask } from 'use-mask-input';
 
+const initialFormData = {
+  login: '',
+  email: '',
+  password: '',
+  birthdate: '',
+  role: '',
+  phone: '',
+  description: '',
+};
+
 const AuthForm = () => {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
-    login: '',
-    email: '',
-    password: '',
-    birthdate: '',
-    role: '',
-    phone: '',
-    description: '',
-  });
-
-
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [formData, setFormData] = useState(initialFormData);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,14 +32,51 @@ const AuthForm = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const dateRef = useRef<HTMLInputElement>(null);
+
+  const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
+    localStorage.setItem('user', formData.login);
+    console.log('User logged in:', formData.login);
+    setFormData(initialFormData);
+    if (formData.login == 'author111') {
+      router.push('/title'); 
+    } else {
+      router.push('/main');
+    }
+  };
+
+  const handleRegisterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setModalMessage(`Пользователь ${formData.login} успешно зарегистрирован`);
+    setShowModal(true);
+    setFormData(initialFormData);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setIsLogin(true);
+  };
+
+  const toggleAuthMode = () => {
+    setFormData(initialFormData);
+    setIsLogin((prev) => !prev);
   };
 
   return (
     <div className={styles.authContainer}>
-      <div className={`${styles.authWrapper} ${isLogin ? styles.login : styles.signup}`}>
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <p>{modalMessage}</p>
+            <button onClick={closeModal} className={styles.modalButton}>
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+  <div className={`${styles.authWrapper} ${isLogin ? styles.login : styles.signup}`}>
         <div className={styles.welcomePanel}>
           <h1 className={styles.welcomeTitle}>
             {isLogin ? 'С возвращением!' : 'Приятно познакомиться!'}
@@ -47,7 +88,7 @@ const AuthForm = () => {
           </p>
           <button
             className={styles.toggleButton}
-            onClick={() => setIsLogin((prev) => !prev)}
+            onClick={toggleAuthMode}
           >
             {isLogin ? 'Создать аккаунт' : 'Войти'}
           </button>
@@ -57,13 +98,13 @@ const AuthForm = () => {
           {isLogin ? (
             <>
               <h2 className={styles.formTitle}>Авторизация</h2>
-              <form className={styles.in} onSubmit={handleSubmit}>
+              <form className={styles.in} onSubmit={handleLoginSubmit}>
                 <input
                   className={styles.formInput}
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
+                  type="text"
+                  name="login"
+                  placeholder="Логин"
+                  value={formData.login}
                   onChange={handleChange}
                   required
                 />
@@ -71,7 +112,7 @@ const AuthForm = () => {
                   className={styles.formInput}
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                   value={formData.password}
                   onChange={handleChange}
                   required
@@ -86,12 +127,12 @@ const AuthForm = () => {
           ) : (
             <>
               <h2 className={styles.formTitle}>Создать аккаунт</h2>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleRegisterSubmit}>
                 <input
                   type="text"
                   name="login"
                   className={styles.formInput}
-                  placeholder="Login"
+                  placeholder="Логин"
                   value={formData.login}
                   onChange={handleChange}
                   required
@@ -100,7 +141,7 @@ const AuthForm = () => {
                   className={styles.formInput}
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                   value={formData.password}
                   onChange={handleChange}
                   required
@@ -115,35 +156,25 @@ const AuthForm = () => {
                   required
                 />
                 <input
-                  type="date"
+                  type="text"
+                  ref={dateRef}
                   name="birthdate"
+                  placeholder="Дата рождения"
                   className={`${styles.formInput} ${styles.coloredInput}`}
                   value={formData.birthdate}
                   onChange={handleChange}
                   required
                 />
-{/* 
                 <input
                   ref={phoneRef}
-                  type="tel"
-                  name="phone"
-                  className={styles.formInput}
-                  placeholder="+7 (___) ___-__-__"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                /> */}
-                 <input
-                 ref={withMask('+7 (999) 999-99-99')} 
                   type="text"
                   name="phone"
                   className={styles.formInput}
-                  placeholder="Phone"
+                  placeholder="Номер телефона"
                   value={formData.phone}
                   onChange={handleChange}
                   required
                 />
-{/* <input ref={inputRef} type="tel"   required   onChange={handleChange}  value={formData.phone}   name="phone"    className={styles.formInput} placeholder="+7 (___) ___-__-__" />; */}
                 <textarea
                   name="description"
                   className={styles.formInput}
@@ -176,10 +207,21 @@ const AuthForm = () => {
                     />
                     Лейбл
                   </label>
+                  <label className={styles.roleOption}>
+                    <input
+                      type="radio"
+                      name="role"
+                      value="Author"
+                      checked={formData.role === 'Author'}
+                      onChange={handleChange}
+                      required
+                    />
+                    Автор
+                  </label>
                 </div>
 
                 <div className={styles.buttonWrapper}>
-                  <button type="submit" className={styles.submitButton} onClick={()=> console.log('reg', formData)}>
+                  <button type="submit" className={styles.submitButton}>
                     Зарегистрироваться
                   </button>
                 </div>
