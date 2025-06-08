@@ -429,7 +429,7 @@ export const mockAlbums: Album[] = [
     name: 'Pop Legends',
     authorUUID: 'author-4',
     fileUuid: 'file-147',
-    urlImage: '/albumImg/47.jpg',
+    urlImage: '/albumImg/17.jpg', // <= заменено на <= 50
     createdAt: '2025-05-01T10:00:00Z',
     savedSongsUUIDs: ['song-2', 'song-3', 'song-4']
   }),
@@ -438,7 +438,7 @@ export const mockAlbums: Album[] = [
     name: 'Pop Anthems',
     authorUUID: 'author-4',
     fileUuid: 'file-148',
-    urlImage: '/albumImg/48.jpg',
+    urlImage: '/albumImg/23.jpg', // <= заменено на <= 50
     createdAt: '2025-05-10T10:00:00Z',
     savedSongsUUIDs: ['song-5', 'song-6', 'song-7']
   }),
@@ -447,7 +447,7 @@ export const mockAlbums: Album[] = [
     name: 'Pop Collection',
     authorUUID: 'author-4',
     fileUuid: 'file-149',
-    urlImage: '/albumImg/49.jpg',
+    urlImage: '/albumImg/31.jpg', // <= заменено на <= 50
     createdAt: '2025-05-20T10:00:00Z',
     savedSongsUUIDs: ['song-8', 'song-9', 'song-10']
   }),
@@ -456,7 +456,7 @@ export const mockAlbums: Album[] = [
     name: 'Pop World',
     authorUUID: 'author-4',
     fileUuid: 'file-150',
-    urlImage: '/albumImg/50.jpg',
+    urlImage: '/albumImg/42.jpg', // <= заменено на <= 50
     createdAt: '2025-06-01T10:00:00Z',
     savedSongsUUIDs: ['song-11', 'song-12', 'song-13']
   }),
@@ -467,7 +467,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Universe',
     authorUUID: 'author-5',
     fileUuid: 'file-151',
-    urlImage: '/albumImg/51.jpg',
+    urlImage: '/albumImg/7.jpg', // <= заменено на <= 50
     createdAt: '2025-06-10T10:00:00Z',
     savedSongsUUIDs: ['song-14', 'song-15', 'song-16']
   }),
@@ -476,7 +476,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Hits',
     authorUUID: 'author-5',
     fileUuid: 'file-152',
-    urlImage: '/albumImg/52.jpg',
+    urlImage: '/albumImg/12.jpg', // <= заменено на <= 50
     createdAt: '2025-06-20T10:00:00Z',
     savedSongsUUIDs: ['song-17', 'song-18', 'song-19']
   }),
@@ -485,7 +485,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Ballads',
     authorUUID: 'author-5',
     fileUuid: 'file-153',
-    urlImage: '/albumImg/53.jpg',
+    urlImage: '/albumImg/25.jpg', // <= заменено на <= 50
     createdAt: '2025-07-01T10:00:00Z',
     savedSongsUUIDs: ['song-20', 'song-21', 'song-22']
   }),
@@ -494,7 +494,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Classics',
     authorUUID: 'author-5',
     fileUuid: 'file-154',
-    urlImage: '/albumImg/54.jpg',
+    urlImage: '/albumImg/33.jpg', // <= заменено на <= 50
     createdAt: '2025-07-10T10:00:00Z',
     savedSongsUUIDs: ['song-23', 'song-24', 'song-25']
   }),
@@ -503,7 +503,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Party',
     authorUUID: 'author-5',
     fileUuid: 'file-155',
-    urlImage: '/albumImg/55.jpg',
+    urlImage: '/albumImg/41.jpg', // <= заменено на <= 50
     createdAt: '2025-07-20T10:00:00Z',
     savedSongsUUIDs: ['song-26', 'song-27', 'song-28']
   }),
@@ -512,7 +512,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Sensation',
     authorUUID: 'author-5',
     fileUuid: 'file-156',
-    urlImage: '/albumImg/56.jpg',
+    urlImage: '/albumImg/8.jpg', // <= заменено на <= 50
     createdAt: '2025-08-01T10:00:00Z',
     savedSongsUUIDs: ['song-29', 'song-30', 'song-1']
   }),
@@ -521,7 +521,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Legends',
     authorUUID: 'author-5',
     fileUuid: 'file-157',
-    urlImage: '/albumImg/57.jpg',
+    urlImage: '/albumImg/19.jpg', // <= заменено на <= 50
     createdAt: '2025-08-10T10:00:00Z',
     savedSongsUUIDs: ['song-2', 'song-3', 'song-4']
   }),
@@ -530,7 +530,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Anthems',
     authorUUID: 'author-5',
     fileUuid: 'file-158',
-    urlImage: '/albumImg/58.jpg',
+    urlImage: '/albumImg/27.jpg', // <= заменено на <= 50
     createdAt: '2025-08-20T10:00:00Z',
     savedSongsUUIDs: ['song-5', 'song-6', 'song-7']
   }),
@@ -539,7 +539,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie Collection',
     authorUUID: 'author-5',
     fileUuid: 'file-159',
-    urlImage: '/albumImg/59.jpg',
+    urlImage: '/albumImg/38.jpg', // <= заменено на <= 50
     createdAt: '2025-09-01T10:00:00Z',
     savedSongsUUIDs: ['song-8', 'song-9', 'song-10']
   }),
@@ -548,7 +548,7 @@ export const mockAlbums: Album[] = [
     name: 'Indie World',
     authorUUID: 'author-5',
     fileUuid: 'file-160',
-    urlImage: '/albumImg/60.jpg',
+    urlImage: '/albumImg/44.jpg', // <= заменено на <= 50
     createdAt: '2025-09-10T10:00:00Z',
     savedSongsUUIDs: ['song-11', 'song-12', 'song-13']
   }),

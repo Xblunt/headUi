@@ -1,17 +1,10 @@
 import { PromotionRequest, PromotionStatus } from '../models';
+import { mockPromotionsAuthor1 } from './mockPromotionsAuthor1';
 
 export const mockPromotions: PromotionRequest[] = [
-  // PROMOTED (10)
-  new PromotionRequest({
-    uuid: 'promo-1',
-    songUUID: 'song-1',
-    msg: '🔥 Новый хит Loced Out!',
-    dispatchTime: '2024-06-01T10:00:00Z',
-    confirmationTime: '2024-06-01T12:00:00Z',
-    status: PromotionStatus.PROMOTED,
-    fileUUID: 'file-1',
-    urlImg: '/promoImg/1.jpg'
-  }),
+  // Используем первый промоушен от author-1 (PROMOTED)
+  mockPromotionsAuthor1[0],
+  // ...existing code, начиная со второго промоушена...
   new PromotionRequest({
     uuid: 'promo-2',
     songUUID: 'song-2',

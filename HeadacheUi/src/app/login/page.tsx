@@ -41,7 +41,7 @@ const AuthForm = () => {
     console.log('User logged in:', formData.login);
     setFormData(initialFormData);
     if (formData.login == 'author111') {
-      router.push('/title'); 
+      router.push('/statistic'); 
     } else {
       router.push('/main');
     }

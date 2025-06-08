@@ -1,4 +1,5 @@
 import { CooperationRequest, CooperationStatus } from '../models';
+import { mockCooperationRequestsAuthor1 } from './mockCooperationRequestsAuthor1';
 
 export const mockCooperationRequests: CooperationRequest[] = [
   // 20 AWAITING
@@ -486,4 +487,6 @@ export const mockCooperationRequests: CooperationRequest[] = [
     authorUUID: 'author-5',
     labelUUID: 'label-3'
   }),
+  // Добавляем моки author-1
+  ...mockCooperationRequestsAuthor1
 ];

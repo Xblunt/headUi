@@ -29,7 +29,7 @@ const set2 = getRandomUnique(approvedSongs, 20, set1Set);
 const set3 = getRandomUnique(approvedSongs, 20);
 
 // Дополнительные наборы (фиксированные, для стабильности тестов)
-const set4 = approvedSongs.slice(0, 20);
+const set4 = approvedSongs.slice(0, 40);
 const set5 = approvedSongs.slice(20, 40);
 const set6 = [
   approvedSongs[10], approvedSongs[30], approvedSongs[50], approvedSongs[70],

@@ -32,7 +32,11 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
       <div className={s.albumCard}>
         <div className={s.albumImage}>
           <img 
-            src="https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg" 
+            src={
+              album.urlImage
+                ? album.urlImage
+                : `/albumImg/${Math.floor(Math.random() * 50) + 1}.jpg`
+            }
             alt={album.name}
           />
         </div>
@@ -52,7 +56,6 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           </button>
         </div>
       </div>
-
       {isModalOpen && (
         <AlbumModal
           album={album}

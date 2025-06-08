@@ -6,6 +6,7 @@ import Modal from '@/components/modal';
 import { Song, Album, Tag, User, SongStatus, File, FileExtension, FileType } from '@/models';
 import TrackRow from '@/components/track';
 import s from './style.module.scss';
+import { author1Songs, author1Albums } from '@/mocks/mockAuthor1AlbumsAndSongs';
 
 const MusicPage = () => {
   // Проверка на автора
@@ -20,8 +21,8 @@ const MusicPage = () => {
   }));
 
   // Состояния для треков
-  const [songs, setSongs] = useState<Song[]>([]);
-  const [filteredSongs, setFilteredSongs] = useState<Song[]>([]);
+  const [songs, setSongs] = useState<Song[]>(author1Songs);
+  const [filteredSongs, setFilteredSongs] = useState<Song[]>(author1Songs);
   const [songSearchQuery, setSongSearchQuery] = useState('');
   const [songSortField, setSongSortField] = useState<'name' | 'date'>('name');
   const [songSortDirection, setSongSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -29,8 +30,8 @@ const MusicPage = () => {
   const songsPerPage = 5;
 
   // Состояния для альбомов
-  const [albums, setAlbums] = useState<Album[]>([]);
-  const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([]);
+  const [albums, setAlbums] = useState<Album[]>(author1Albums);
+  const [filteredAlbums, setFilteredAlbums] = useState<Album[]>(author1Albums);
   const [albumSearchQuery, setAlbumSearchQuery] = useState('');
   const [albumSortField, setAlbumSortField] = useState<'name' | 'date'>('name');
   const [albumSortDirection, setAlbumSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -66,75 +67,8 @@ const MusicPage = () => {
 
   // Загрузка начальных данных
   useEffect(() => {
-    // Моковые файлы
-    const mockFiles: File[] = [
-      new File({
-        uuid: 'file1',
-        data: new Uint8Array(),
-        extension: FileExtension.MP3,
-        type: FileType.SONG
-      }),
-      new File({
-        uuid: 'file2',
-        data: new Uint8Array(),
-        extension: FileExtension.MP3,
-        type: FileType.SONG
-      }),
-      new File({
-        uuid: 'file3',
-        data: new Uint8Array(),
-        extension: FileExtension.MP3,
-        type: FileType.SONG
-      }),
-      new File({
-        uuid: 'file4',
-        data: new Uint8Array(),
-        extension: FileExtension.MP3,
-        type: FileType.SONG
-      }),
-      new File({
-        uuid: 'file5',
-        data: new Uint8Array(),
-        extension: FileExtension.MP3,
-        type: FileType.SONG
-      }),
-    ];
-
-    // Моковые треки
-    const mockSongs: Song[] = [
-      new Song({
-        uuid: 'song1',
-        name: 'Мой первый трек',
-        avgRating: 4.5,
-        url: 'https://example.com/song1.mp3',
-        status: SongStatus.APPROVED,
-        authorUUID: currentUser.uuid,
-        tags: [new Tag({ uuid: 'tag1', tagName: 'Рок' })],
-        fileUUID: 'file1',
-        urlImage: 'https://example.com/cover1.jpg',
-        createdAt: '2023-10-01'
-      }),
-      // ... другие треки
-    ];
-
-    // Моковые альбомы
-    const mockAlbums: Album[] = [
-      new Album({
-        uuid: 'album1',
-        name: 'Мой первый альбом',
-        authorUUID: currentUser.uuid,
-        savedSongsUUIDs: ['song1'],
-        urlImage: 'https://example.com/album1.jpg',
-        createdAt: '2023-10-05'
-      }),
-      // ... другие альбомы
-    ];
-
-    setFiles(mockFiles);
-    setSongs(mockSongs);
-    setFilteredSongs(mockSongs);
-    setAlbums(mockAlbums);
-    setFilteredAlbums(mockAlbums);
+    // Можно загрузить файлы, если нужно, иначе оставить пустым
+    setFiles([]);
   }, [currentUser.uuid]);
 
   // Фильтрация и сортировка треков
@@ -248,19 +182,19 @@ const MusicPage = () => {
   // Обработчики треков
   const handleAddSong = () => {
     if (!newSong.name || !selectedFile) return;
-      const blob = new Blob([selectedFile.data], { type: 'audio/mpeg' });
-  const url = URL.createObjectURL(blob);
+    const blob = new Blob([selectedFile.data], { type: 'audio/mpeg' });
+    const url = URL.createObjectURL(blob);
 
     const song = new Song({
       uuid: `song_${Date.now()}`,
       name: newSong.name,
       avgRating: 0,
-        url: url,
+      url: url,
       status: SongStatus.APPROVED,
       authorUUID: currentUser.uuid,
       tags: newSong.tags || [],
       fileUUID: selectedFile.uuid,
-      urlImage: newSong.urlImage || '',
+      urlImage: `/trackImg/${Math.floor(Math.random() * 50) + 1}.jpg`,
       createdAt: new Date().toISOString()
     });
 
@@ -320,12 +254,13 @@ const MusicPage = () => {
       uuid: `album_${Date.now()}`,
       name: newAlbum.name,
       authorUUID: currentUser.uuid,
-      savedSongsUUIDs: newAlbum.savedSongsUUIDs || [],
-      urlImage: newAlbum.urlImage || '',
+      fileUuid: `file_${Date.now()}`, // обязательное поле
+      savedSongsUUIDs: [],
+      urlImage: `/albumImg/${Math.floor(Math.random() * 50) + 1}.jpg`,
       createdAt: new Date().toISOString()
     });
 
-    setAlbums([...albums, album]);
+    setAlbums(prev => [...prev, album]);
     setNewAlbum({ name: '', savedSongsUUIDs: [], urlImage: '' });
     setShowAlbumModal(false);
   };
@@ -714,13 +649,7 @@ const MusicPage = () => {
             </button>
             <button 
               className={s.saveButton}
-              onClick={() => {
-  if (editingAlbum) {
-    handleEditAlbum(editingAlbum); // assuming editingAlbum is available in scope
-  } else {
-    handleAddAlbum(); // assuming handleAddAlbum doesn't need parameters
-  }
-}}
+              onClick={editingAlbum ? () => handleEditAlbum(editingAlbum) : handleAddAlbum}
               disabled={!newAlbum.name}
             >
               {editingAlbum ? 'Сохранить' : 'Добавить'}

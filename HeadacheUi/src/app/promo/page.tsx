@@ -3,38 +3,10 @@
 import { FC, useState, useMemo } from 'react';
 import styles from './style.module.scss';
 import { PromotionRequest, PromotionStatus } from '@/models';
+import { mockPromotionsAuthor1 } from '@/mocks/mockPromotionsAuthor1';
 
-// Моковые данные для тестирования
-const mockPromoRequests: PromotionRequest[] = [
-  new PromotionRequest({
-    uuid: '1',
-    songUUID: 'song1',
-    msg: 'Продвижение нового трека "Summer Vibes"',
-    dispatchTime: '2023-06-10T14:30:00',
-    status: PromotionStatus.PROMOTED
-  }),
-  new PromotionRequest({
-    uuid: '2',
-    songUUID: 'song2',
-    msg: 'Реклама альбома "Winter Dreams"',
-    dispatchTime: '2023-06-05T09:15:00',
-    status: PromotionStatus.AWAITING_PROMOTION
-  }),
-  new PromotionRequest({
-    uuid: '3',
-    songUUID: 'song3',
-    msg: 'Продвижение сингла "Autumn Leaves"',
-    dispatchTime: '2023-06-15T11:45:00',
-    status: PromotionStatus.PROCESSING
-  }),
-  new PromotionRequest({
-    uuid: '4',
-    songUUID: 'song4',
-    msg: 'Рекламная кампания для "Spring Melody"',
-    dispatchTime: '2023-05-28T16:20:00',
-    status: PromotionStatus.PROMOTED
-  }),
-];
+// Используем моки PromotionRequest автора author-1
+const mockPromoRequests: PromotionRequest[] = mockPromotionsAuthor1;
 
 const PromotionRequestsPage: FC = () => {
   const [requests, setRequests] = useState<PromotionRequest[]>(mockPromoRequests);

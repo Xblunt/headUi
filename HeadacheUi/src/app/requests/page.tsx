@@ -3,82 +3,15 @@
 import { FC, useState } from 'react';
 import styles from './style.module.scss';
 import { CooperationRequest, CooperationStatus, User } from '@/models';
+import { mockCooperationRequestsAuthor1, cooperationLabelsAuthor1 } from '@/mocks/mockCooperationRequestsAuthor1';
 
-// Моковые данные для тестирования
-const mockRequests: CooperationRequest[] = [
-  new CooperationRequest({
-    uuid: '1',
-    msg: 'Предлагаем сотрудничество по продвижению ваших треков',
-    dispatchTime: '2023-05-15T10:30:00',
-    status: CooperationStatus.AWAITING,
-    authorUUID: 'author1',
-    labelUUID: 'label1'
-  }),
-  new CooperationRequest({
-    uuid: '2',
-    msg: 'Интересует совместный проект с вашим участием',
-    dispatchTime: '2023-05-16T14:45:00',
-    status: CooperationStatus.AWAITING,
-    authorUUID: 'author1',
-    labelUUID: 'label2'
-  }),
-  new CooperationRequest({
-    uuid: '3',
-    msg: 'Ваш трек добавлен в наш плейлист',
-    dispatchTime: '2023-05-10T09:15:00',
-    status: CooperationStatus.APPROVED,
-    authorUUID: 'author1',
-    labelUUID: 'label3'
-  }),
-  new CooperationRequest({
-    uuid: '4',
-    msg: 'К сожалению, не можем принять ваше предложение',
-    dispatchTime: '2023-05-12T16:20:00',
-    status: CooperationStatus.REJECTED,
-    authorUUID: 'author1',
-    labelUUID: 'label4'
-  }),
-];
+// Используем моки CooperationRequest для author-1
+const mockRequests: CooperationRequest[] = mockCooperationRequestsAuthor1;
 
 // Моковые данные лейблов
-const mockLabels: Record<string, User> = {
-  'label1': new User({
-    uuid: 'label1',
-    login: 'SoundWave Records',
-    email: 'contact@soundwave.com',
-    phoneNumber: '+7 (123) 456-7890',
-    roles: ['LABEL'],
-    description: 'Крупный лейбл, специализирующийся на электронной музыке',
-    urlImage: 'https://example.com/label1.jpg'
-  }),
-  'label2': new User({
-    uuid: 'label2',
-    login: 'Urban Beats',
-    email: 'info@urbanbeats.com',
-    phoneNumber: '+7 (987) 654-3210',
-    roles: ['LABEL'],
-    description: 'Лейбл, работающий с хип-хоп исполнителями',
-    urlImage: 'https://example.com/label2.jpg'
-  }),
-  'label3': new User({
-    uuid: 'label3',
-    login: 'Deep House Collective',
-    email: 'deep@house.com',
-    phoneNumber: '+7 (555) 123-4567',
-    roles: ['LABEL'],
-    description: 'Специализируется на deep house и техно музыке',
-    urlImage: 'https://example.com/label3.jpg'
-  }),
-  'label4': new User({
-    uuid: 'label4',
-    login: 'Rock Nation',
-    email: 'rock@nation.com',
-    phoneNumber: '+7 (111) 222-3333',
-    roles: ['LABEL'],
-    description: 'Лейбл для рок-исполнителей',
-    urlImage: 'https://example.com/label4.jpg'
-  }),
-};
+const mockLabels: Record<string, User> = Object.fromEntries(
+  cooperationLabelsAuthor1.map(label => [label.uuid, label])
+);
 
 const RequestsPage: FC = () => {
   const [requests, setRequests] = useState<CooperationRequest[]>(mockRequests);

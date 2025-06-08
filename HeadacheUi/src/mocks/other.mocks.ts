@@ -27,16 +27,12 @@ export const userTabs: ITab[] = [
 
 export const authorTabs: ITab[] = [
   {
-    title: 'Главная',
-    link: 'title',
+    title: 'Моя статистика',
+    link: 'statistic',
   },
   {
     title: 'Моя музыка',
     link: 'music',
-  },
-  {
-    title: 'Моя статистика',
-    link: 'statistic',
   },
   {
     title: 'Мои заявки',
@@ -57,10 +53,6 @@ export const labelTabs: ITab[] = [
   {
     title: 'Музыка',
     link: 'tracks',
-  },
-  {
-    title: 'Альбомы',
-    link: 'albums',
   },
   {
     title: 'Мессенджер',

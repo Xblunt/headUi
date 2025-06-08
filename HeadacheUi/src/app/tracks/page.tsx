@@ -6,110 +6,20 @@ import { Song, Album, User, Tag, FileExtension, FileType, SongStatus } from '@/m
 import styles from './style.module.scss';
 import AlbumCard from '@/components/album';
 import TrackRow from '@/components/track';
+import { mockSongs } from '@/mocks/mockSongs';
+import { mockAlbums } from '@/mocks/mockAlbums';
+import { mockUsers } from '@/mocks/mockUsers';
 
-// Mock данные
-const mockTags: Tag[] = [
-  new Tag({ uuid: '1', tagName: 'rock' }),
-  new Tag({ uuid: '2', tagName: 'pop' }),
-  new Tag({ uuid: '3', tagName: 'jazz' }),
-  new Tag({ uuid: '4', tagName: 'classical' }),
-  new Tag({ uuid: '5', tagName: 'electronic' }),
-];
+// Собираем все уникальные теги из моков треков
+const allTags: Tag[] = Array.from(
+  mockSongs.reduce((acc, song) => {
+    song.tags.forEach(tag => acc.set(tag.uuid, tag));
+    return acc;
+  }, new Map<string, Tag>())
+).map(([_, tag]) => tag);
 
-const mockUsers: User[] = [
-  new User({ 
-    uuid: '1', 
-    login: 'Queen', 
-    roles: ['ARTIST'], 
-    urlImage: '/covers/queen.jpg',
-    avgRating: 4.8
-  }),
-  new User({ 
-    uuid: '2', 
-    login: 'Michael Jackson', 
-    roles: ['ARTIST'], 
-    urlImage: '/covers/mj.jpg',
-    avgRating: 4.9
-  }),
-  new User({ 
-    uuid: '3', 
-    login: 'The Beatles', 
-    roles: ['ARTIST'], 
-    urlImage: '/covers/beatles.jpg',
-    avgRating: 4.7
-  }),
-];
-
-const mockSongs: Song[] = [
-  new Song({
-    uuid: '2',
-    name: 'Billie Jean',
-    avgRating: 4.8,
-    url: '/songs/billie.mp3',
-     status: SongStatus.APPROVED,
-    authorUUID: '2',
-    tags: [mockTags[1], mockTags[4]], // pop, electronic
-    fileUUID: '2',
-    urlImage: '/covers/mj.jpg'
-  }),
-  new Song({
-    uuid: '3',
-    name: 'Yesterday',
-    avgRating: 4.7,
-    url: '/songs/yesterday.mp3',
-    status: SongStatus.APPROVED,
-    authorUUID: '3',
-    tags: [mockTags[1], mockTags[3]], // pop, classical
-    fileUUID: '3',
-    urlImage: '/covers/beatles.jpg'
-  }),
-  new Song({
-    uuid: '4',
-    name: 'We Will Rock You',
-    avgRating: 4.6,
-    url: '/songs/rockyou.mp3',
-     status: SongStatus.APPROVED,
-    authorUUID: '1',
-    tags: [mockTags[0]], // rock
-    fileUUID: '4',
-    urlImage: '/covers/queen.jpg'
-  }),
-  new Song({
-    uuid: '5',
-    name: 'Thriller',
-    avgRating: 4.9,
-    url: '/songs/thriller.mp3',
-     status: SongStatus.APPROVED,
-    authorUUID: '2',
-    tags: [mockTags[1], mockTags[4]], // pop, electronic
-    fileUUID: '5',
-    urlImage: '/covers/mj.jpg'
-  }),
-];
-
-const mockAlbums: Album[] = [
-  new Album({
-    uuid: '1',
-    name: 'A Night at the Opera',
-    authorUUID: '1',
-    savedSongsUUIDs: ['1', '4'],
-    urlImage: '/covers/queen_album.jpg'
-  }),
-  new Album({
-    uuid: '2',
-    name: 'Thriller',
-    authorUUID: '2',
-    savedSongsUUIDs: ['2', '5'],
-    urlImage: '/covers/mj_album.jpg'
-  }),
-  new Album({
-    uuid: '3',
-    name: 'Help!',
-    authorUUID: '3',
-    savedSongsUUIDs: ['3'],
-    urlImage: '/covers/beatles_album.jpg'
-  }),
-];
+// Используем только одобренные треки
+const approvedSongs: Song[] = mockSongs.filter(song => song.status === SongStatus.APPROVED);
 
 const TracksPage = () => {
   // Состояния для активной вкладки
@@ -133,20 +43,20 @@ const TracksPage = () => {
   
   // Получаем все уникальные теги для треков
   const allTrackTags = useMemo(() => {
-    return Array.from(new Set(mockSongs.flatMap(song => song.tags.map(tag => tag.tagName))));
+    return Array.from(new Set(approvedSongs.flatMap(song => song.tags.map(tag => tag.tagName))));
   }, []);
   
   // Получаем все уникальные теги для альбомов (из треков)
   const allAlbumTags = useMemo(() => {
     return Array.from(new Set(mockAlbums.flatMap(album => {
-      const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+      const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
       return albumSongs.flatMap(song => song.tags.map(tag => tag.tagName));
     })));
   }, []);
   
   // Функция для вычисления рейтинга альбома
   const getAlbumRating = (album: Album) => {
-    const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+    const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
     if (albumSongs.length === 0) return 0;
     
     const totalRating = albumSongs.reduce((sum, song) => sum + song.avgRating, 0);
@@ -155,7 +65,7 @@ const TracksPage = () => {
   
   // Фильтрация и сортировка треков
   const filteredTracks = useMemo(() => {
-    return mockSongs
+    return approvedSongs
       .filter(song => {
         // Фильтр по поиску
         const matchesSearch = 
@@ -202,7 +112,7 @@ const TracksPage = () => {
         // Фильтр по тегам
         const matchesTags = selectedAlbumTags.length === 0;
         if (!matchesTags) {
-          const albumSongs = mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+          const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
           return albumSongs.some(song => 
             selectedAlbumTags.some(tagName => 
               song.tags.some(tag => tag.tagName === tagName)
@@ -293,7 +203,7 @@ const TracksPage = () => {
           <div className={styles.filters}>
             {/* Фильтр по тегам */}
             <div className={styles.tagFilter}>
-              <h4>Теги:</h4>
+              {/* <h4>Теги:</h4> */}
               <div className={styles.tagsList}>
                 {allTrackTags.map(tag => (
                   <button
@@ -372,7 +282,7 @@ const TracksPage = () => {
           <div className={styles.filters}>
             {/* Фильтр по тегам */}
             <div className={styles.tagFilter}>
-              <h4>Теги:</h4>
+              {/* <h4>Теги:</h4> */}
               <div className={styles.tagsList}>
                 {allAlbumTags.map(tag => (
                   <button
