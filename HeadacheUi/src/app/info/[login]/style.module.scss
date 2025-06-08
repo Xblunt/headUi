@@ -1,0 +1,271 @@
+.artistPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.headerBlock {
+  margin-top: 20px;
+  width: 100%;
+  min-height: 260px;
+  border-radius: 16px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.headerOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 1;
+}
+
+.headerContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+}
+
+.artistName {
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.artistRating {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+}
+
+.requestButton {
+  background: #7c192a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #5a1220;
+  }
+}
+
+.notification {
+  margin-top: 8px;
+  background: #22c55e;
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.18);
+  padding: 40px 24px 24px 24px;
+  width: 100%;
+  max-width: 1000px;
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 1.7rem;
+  color: #aaa;
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    color: #7c192a;
+  }
+}
+
+.modalTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.modalTextarea {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 18px;
+  resize: vertical;
+}
+
+.modalSendButton {
+  width: 100%;
+  background: #7c192a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover:enabled {
+    background: #5a1220;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+/* Статистика как на statistic */
+.statisticsBlock {
+  width: 100%;
+//   max-width: 900px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 0 0 0 0;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+.statItem {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 0 32px 0;
+  border-right: 1px solid #eee;
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.statValue {
+  color: #7c192a;
+  font-size: 2.2rem;
+  font-weight: 700;
+  display: block;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.statLabel {
+  color: #888;
+  font-size: 1.1rem;
+  display: block;
+  text-align: center;
+}
+
+/* Tabs */
+.tabsBlock {
+  width: 100%;
+//   max-width: 900px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tabsHeader {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 18px;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 12px 32px;
+  cursor: pointer;
+  width: 100%;
+  transition: color 0.2s, border-bottom 0.2s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  &:hover, &.active {
+    color: #7c192a;
+    border-bottom: 2px solid #7c192a;
+    background: #faf7f8;
+  }
+}
+
+.tabContent {
+  padding-top: 8px;
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.albumsList {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 18px;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media (min-width: 1500px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.emptyText {
+  color: #bbb;
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 18px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notFound {
+  width: 100%;
+  text-align: center;
+  padding: 48px 0;
+  color: #7c192a;
+  font-size: 2rem;
+}

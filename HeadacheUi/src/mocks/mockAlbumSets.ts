@@ -16,17 +16,17 @@ function getRandomUnique<T>(arr: T[], count: number, exclude: Set<T> = new Set()
 }
 
 // Первый сет: 10 случайных альбомов
-const albumSet1 = getRandomUnique(mockAlbums, 10);
+const albumSet1 = getRandomUnique(mockAlbums, 12);
 
 // Второй сет: 10 случайных альбомов, которых нет в первом сете
 const albumSet1Set = new Set(albumSet1);
-const albumSet2 = getRandomUnique(mockAlbums, 10, albumSet1Set);
+const albumSet2 = getRandomUnique(mockAlbums, 12, albumSet1Set);
 
 // Третий сет: первые 10 альбомов (фиксированный)
-const albumSet3 = mockAlbums.slice(0, 10);
+const albumSet3 = mockAlbums.slice(0, 12);
 
 // Четвертый сет: альбомы с 10 по 19 (фиксированный)
-const albumSet4 = mockAlbums.slice(10, 20);
+const albumSet4 = mockAlbums.slice(12, 24);
 
 export const mockAlbumSets = {
   albumSet1,

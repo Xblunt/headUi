@@ -78,48 +78,45 @@ export const GlobalPlayer: React.FC<GlobalPlayerProps> = ({
   return (
     <div className={s.globalPlayer}>
       <div className={s.playerInfo}>
-        {currentSong && (
-          <>
-            <img 
-              src={currentSong.urlImage || 'https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg'} 
-              alt={currentSong.name} 
-              className={s.playerImage}
-            />
-            <div className={s.songInfo}>
-              <h4 className={s.songTitle}>{currentSong.name}</h4>
-              <p className={s.songArtist}>{currentSong.authorUUID || 'Unknown Artist'}</p>
-            </div>
-          </>
-        )}
+        <img
+          className={s.playerImage}
+          src={currentSong?.urlImage || '/default-cover.jpg'}
+          alt={currentSong?.name || 'cover'}
+        />
+        <div className={s.songInfo}>
+          <h4 className={s.songTitle}>{currentSong?.name || 'Не выбран трек'}</h4>
+          <p className={s.songArtist}>{currentSong?.authorUUID || ''}</p>
+        </div>
       </div>
-
       <div className={s.playerControls}>
-        <button className={s.controlButton} onClick={onPrev}>
-          ⏮
+        <button className={s.controlButton} onClick={onPrev} aria-label="Prev">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="currentColor"/>
+          </svg>
         </button>
-        <button className={s.playPauseButton} onClick={onPlayPause}>
-          {isPlaying ? '⏸' : '⏵'}
+        <button className={s.playPauseButton} onClick={onPlayPause} aria-label="Play/Pause">
+          {isPlaying ? (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <rect x="6" y="5" width="4" height="14" fill="#fff"/>
+              <rect x="14" y="5" width="4" height="14" fill="#fff"/>
+            </svg>
+          ) : (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <polygon points="8,5 8,19 19,12" fill="#fff"/>
+            </svg>
+          )}
         </button>
-        <button className={s.controlButton} onClick={onNext}>
-          ⏭
+        <button className={s.controlButton} onClick={onNext} aria-label="Next">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <path d="M16 18h2V6h-2v12zm-4-6l-8.5 6V6l8.5 6z" fill="currentColor"/>
+          </svg>
         </button>
       </div>
-
-      <div 
-        className={s.progressBarContainer}
-        onClick={handleProgressClick}
-        ref={progressBarRef}
-      >
-        <div 
+      <div className={s.progressBarContainer}>
+        <div
           className={s.progressBar}
           style={{ width: `${localProgress}%` }}
-        >
-          <div 
-            className={s.progressHandle}
-            onMouseDown={handleDragStart}
-            style={{ left: `${localProgress}%` }}
-          />
-        </div>
+        />
       </div>
     </div>
   );

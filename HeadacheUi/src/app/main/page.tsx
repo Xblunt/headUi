@@ -41,14 +41,14 @@ export default function MainPage() {
   };
 
   const handleArtistClick = (login: string) => {
-    router.push(`/author/info/${login}`);
+    router.push(`/info/${login}`);
   };
 
   let tracksSet = mockSongSets.set5;
-  let albumsSet = mockAlbumSets.albumSet4;
+  let albumsSet = mockAlbumSets.albumSet2;
   if (typeof window !== 'undefined' && localStorage.getItem('user') === 'secondUser') {
     tracksSet = mockSongSets.set6;
-    albumsSet = mockAlbumSets.albumSet3;
+    albumsSet = mockAlbumSets.albumSet1;
   }
 
   const promotions = mockPromotions.filter((promo: any) => promo.status === 'PROMOTED');

@@ -3,20 +3,22 @@
 import { useState, useRef, useEffect } from 'react'
 import styles from "./style.module.scss"
 import { mockSongSets } from '@/mocks/mockSongSets'
+import { mockUsers } from '@/mocks/mockUsers'
 
 const PlaylistPage = () => {
-  let tracks: { id: number; title: string; artist: string; duration: string; cover: string }[] = []
+  let tracks: { id: number; title: string; artist: string; duration: string; cover: string; url: string }[] = []
   if (typeof window !== 'undefined' && localStorage.getItem('user') !== 'secondUser') {
     tracks = mockSongSets.set4.map((song: any, idx: number) => ({
       id: idx + 1,
       title: song.name,
-      artist: song.authorUUID,
-      duration: '3:00',
-      cover: song.urlImage || ''
+      artist: mockUsers.find(u => u.uuid === song.authorUUID)?.login || song.authorUUID,
+      duration: '3:45',
+      cover: song.urlImage || '',
+      url: song.url || ''
     }))
   }
 
-  const [currentTrack, setCurrentTrack] = useState<{ id: number; title: string; artist: string; duration: string; cover: string } | undefined>(
+  const [currentTrack, setCurrentTrack] = useState<typeof tracks[0] | undefined>(
     tracks.length > 0 ? tracks[0] : undefined
   )
   const [isPlaying, setIsPlaying] = useState(false)
@@ -29,6 +31,7 @@ const PlaylistPage = () => {
   const [tracksPerColumn, setTracksPerColumn] = useState(0)
   const progressRef = useRef<HTMLDivElement>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const audioRef = useRef<HTMLAudioElement>(null)
 
   const filteredTracks = tracks.filter(track =>
     track.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -36,22 +39,37 @@ const PlaylistPage = () => {
   )
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
-    if (isPlaying && currentTrack) {
-      setDuration(convertToSeconds(currentTrack.duration))
-      interval = setInterval(() => {
-        setCurrentTime(prev => {
-          const newTime = prev + 1
-          if (newTime >= convertToSeconds(currentTrack.duration)) {
-            setIsPlaying(false)
-            return 0
-          }
-          return newTime
-        })
-      }, 1000)
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
     }
-    return () => clearInterval(interval)
-  }, [isPlaying, currentTrack])
+  }, [isPlaying, currentTrack]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    const audio = audioRef.current;
+    const onTimeUpdate = () => setCurrentTime(Math.floor(audio.currentTime));
+    const onLoadedMetadata = () => setDuration(Math.floor(audio.duration));
+    const onEnded = () => handleNextTrack();
+
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    audio.addEventListener('ended', onEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+      audio.removeEventListener('ended', onEnded);
+    };
+  }, [currentTrack]);
+
+  useEffect(() => {
+    if (audioRef.current && Math.abs(audioRef.current.currentTime - currentTime) > 1) {
+      audioRef.current.currentTime = currentTime;
+    }
+  }, [currentTime]);
 
   useEffect(() => {
     const calculateLayout = () => {
@@ -67,11 +85,6 @@ const PlaylistPage = () => {
     return () => window.removeEventListener('resize', calculateLayout)
   }, [filteredTracks])
 
-  const convertToSeconds = (timeString: string) => {
-    const [minutes, seconds] = timeString.split(':').map(Number)
-    return minutes * 60 + seconds
-  }
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
     const secs = seconds % 60
@@ -79,21 +92,21 @@ const PlaylistPage = () => {
   }
 
   const handleProgressClick = (e: React.MouseEvent) => {
-    if (progressRef.current) {
-      const rect = progressRef.current.getBoundingClientRect()
-      const clickPosition = e.clientX - rect.left
-      const percentage = clickPosition / rect.width
-      const newTime = Math.floor(percentage * duration)
-      setCurrentTime(newTime)
-    }
+    if (!progressRef.current || !audioRef.current) return;
+    const rect = progressRef.current.getBoundingClientRect()
+    const clickPosition = e.clientX - rect.left
+    const percentage = clickPosition / rect.width
+    const newTime = Math.floor(percentage * duration)
+    setCurrentTime(newTime)
+    audioRef.current.currentTime = newTime
   }
 
-  const handleTrackClick = (track: any) => {
-    setCurrentTrack(track)
-    setCurrentTime(0)
+  const handleTrackClick = (track: typeof tracks[0]) => {
     if (currentTrack && currentTrack.id === track.id) {
       setIsPlaying(!isPlaying)
     } else {
+      setCurrentTrack(track)
+      setCurrentTime(0)
       setIsPlaying(true)
     }
   }
@@ -150,73 +163,105 @@ const PlaylistPage = () => {
 
   return (
     <div className={styles.playlistPage}>
+      <audio
+        ref={audioRef}
+        src={currentTrack?.url}
+        preload="metadata"
+        style={{ display: 'none' }}
+      />
       <div
         className={styles.player}
         style={{
           backgroundImage: currentTrack?.cover
             ? `url("${currentTrack.cover}")`
-            : 'url("https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg")',
+            : 'none',
           backgroundSize: 'cover',
+          backgroundColor: '#7c192a',
           backgroundPosition: 'center',
         }}
       >
         <div className={styles.playerOverlay}>
           <div className={styles.playerInfo}>
-            <h2 className={styles.trackTitle}>{currentTrack?.title}</h2>
-            <p className={styles.trackArtist}>{currentTrack?.artist}</p>
-            <div className={styles.progressContainer} ref={progressRef} onClick={handleProgressClick}>
+            {tracks.length === 0 ? (
               <div
-                className={styles.progressBar}
-                style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
-              ></div>
-              <div className={styles.timeInfo}>
-                <span>{formatTime(currentTime)}</span>
-                <span>{currentTrack?.duration}</span>
-              </div>
-            </div>
-            <div className={styles.playerControls}>
-              <button className={styles.controlButton} onClick={handlePrevTrack}>
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
-                </svg>
-              </button>
-              <button
-                className={styles.playButton}
-                onClick={() => setIsPlaying(!isPlaying)}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  marginTop: '-110px',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '2.5rem',
+                  color: '#fff',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  letterSpacing: '2px'
+                }}
               >
-                {isPlaying ? (
-                  <svg viewBox="0 0 24 24" width="24" height="24">
-                    <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" width="24" height="24">
-                    <path fill="currentColor" d="M8 5v14l11-7z" />
-                  </svg>
-                )}
-              </button>
-              <button className={styles.controlButton} onClick={handleNextTrack}>
-                <svg viewBox="0 0 24 24" width="24" height="24">
-                  <path fill="currentColor" d="M16 18h2V6h-2v12zm-4-6l-8.5 6V6l8.5 6z" />
-                </svg>
-              </button>
-            </div>
+                Треки не найдены!
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.trackTitle}>{currentTrack?.title}</h2>
+                <p className={styles.trackArtist}>{currentTrack?.artist}</p>
+                <div className={styles.progressContainer} ref={progressRef} onClick={handleProgressClick}>
+                  <div
+                    className={styles.progressBar}
+                    style={{ width: `${duration ? (currentTime / duration) * 100 : 0}%` }}
+                  ></div>
+                  <div className={styles.timeInfo}>
+                    <span>{formatTime(currentTime)}</span>
+                    <span>{formatTime(duration)}</span>
+                  </div>
+                </div>
+                <div className={styles.playerControls}>
+                  <button className={styles.controlButton} onClick={handlePrevTrack}>
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+                    </svg>
+                  </button>
+                  <button
+                    className={styles.playButton}
+                    onClick={() => setIsPlaying(!isPlaying)}
+                  >
+                    {isPlaying ? (
+                      <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                      </svg>
+                    ) : (
+                      <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M8 5v14l11-7z" />
+                      </svg>
+                    )}
+                  </button>
+                  <button className={styles.controlButton} onClick={handleNextTrack}>
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                      <path fill="currentColor" d="M16 18h2V6h-2v12zm-4-6l-8.5 6V6l8.5 6z" />
+                    </svg>
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
       <div className={styles.tracksWrapper}>
-        <div className={styles.searchContainer}>
-          <input
-            type="text"
-            placeholder="Поиск..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={styles.searchInput}
-          />
-        </div>
+        {tracks.length > 0 && (
+          <div className={styles.searchContainer}>
+            <input
+              type="text"
+              placeholder="Поиск..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.searchInput}
+            />
+          </div>
+        )}
         <button
           className={`${styles.navButton} ${styles.leftButton}`}
           onClick={() => scrollTracks('left')}
-          disabled={scrollPosition === 0}
+          disabled={scrollPosition === 0 || tracks.length === 0}
+          style={tracks.length === 0 ? { display: 'none' } : {}}
         >
           &lt;
         </button>
@@ -260,7 +305,16 @@ const PlaylistPage = () => {
                       </div>
                       <div className={styles.trackInfo}>
                         <h4 className={styles.trackTitle}>{track.title}</h4>
-                        <p className={styles.trackArtist}>{track.artist}</p>
+                        <p
+                          className={`${styles.trackArtist} ${isHovered ? styles.artistHover : ''}`}
+                          onClick={e => {
+                            e.stopPropagation();
+                            window.location.href = `/info/${track.artist}`;
+                          }}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {track.artist}
+                        </p>
                       </div>
                       <div className={styles.trackActions}>
                         {isHovered && (
@@ -286,16 +340,13 @@ const PlaylistPage = () => {
                 })}
               </div>
             ))
-          ) : (
-            <div className={styles.noResults}>
-              Треки не найдены!
-            </div>
-          )}
+          ) : null}
         </div>
         <button
           className={`${styles.navButton} ${styles.rightButton}`}
           onClick={() => scrollTracks('right')}
-          disabled={scrollPosition >= (tracksContainerRef.current?.scrollWidth! - tracksContainerRef.current?.clientWidth!)}
+          disabled={scrollPosition >= (tracksContainerRef.current?.scrollWidth! - tracksContainerRef.current?.clientWidth!) || tracks.length === 0}
+          style={tracks.length === 0 ? { display: 'none' } : {}}
         >
           &gt;
         </button>

@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Song, Album, User, Tag, FileExtension, FileType, SongStatus } from '@/models';
+import { useRouter } from 'next/navigation';
 
 import styles from './style.module.scss';
 import AlbumCard from '@/components/album';
@@ -40,6 +41,8 @@ const TracksPage = () => {
   // Состояния плеера
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  
+  const router = useRouter();
   
   // Получаем все уникальные теги для треков
   const allTrackTags = useMemo(() => {
@@ -155,7 +158,7 @@ const TracksPage = () => {
   };
   
   const handleArtistClick = (login: string) => {
-    console.log(`Navigate to artist: ${login}`);
+    router.push(`/info/${login}`);
   };
   
   // Обработчики для альбомов

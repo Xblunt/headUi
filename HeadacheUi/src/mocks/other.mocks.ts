@@ -11,10 +11,6 @@ export const userTabs: ITab[] = [
     link: 'tracks',
   },
   {
-    title: 'Альбомы',
-    link: 'albums',
-  },
-  {
     title: 'Плейлист',
     link: 'playlist',
   },
@@ -43,7 +39,6 @@ export const authorTabs: ITab[] = [
     link: 'promo',
   },
 ];
-
 
 export const labelTabs: ITab[] = [
   {
