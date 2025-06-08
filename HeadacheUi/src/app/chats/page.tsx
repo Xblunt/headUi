@@ -427,9 +427,9 @@ const ChatsPage = () => {
               </div>
               <div className={s.chatMeta}>
                 <div className={s.chatTime}>{formatMessageTime(chat.lastMessageTime)}</div>
-                {chat.unread > 0 && (
+                {/* {chat.unread > 0 && (
                   <div className={s.unreadBadge}>{chat.unread}</div>
-                )}
+                )} */}
               </div>
             </div>
           ))}

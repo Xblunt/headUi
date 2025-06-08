@@ -193,21 +193,27 @@ export class PromotionRequest {
   uuid: string;
   songUUID: string;
   msg: string;
+  fileUUID: string;
   dispatchTime: string;
   confirmationTime?: string;
   status: PromotionStatus;
+  urlImg: string;
 
   constructor(props: {
       uuid: string;
       songUUID: string;
       msg: string;
+       fileUUID: string;
       dispatchTime: string;
+        urlImg: string;
       confirmationTime?: string;
       status: PromotionStatus;
   }) {
       this.uuid = props.uuid;
       this.songUUID = props.songUUID;
       this.msg = props.msg;
+        this.fileUUID = props.fileUUID;
+                this.urlImg = props.urlImg;
       this.dispatchTime = props.dispatchTime;
       this.confirmationTime = props.confirmationTime;
       this.status = props.status;
@@ -244,7 +250,8 @@ export class CooperationRequest {
 export class Album {
   uuid: string;
   name: string;
-        urlImage?: string;
+  urlImage?: string;
+  fileUuid: string;
   authorUUID: string;
   savedSongsUUIDs: string[];
   createdAt?:string;
@@ -253,6 +260,7 @@ export class Album {
       uuid: string;
       name: string;
       authorUUID: string;
+        fileUuid: string;
             urlImage?: string;
               createdAt?:string;
 
@@ -260,6 +268,7 @@ export class Album {
   }) {
       this.uuid = props.uuid;
       this.name = props.name;
+            this.fileUuid = props.fileUuid;
          this.urlImage = props.urlImage;
       this.authorUUID = props.authorUUID;
             this.createdAt = props.createdAt;
