@@ -1,10 +1,10 @@
-// // components/TrackRow/TrackRow.tsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Song } from '@/models';
 import { User } from '@/models';
 import s from './style.module.scss';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import RatingModal from '../raitingModal';
 
 interface TrackRowProps {
@@ -16,6 +16,12 @@ interface TrackRowProps {
   onArtistClick: (login: string) => void;
   index: number;
   users: User[];
+   onEdit?: () => void;
+  onDelete?: () => void;
+  showProgressBar?: boolean; // Новый пропс для отображения прогресс-бара
+  useGlobalPlayer?: boolean; // Новый пропс для использования глобального плеера
+  onProgressChange?: (progress: number) => void;
+  progress?: number;
 }
 
 const TrackRow: React.FC<TrackRowProps> = ({ 
@@ -26,83 +32,157 @@ const TrackRow: React.FC<TrackRowProps> = ({
   onPause,
   onArtistClick,
   index,
-  users
+  users,
+   onEdit,
+  onDelete,
+  showProgressBar = false,
+  useGlobalPlayer = false,
+  onProgressChange,
+  progress = 0,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  const [showRatingModal, setShowRatingModal] = useState(false);
-  const [rating, setRating] = useState<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [showPlayIcon, setShowPlayIcon] = useState(false);
   const [isArtistHovered, setIsArtistHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [localProgress, setLocalProgress] = useState(progress);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  
   const artistName = users.find(user => user.uuid === song.authorUUID)?.login || 'Unknown Artist';
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [rating, setRating] = useState<number | null>(null);
+  
+  useEffect(() => {
+    // Получаем роль пользователя из localStorage
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userData = JSON.parse(user);
+        setUserRole(userData.role || userData.label); // В зависимости от структуры
+      } catch (e) {
+        console.error('Error parsing user data', e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isDragging) {
+      setLocalProgress(progress);
+    }
+  }, [progress, isDragging]);
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsFavorite(!isFavorite);
   };
-
+  
   const handleRatingSubmit = (selectedRating: number | null) => {
     setRating(selectedRating);
     setShowRatingModal(false);
   };
 
   const handlePlayPause = () => {
-    if (currentSong?.uuid === song.uuid && isPlaying) {
-      onPause();
+    if (useGlobalPlayer) {
+      // Если используется глобальный плеер, просто запускаем трек
+      if (!(currentSong?.uuid === song.uuid && isPlaying)) {
+        onPlay(song);
+      }
     } else {
-      onPlay(song);
-      setShowPlayIcon(true);
-      setTimeout(() => {
-        setShowPlayIcon(false);
-      }, 5000);
+      // Стандартное поведение
+      if (currentSong?.uuid === song.uuid && isPlaying) {
+        onPause();
+      } else {
+        onPlay(song);
+      }
     }
+    setShowPlayIcon(true);
+    setTimeout(() => {
+      setShowPlayIcon(false);
+    }, 5000);
+  };
+
+  const handleProgressClick = (e: React.MouseEvent) => {
+    if (!progressBarRef.current) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+    onProgressChange?.(newProgress);
+  };
+
+  const handleDragStart = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    document.addEventListener('mousemove', handleDrag);
+    document.addEventListener('mouseup', handleDragEnd);
+  };
+
+  const handleDrag = (e: MouseEvent) => {
+    if (!progressBarRef.current || !isDragging) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+  };
+
+  const handleDragEnd = (e: MouseEvent) => {
+    if (!progressBarRef.current || !isDragging) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+    onProgressChange?.(newProgress);
+    setIsDragging(false);
+    
+    document.removeEventListener('mousemove', handleDrag);
+    document.removeEventListener('mouseup', handleDragEnd);
   };
 
   const isCurrentSongPlaying = currentSong?.uuid === song.uuid && isPlaying;
 
-  return (
-    <>
-      <div 
-        className={`${s.trackRow} ${currentSong?.uuid === song.uuid ? s.active : ''}`}
-        onClick={handlePlayPause}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <div className={s.trackInfo}>
-          <div className={s.trackImage}>
-            <img 
-              src={'https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg'} 
-              alt={song.name} 
-              className={`${s.trackThumbnail} ${
-                (isHovered || isCurrentSongPlaying || showPlayIcon) ? s.imageActive : ''
-              }`}
-            />
-            {(isHovered || isCurrentSongPlaying || showPlayIcon) && (
-              <div className={s.playPauseOverlay}>
-                {isCurrentSongPlaying ? (
-                  <span className={s.pauseIcon}>❚❚</span>
-                ) : (
-                  <span className={s.playIcon}>▶</span>
-                )}
-              </div>
-            )}
-          </div>
-          <div className={s.trackDetails}>
-            <h4 className={s.trackTitle}>{song.name}</h4>
-            <p 
-              className={`${s.trackArtist} ${isArtistHovered ? s.artistHovered : ''}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                onArtistClick(artistName);
-              }}
-              onMouseEnter={() => setIsArtistHovered(true)}
-              onMouseLeave={() => setIsArtistHovered(false)}
-            >
-              {artistName}
-            </p>
-          </div>
-        </div>
-        <div className={s.trackActions}>
+  // Определяем какие кнопки показывать в зависимости от роли пользователя
+  const renderActionButtons = () => {
+    if (userRole === 'label78') {
+      return (
+        <>
+          <div className={s.trackDuration}>3:45</div>
+        </>
+      );
+    } else if (userRole === 'author111') {
+      return (
+        <>
+          <button 
+            className={s.actionButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              // Здесь должна быть функция редактирования
+                      onEdit?.();
+            }}
+          >
+            <FiEdit size={18} />
+          </button>
+          <button 
+            className={s.actionButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              // Здесь должна быть функция удаления
+                   onDelete?.();
+            }}
+          >
+            <FiTrash2 size={18} />
+          </button>
+          <div className={s.trackDuration}>3:45</div>
+        </>
+      );
+    } else {
+      return (
+        <>
           <button 
             className={`${s.favoriteButton} ${isFavorite ? s.favorited : ''}`}
             onClick={toggleFavorite}
@@ -136,9 +216,74 @@ const TrackRow: React.FC<TrackRowProps> = ({
             )}
           </button>
           <div className={s.trackDuration}>3:45</div>
+        </>
+      );
+    }
+  };
+
+  return (
+    <div 
+      className={`${s.trackRow} ${currentSong?.uuid === song.uuid ? s.active : ''}`}
+      onClick={handlePlayPause}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {showProgressBar && (
+        <div 
+          className={s.progressBarContainer}
+          onClick={handleProgressClick}
+          ref={progressBarRef}
+        >
+          <div 
+            className={s.progressBar}
+            style={{ width: `${localProgress}%` }}
+          >
+            <div 
+              className={s.progressHandle}
+              onMouseDown={handleDragStart}
+              style={{ left: `${localProgress}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className={s.trackInfo}>
+        <div className={s.trackImage}>
+          <img 
+            src={song.urlImage || 'https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg'} 
+            alt={song.name} 
+            className={`${s.trackThumbnail} ${
+              (isHovered || isCurrentSongPlaying || showPlayIcon) ? s.imageActive : ''
+            }`}
+          />
+          {(isHovered || isCurrentSongPlaying || showPlayIcon) && (
+            <div className={s.playPauseOverlay}>
+              {isCurrentSongPlaying ? (
+                <span className={s.pauseIcon}>❚❚</span>
+              ) : (
+                <span className={s.playIcon}>▶</span>
+              )}
+            </div>
+          )}
+        </div>
+        <div className={s.trackDetails}>
+          <h4 className={s.trackTitle}>{song.name}</h4>
+          <p 
+            className={`${s.trackArtist} ${isArtistHovered ? s.artistHovered : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onArtistClick(artistName);
+            }}
+            onMouseEnter={() => setIsArtistHovered(true)}
+            onMouseLeave={() => setIsArtistHovered(false)}
+          >
+            {artistName}
+          </p>
         </div>
       </div>
-
+      <div className={s.trackActions}>
+        {renderActionButtons()}
+      </div>
       {showRatingModal && (
         <RatingModal 
           songName={song.name}
@@ -147,99 +292,8 @@ const TrackRow: React.FC<TrackRowProps> = ({
           onSubmit={handleRatingSubmit}
         />
       )}
-    </>
+    </div>
   );
 };
 
 export default TrackRow;
-
-
-// components/TrackRow.tsx
-// 'use client';
-
-// import { Song, User } from '@/models';
-// import { usePlayerStore } from '@/stores/playerStore';
-// import { useState, useEffect } from 'react';
-// import s from './style.module.scss';
-
-// interface TrackRowProps {
-//   song: Song;
-//   playlist?: Song[];
-//   currentSong: Song | null;
-//   isPlaying: boolean;
-//   onPlay?: (song: Song, playlist: Song[], index: number) => void;
-//   onPause?: () => void;
-//   onArtistClick: (login: string) => void;
-//   index: number;
-//   users: User[];
-// }
-
-// export const TrackRow: React.FC<TrackRowProps> = ({ 
-//   song, 
-//   playlist,
-//   currentSong,
-//   isPlaying,
-//   onPlay,
-//   onPause,
-//   onArtistClick,
-//   index,
-//   users
-// }) => {
-//   const [isHovered, setIsHovered] = useState(false);
-//   const { currentSong: globalCurrentSong, isPlaying: globalIsPlaying } = usePlayerStore();
-  
-//   const isCurrent = (currentSong?.uuid === song.uuid) || (globalCurrentSong?.uuid === song.uuid);
-//   const isPlayingCurrent = isCurrent && (isPlaying || globalIsPlaying);
-
-//   const handlePlay = () => {
-//     if (onPlay) {
-//       onPlay(song, playlist || [song], index);
-//     }
-//   };
-
-//   const handlePause = () => {
-//     if (onPause) onPause();
-//   };
-
-//   const artistName = users.find(user => user.uuid === song.authorUUID)?.login || 'Unknown Artist';
-
-//   return (
-//     <div 
-//       className={`${s.trackRow} ${isCurrent ? s.active : ''}`}
-//       onMouseEnter={() => setIsHovered(true)}
-//       onMouseLeave={() => setIsHovered(false)}
-//     >
-//       <div className={s.trackInfo}>
-//         <div className={s.trackImage}>
-//           <img 
-//             src="https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg" 
-//             alt={song.name}
-//             className={`${s.trackThumbnail} ${(isHovered || isPlayingCurrent) ? s.imageActive : ''}`}
-//           />
-//           {(isHovered || isPlayingCurrent) && (
-//             <div className={s.playPauseOverlay} onClick={isPlayingCurrent ? handlePause : handlePlay}>
-//               {isPlayingCurrent ? (
-//                 <span className={s.pauseIcon}>❚❚</span>
-//               ) : (
-//                 <span className={s.playIcon}>▶</span>
-//               )}
-//             </div>
-//           )}
-//         </div>
-//         <div className={s.trackDetails}>
-//           <h4 className={s.trackTitle}>{song.name}</h4>
-//           <p 
-//             className={s.trackArtist}
-//             onClick={(e) => {
-//               e.stopPropagation();
-//               onArtistClick(artistName);
-//             }}
-//           >
-//             {artistName}
-//           </p>
-//         </div>
-//       </div>
-//       <div className={s.trackDuration}>3:45</div>
-//     </div>
-//   );
-// };

@@ -1,127 +1,125 @@
 'use client';
 
-import { usePlayerStore } from '@/stores/playerStore';
-import { useEffect, useRef, useState } from 'react';
-import { User } from '@/models';
+import React, { useState, useEffect, useRef } from 'react';
+import { Song } from '@/models';
 import s from './style.module.scss';
 
-const getArtistName = (authorUUID: string, users: User[]) => {
-  return users.find(user => user.uuid === authorUUID)?.login || 'Unknown Artist';
-};
+interface GlobalPlayerProps {
+  currentSong: Song | null;
+  isPlaying: boolean;
+  progress: number;
+  onPlayPause: () => void;
+  onProgressChange: (progress: number) => void;
+  onNext?: () => void;
+  onPrev?: () => void;
+}
 
-export const GlobalPlayer = () => {
-  const {
-    currentSong,
-    playlist,
-    isPlaying,
-    togglePlay,
-    next,
-    prev,
-    currentIndex
-  } = usePlayerStore();
-  
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
+export const GlobalPlayer: React.FC<GlobalPlayerProps> = ({
+  currentSong,
+  isPlaying,
+  progress,
+  onPlayPause,
+  onProgressChange,
+  onNext,
+  onPrev,
+}) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [localProgress, setLocalProgress] = useState(progress);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!audioRef.current) return;
-    
-    const updateProgress = () => {
-      if (audioRef.current) {
-        setProgress((audioRef.current.currentTime / audioRef.current.duration) * 100 || 0);
-      }
-    };
-
-    const updateDuration = () => {
-      if (audioRef.current) {
-        setDuration(audioRef.current.duration || 0);
-      }
-    };
-
-    audioRef.current.addEventListener('timeupdate', updateProgress);
-    audioRef.current.addEventListener('loadedmetadata', updateDuration);
-    audioRef.current.addEventListener('ended', next);
-
-    if (isPlaying) {
-      audioRef.current.play().catch(e => console.error("Play error:", e));
-    } else {
-      audioRef.current.pause();
+    if (!isDragging) {
+      setLocalProgress(progress);
     }
+  }, [progress, isDragging]);
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('timeupdate', updateProgress);
-        audioRef.current.removeEventListener('loadedmetadata', updateDuration);
-        audioRef.current.removeEventListener('ended', next);
-      }
-    };
-  }, [isPlaying, currentSong, next]);
-
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!audioRef.current) return;
+  const handleProgressClick = (e: React.MouseEvent) => {
+    if (!progressBarRef.current) return;
     
-    const seekBar = e.currentTarget;
-    const rect = seekBar.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / rect.width;
-    audioRef.current.currentTime = pos * duration;
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+    onProgressChange(newProgress);
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  const handleDragStart = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    document.addEventListener('mousemove', handleDrag);
+    document.addEventListener('mouseup', handleDragEnd);
   };
 
-  if (!currentSong) return null;
+  const handleDrag = (e: MouseEvent) => {
+    if (!progressBarRef.current || !isDragging) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+  };
+
+  const handleDragEnd = (e: MouseEvent) => {
+    if (!progressBarRef.current || !isDragging) return;
+    
+    const rect = progressBarRef.current.getBoundingClientRect();
+    const clickPosition = e.clientX - rect.left;
+    const newProgress = Math.min(Math.max((clickPosition / rect.width) * 100, 0), 100);
+    
+    setLocalProgress(newProgress);
+    onProgressChange(newProgress);
+    setIsDragging(false);
+    
+    document.removeEventListener('mousemove', handleDrag);
+    document.removeEventListener('mouseup', handleDragEnd);
+  };
 
   return (
-    <div className={s.player}>
-      <div className={s.playerContainer}>
-        <div className={s.trackInfo}>
-          <h4 className={s.trackTitle}>{currentSong.name}</h4>
-          <p className={s.trackArtist}>
-            {getArtistName(currentSong.authorUUID, [])}
-          </p>
-        </div>
-        
-        <div className={s.playerControls}>
-          <button 
-            onClick={prev} 
-            className={s.controlButton}
-            disabled={playlist.length <= 1 || currentIndex <= 0}
-          >
-            ⏮
-          </button>
-          <button 
-            onClick={togglePlay} 
-            className={s.playButton}
-          >
-            {isPlaying ? '❚❚' : '▶'}
-          </button>
-          <button 
-            onClick={next} 
-            className={s.controlButton}
-            disabled={playlist.length <= 1 || currentIndex >= playlist.length - 1}
-          >
-            ⏭
-          </button>
-        </div>
-        
-        <div className={s.progressContainer}>
-          <div className={s.progressBar} onClick={handleSeek}>
-            <div 
-              className={s.progress} 
-              style={{ width: `${progress}%` }}
+    <div className={s.globalPlayer}>
+      <div className={s.playerInfo}>
+        {currentSong && (
+          <>
+            <img 
+              src={currentSong.urlImage || 'https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-picture-of-a-blue-bird-on-a-black-background-image_2937385.jpg'} 
+              alt={currentSong.name} 
+              className={s.playerImage}
             />
-          </div>
+            <div className={s.songInfo}>
+              <h4 className={s.songTitle}>{currentSong.name}</h4>
+              <p className={s.songArtist}>{currentSong.authorUUID || 'Unknown Artist'}</p>
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className={s.playerControls}>
+        <button className={s.controlButton} onClick={onPrev}>
+          ⏮
+        </button>
+        <button className={s.playPauseButton} onClick={onPlayPause}>
+          {isPlaying ? '⏸' : '⏵'}
+        </button>
+        <button className={s.controlButton} onClick={onNext}>
+          ⏭
+        </button>
+      </div>
+
+      <div 
+        className={s.progressBarContainer}
+        onClick={handleProgressClick}
+        ref={progressBarRef}
+      >
+        <div 
+          className={s.progressBar}
+          style={{ width: `${localProgress}%` }}
+        >
+          <div 
+            className={s.progressHandle}
+            onMouseDown={handleDragStart}
+            style={{ left: `${localProgress}%` }}
+          />
         </div>
-        
-        <audio
-          ref={audioRef}
-          src={currentSong.url}
-          hidden
-        />
       </div>
     </div>
   );

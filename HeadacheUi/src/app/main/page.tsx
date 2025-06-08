@@ -551,6 +551,8 @@ export default function MainPage() {
           key={`${song.uuid}-${index+5}`}
           song={song}
           // playlist={mockSongs}
+          useGlobalPlayer={true}
+          showProgressBar={false}
           currentSong={globalCurrentSong}
           isPlaying={globalIsPlaying}
           onPlay={handlePlaySong}
@@ -584,7 +586,16 @@ export default function MainPage() {
           </div>
         </section>
       </div>
-      <GlobalPlayer />
+      {/* <GlobalPlayer /> */}
+      <GlobalPlayer
+        currentSong={globalCurrentSong}
+        isPlaying={globalIsPlaying}
+        progress={0}
+        onPlayPause={globalTogglePlay}
+        onProgressChange={()=>{}}
+        onNext={() => {}}
+        onPrev={() => {}}
+      />
     </div>
   );
 }

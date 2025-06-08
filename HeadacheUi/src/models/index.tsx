@@ -17,13 +17,13 @@ export class Tag {
 // FILE
 export class File {
   uuid: string;
-  data: Uint8Array | number[];
+  data: Uint8Array;
   extension: FileExtension;
   type: FileType;
 
   constructor(props: {
     uuid: string;
-    data: Uint8Array | number[];
+    data: Uint8Array;
     extension: FileExtension;
     type: FileType;
   }) {
@@ -159,6 +159,7 @@ export class Song {
   authorUUID: string;
   tags: Tag[];
   fileUUID: string;
+   createdAt?: string;
 
   constructor(props: {
     uuid: string;
@@ -166,6 +167,7 @@ export class Song {
     avgRating: number;
     url: string;
       urlImage?: string;
+       createdAt?: string;
 
     status: SongStatus;
     authorUUID: string;
@@ -181,6 +183,8 @@ export class Song {
     this.authorUUID = props.authorUUID;
     this.tags = props.tags;
     this.fileUUID = props.fileUUID;
+        this.createdAt = props.createdAt;
+
   }
 };
 
@@ -243,18 +247,23 @@ export class Album {
         urlImage?: string;
   authorUUID: string;
   savedSongsUUIDs: string[];
+  createdAt?:string;
 
   constructor(props: {
       uuid: string;
       name: string;
       authorUUID: string;
             urlImage?: string;
+              createdAt?:string;
+
       savedSongsUUIDs: string[];
   }) {
       this.uuid = props.uuid;
       this.name = props.name;
          this.urlImage = props.urlImage;
       this.authorUUID = props.authorUUID;
+            this.createdAt = props.createdAt;
+
       this.savedSongsUUIDs = props.savedSongsUUIDs;
   }
 }

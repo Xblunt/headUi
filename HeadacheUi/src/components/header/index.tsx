@@ -9,6 +9,7 @@ import { userTabs, authorTabs, labelTabs } from '@/mocks/other.mocks';
 interface User {
   name: string;
   email: string;
+  login: string;
   avatar: string;
   role: string;
 }
@@ -17,32 +18,37 @@ const USERS_DB: Record<string, User> = {
   'firstUser': {
     name: 'Иван Иванов',
     email: 'ivan@mail.ru',
+    login: 'firstUser',
     avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
     role: 'Слушатель'
   },
    'secondtUser': {
     name: 'Илья Ильин',
     email: 'ilya@mail.ru',
+    login: 'secondtUser',
     avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
     role: 'Слушатель'
   },
   'author111': {
     name: 'Алексей Петров',
     email: 'alex@mail.ru',
+    login: 'author111',
     avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
     role: 'Автор'
   },
   'label78': {
     name: 'Мария Сидорова',
     email: 'maria@mail.ru',
+    login: 'label78',
     avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
     role: 'Лейбл'
   },
   'default': {
     name: 'Петр Петрович',
     email: 'petr@mail.ru',
+    login: 'user',
     avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
-    role: 'Гость'
+    role: 'Слушатель'
   }
 };
 
@@ -143,7 +149,7 @@ export const Header: FC = () => {
             ref={userMenuRef}
           >
             <div className={s.userName}>{currentUser.name}</div>
-            <div className={s.userEmail}>{currentUser.email}</div>
+            <div className={s.userEmail}>{currentUser.login}</div>
             <div className={s.userRole}>{currentUser.role}</div>
             <div className={s.userActions}>
               <button 

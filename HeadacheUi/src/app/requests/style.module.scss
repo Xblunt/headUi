@@ -163,30 +163,31 @@ width: 100%;
   }
 
   .approveButton {
-    background: #4CAF50;
+    background: #7c192a;
     color: white;
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 
     &:hover {
-      background: #3e8e41;
+      background: #5a1220;
     }
   }
 
   .rejectButton {
-    background: #F44336;
-    color: white;
-    border: none;
+    background: white;
+    color: black;
+    border: 1px solid #7c192a;
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
 
     &:hover {
-      background: #d32f2f;
+      background: #7c192a;
+       color: white;
     }
   }
 }

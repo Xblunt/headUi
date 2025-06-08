@@ -35,12 +35,16 @@ export const authorTabs: ITab[] = [
     link: 'music',
   },
   {
-    title: 'Статистика',
+    title: 'Моя статистика',
     link: 'statistic',
   },
   {
-    title: 'Заявки',
+    title: 'Мои заявки',
     link: 'requests',
+  },
+   {
+    title: 'Моё продвижение',
+    link: 'promo',
   },
 ];
 

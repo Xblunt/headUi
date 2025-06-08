@@ -1,4 +1,362 @@
-// components/TrackRow/TrackRow.module.scss
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #7c192a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #5a1220;
+  }
+}
+
+.searchContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.sortControls {
+  display: flex;
+  gap: 5px;
+}
+
+.sortSelect {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.sortDirectionButton {
+  padding: 0 10px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #7c192a;
+    background-color: #f0f0f0;
+  }
+}
+
+.albumGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.albumCard {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+}
+
+.albumImage {
+  width: 100%;
+  height: 160px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.albumInfo {
+  padding: 12px;
+
+  h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+  }
+}
+
+.albumActions {
+  display: flex;
+  padding: 0 12px 12px;
+  gap: 8px;
+}
+
+.albumActionButton {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #e0e0e0;
+    color: #7c192a;
+  }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  p {
+    margin-top: 15px;
+    color: #666;
+  }
+}
+
+.emptyIcon {
+  color: #ddd;
+}
+
+.modalContent {
+  padding: 20px;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+}
+
+.formInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.fileInfo {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+}
+
+.saveButton {
+  padding: 8px 16px;
+  background-color: #7c192a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #5a1220;
+  }
+}
+
+.deleteButton {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: #bb2d3b;
+  }
+}
+
+.songsList {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.songCheckbox {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkboxInput {
+  display: none;
+
+  &:checked + .checkboxCustom {
+    background-color: #7c192a;
+    border-color: #7c192a;
+
+    &::after {
+      display: block;
+    }
+  }
+}
+
+.checkboxCustom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  position: relative;
+  transition: all 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.paginationButton {
+  padding: 8px 16px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(:disabled) {
+    background-color: #e0e0e0;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* TrackRow styles */
 .trackRow {
   display: flex;
   align-items: center;
@@ -70,11 +428,11 @@
 .trackDetails {
   flex: 1;
   
-  // Добавлено чтобы предотвратить наследование hover
   &:hover .trackArtist:not(:hover) {
     text-decoration: none;
   }
 }
+
 .trackTitle {
   margin: 0;
   font-size: 16px;
@@ -86,7 +444,7 @@
   margin: 4px 0 0;
   font-size: 14px;
   color: #666;
-  display: inline-block; // Добавлено
+  display: inline-block;
 
   &.artistHovered {
     text-decoration: underline;
@@ -166,6 +524,7 @@
   }
 }
 
+
 .trackDuration {
   font-size: 14px;
   color: #666;
@@ -177,4 +536,61 @@
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
   100% { transform: scale(1); }
+}
+
+.progressBarContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  z-index: 1;
+  
+  &:hover {
+    height: 6px;
+    
+    .progressHandle {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.progressBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #7c192a;
+  transition: width 0.1s linear;
+}
+
+.progressHandle {
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  width: 16px;
+  height: 16px;
+  background-color: #7c192a;
+  border-radius: 50%;
+  transform: translateY(-50%) scale(0.8);
+  opacity: 0;
+  transition: all 0.2s ease;
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+    transform: translateY(-50%) scale(1.1);
+  }
+}
+
+.active {
+  .progressBarContainer {
+    .progressHandle {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+    }
+  }
 }
