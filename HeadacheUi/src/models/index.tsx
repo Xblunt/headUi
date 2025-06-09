@@ -34,63 +34,7 @@ export class File {
   }
 };
 
-// USER
-
-// export class User {
-//   uuid?: string;
-//   login?: string;
-//   password?: string;
-//   roles: string[];
-//   isAccountNonLocked?: boolean;
-//   isActive?: boolean;
-//   description?: string;
-//   imgFileUUID?: string;
-//   phoneNumber?: string;
-//   email?: string;
-//   birthDate?: string;
-//   createdAt?: string;
-//   updatedAt?: string;
-//   lastVisitDate?: string;
-//   avgRating?: number;
-//   savedSongsUUIDs?: string[];
-
-//   constructor(props: {
-//     uuid: string;
-//     login: string;
-//     password: string;
-//     roles: string[];
-//     isAccountNonLocked: boolean;
-//     isActive: boolean;
-//     description: string;
-//     imgFileUUID: string;
-//     phoneNumber: string;
-//     email: string;
-//     birthDate: string;
-//     createdAt: string;
-//     updatedAt: string;
-//     lastVisitDate: string;
-//     avgRating: number;
-//     savedSongsUUIDs: string[];
-//   }) {
-//     this.uuid = props.uuid;
-//     this.login = props.login;
-//     this.password = props.password;
-//     this.roles = props.roles;
-//     this.isAccountNonLocked = props.isAccountNonLocked;
-//     this.isActive = props.isActive;
-//     this.description = props.description;
-//     this.imgFileUUID = props.imgFileUUID;
-//     this.phoneNumber = props.phoneNumber;
-//     this.email = props.email;
-//     this.birthDate = props.birthDate;
-//     this.createdAt = props.createdAt;
-//     this.updatedAt = props.updatedAt;
-//     this.lastVisitDate = props.lastVisitDate;
-//     this.avgRating = props.avgRating;
-//     this.savedSongsUUIDs = props.savedSongsUUIDs;
-//   }
-// }
-
+//USER
 export class User {
   uuid: string;
   login: string;

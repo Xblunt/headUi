@@ -8,67 +8,8 @@ import { Dropdown } from 'primereact/dropdown';
 import s from './style.module.scss';
 import { Pagination } from "@/components/pagination";
 import { Dialog } from 'primereact/dialog';
-
-// Моковые данные пользователей
-const usersMock: User[] = [
-  new User({
-    uuid: 'user-1',
-    login: 'ArtistOne',
-    email: 'artist1@example.com',
-    roles: ['ARTIST'],
-    urlImage: 'https://example.com/artist1.jpg'
-  }),
-  new User({
-    uuid: 'user-2',
-    login: 'LabelOne',
-    email: 'label1@example.com',
-    roles: ['LABEL'],
-    urlImage: 'https://example.com/label1.jpg'
-  }),
-  new User({
-    uuid: 'user-3',
-    login: 'ArtistTwo',
-    email: 'artist2@example.com',
-    roles: ['ARTIST'],
-    urlImage: 'https://example.com/artist2.jpg'
-  }),
-];
-
-// Моковые данные запросов на сотрудничество
-const requestsMock: CooperationRequest[] = [
-  new CooperationRequest({
-    uuid: 'req-1',
-    msg: 'Хотел бы предложить сотрудничество по новому треку',
-    dispatchTime: '2023-06-20T10:00:00',
-    status: CooperationStatus.AWAITING,
-    authorUUID: 'user-1',
-    labelUUID: 'user-2'
-  }),
-  new CooperationRequest({
-    uuid: 'req-2',
-    msg: 'Готовы подписать контракт на альбом',
-    dispatchTime: '2023-06-18T14:30:00',
-    status: CooperationStatus.APPROVED,
-    authorUUID: 'user-3',
-    labelUUID: 'user-2',
-  }),
-  new CooperationRequest({
-    uuid: 'req-3',
-    msg: 'Предложение о совместном туре',
-    dispatchTime: '2023-06-15T09:15:00',
-    status: CooperationStatus.REJECTED,
-    authorUUID: 'user-1',
-    labelUUID: 'user-2',
-  }),
-  new CooperationRequest({
-    uuid: 'req-4',
-    msg: 'Запрос на использование вашего трека',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: CooperationStatus.AWAITING,
-    authorUUID: 'user-3',
-    labelUUID: 'user-2'
-  }),
-];
+import { mockUsers } from '@/mocks/mockUsers';
+import { mockCooperationRequests } from '@/mocks/mockCooperationRequests';
 
 type SortOption = {
   label: string;
@@ -76,7 +17,7 @@ type SortOption = {
 };
 
 const CooperationRequestsPage = () => {
-  const [requests, setRequests] = useState<CooperationRequest[]>(requestsMock);
+  const [requests, setRequests] = useState<CooperationRequest[]>(mockCooperationRequests);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<string>('date-desc');
@@ -93,8 +34,8 @@ const CooperationRequestsPage = () => {
 
   const sortRequests = (requests: CooperationRequest[]) => {
     return [...requests].sort((a, b) => {
-      const authorA = usersMock.find(u => u.uuid === a.authorUUID)?.login || '';
-      const authorB = usersMock.find(u => u.uuid === b.authorUUID)?.login || '';
+      const authorA = mockUsers.find(u => u.uuid === a.authorUUID)?.login || '';
+      const authorB = mockUsers.find(u => u.uuid === b.authorUUID)?.login || '';
       
       switch (sortOption) {
         case 'author-asc': return authorA.localeCompare(authorB);
@@ -109,8 +50,8 @@ const CooperationRequestsPage = () => {
 
   const filteredRequests = sortRequests(
     requests.filter(request => {
-      const author = usersMock.find(u => u.uuid === request.authorUUID)?.login || '';
-      const label = usersMock.find(u => u.uuid === request.labelUUID)?.login || '';
+      const author = mockUsers.find(u => u.uuid === request.authorUUID)?.login || '';
+      const label = mockUsers.find(u => u.uuid === request.labelUUID)?.login || '';
       return searchQuery === '' || 
         request.msg.toLowerCase().includes(searchQuery.toLowerCase()) || 
         author.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -155,7 +96,7 @@ const CooperationRequestsPage = () => {
   };
 
   const getUserName = (uuid: string) => {
-    return usersMock.find(user => user.uuid === uuid)?.login || 'Неизвестный';
+    return mockUsers.find(user => user.uuid === uuid)?.login || 'Неизвестный';
   };
 
   return (
@@ -166,6 +107,7 @@ const CooperationRequestsPage = () => {
             <PfInputText
               value={searchQuery}
               style={{width: '100%'}}
+                 title="Поиск..."
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Поиск по сообщению или участникам"
             />
@@ -249,6 +191,7 @@ const CooperationRequestsPage = () => {
         onHide={() => setSelectedRequest(null)}
         header="Детали запроса на сотрудничество"
         className={s.requestModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         {selectedRequest && (
           <div className={s.requestDetails}>
@@ -256,24 +199,20 @@ const CooperationRequestsPage = () => {
               <h4>Автор</h4>
               <p>{getUserName(selectedRequest.authorUUID)}</p>
             </div>
-            
             <div className={s.detailSection}>
               <h4>Лейбл</h4>
               <p>{getUserName(selectedRequest.labelUUID)}</p>
             </div>
-            
             <div className={s.detailSection}>
               <h4>Статус</h4>
               <p className={`${s.statusBadge} ${getStatusBadgeClass(selectedRequest.status)}`}>
                 {getStatusLabel(selectedRequest.status)}
               </p>
             </div>
-            
             <div className={s.detailSection}>
               <h4>Дата отправки</h4>
               <p>{formatDateTime(selectedRequest.dispatchTime)}</p>
             </div>
-            
             <div className={s.detailSection}>
               <h4>Сообщение</h4>
               <div className={s.messageContent}>

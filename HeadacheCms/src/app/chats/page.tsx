@@ -8,6 +8,9 @@ import s from './style.module.scss';
 import { Pagination } from "@/components/pagination";
 import { Dialog } from 'primereact/dialog';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import { TabMenu } from 'primereact/tabmenu';
+import { mockUsers } from '@/mocks/mockUsers';
+import { mockChats } from '@/mocks/mockChats';
 
 // Модель пользователя
 interface User {
@@ -27,50 +30,21 @@ interface Chat {
 }
 
 // Моковые данные пользователей
-const usersMock: User[] = [
-  { uuid: 'user-1', login: 'Алексей Петров', email: 'alex@example.com', roles: ['ARTIST'] },
-  { uuid: 'user-2', login: 'Максим Иванов', email: 'max@example.com', roles: ['ARTIST'] },
-  { uuid: 'user-3', login: 'Студия SoundPro', email: 'soundpro@example.com', roles: ['LABEL'] },
-  { uuid: 'user-4', login: 'Анна Сидорова', email: 'anna@example.com', roles: ['USER'] },
-  { uuid: 'user-5', login: 'Иван Козлов', email: 'ivan@example.com', roles: ['MODERATOR'] },
-];
+const usersMock: User[] = mockUsers as any;
 
 // Моковые данные чатов
-const chatsMock: Chat[] = [
-  {
-    uuid: 'chat-1',
-    name: 'Музыкальный проект',
-    participantUUIDs: ['user-1', 'user-2', 'user-3'],
-    lastMessage: 'Я отправил новые треки на проверку',
-    lastMessageTime: '2023-06-25T14:30:00'
-  },
-  {
-    uuid: 'chat-2',
-    name: 'Обратная связь',
-    participantUUIDs: ['user-1', 'user-4'],
-    lastMessage: 'Спасибо за ваши комментарии!',
-    lastMessageTime: '2023-06-24T11:20:00'
-  },
-  {
-    uuid: 'chat-3',
-    name: 'Обсуждение контракта',
-    participantUUIDs: ['user-3', 'user-5'],
-    lastMessage: 'Когда сможем обсудить условия?',
-    lastMessageTime: '2023-06-23T16:45:00'
-  },
-  {
-    uuid: 'chat-4',
-    name: 'Личный чат',
-    participantUUIDs: ['user-2', 'user-4'],
-    lastMessage: 'Как продвигается работа?',
-    lastMessageTime: '2023-06-22T09:15:00'
-  },
-];
+const chatsMock: Chat[] = mockChats;
 
 type SortOption = {
   label: string;
   value: string;
 };
+
+const chatTabs = [
+  { label: 'Все чаты', icon: 'pi pi-comments' },
+  { label: 'Групповые', icon: 'pi pi-users' },
+  { label: 'Личные', icon: 'pi pi-user' },
+];
 
 const ChatsPage = () => {
   const [chats, setChats] = useState<Chat[]>(chatsMock);
@@ -79,14 +53,29 @@ const ChatsPage = () => {
   const [sortOption, setSortOption] = useState<string>('date-desc');
   const [selectedChat, setSelectedChat] = useState<Chat | null>(null);
   const [chatToDelete, setChatToDelete] = useState<Chat | null>(null);
+  const [activeTab, setActiveTab] = useState(0);
   const itemsPerPage = 5;
 
   const sortOptions: SortOption[] = [
     { label: 'По дате (новые)', value: 'date-desc' },
     { label: 'По дате (старые)', value: 'date-asc' },
-    { label: 'По названию (A-Z)', value: 'name-asc' },
-    { label: 'По названию (Z-A)', value: 'name-desc' },
+    { label: 'По названию (А-Я)', value: 'name-asc' },
+    { label: 'По названию (Я-А)', value: 'name-desc' },
   ];
+
+  // Фильтрация по табу
+  const getChatsForTab = () => {
+    switch (activeTab) {
+      case 0: // Все чаты
+        return chats;
+      case 1: // Групповые
+        return chats.filter(chat => chat.participantUUIDs.length > 2);
+      case 2: // Личные
+        return chats.filter(chat => chat.participantUUIDs.length === 2);
+      default:
+        return chats;
+    }
+  };
 
   const sortChats = (chats: Chat[]) => {
     return [...chats].sort((a, b) => {
@@ -101,7 +90,7 @@ const ChatsPage = () => {
   };
 
   const filteredChats = sortChats(
-    chats.filter(chat => {
+    getChatsForTab().filter(chat => {
       const participantNames = chat.participantUUIDs
         .map(uuid => usersMock.find(user => user.uuid === uuid)?.login || '')
         .join(' ');
@@ -150,6 +139,11 @@ const ChatsPage = () => {
     }
   };
 
+  const handleTabChange = (e: any) => {
+    setActiveTab(e.index);
+    setCurrentPage(1);
+  };
+
   return (
     <div className={"wrapper"}>
       <ConfirmDialog
@@ -160,17 +154,23 @@ const ChatsPage = () => {
         icon="pi pi-exclamation-triangle"
         acceptLabel="Да"
         rejectLabel="Нет"
-        // acceptClassName="p-button-danger"
         accept={confirmDeleteChat}
         reject={() => setChatToDelete(null)}
       />
 
       <div className={s.header}>
+        {/* <TabMenu
+          className={s.tabs}
+          model={chatTabs}
+          activeIndex={activeTab}
+          onTabChange={handleTabChange}
+        /> */}
         <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText
               value={searchQuery}
               style={{width: '100%'}}
+                 title="Поиск..."
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Поиск по названию чата или участникам"
             />
@@ -265,6 +265,7 @@ const ChatsPage = () => {
         onHide={() => setSelectedChat(null)}
         header={`Чат: ${selectedChat?.name}`}
         className={s.chatModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         {selectedChat && (
           <div className={s.chatDetails}>

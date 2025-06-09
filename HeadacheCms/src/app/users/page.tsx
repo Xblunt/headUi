@@ -1,7 +1,7 @@
 // app/users/page.tsx
 'use client';
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { User } from "@/models";
 import { PfInputText } from "@/components/ui/input-text";
 import { Dropdown } from 'primereact/dropdown';
@@ -11,19 +11,15 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
-import { PfTabMenu } from "@/components/ui/tabmenu";
+import { TabMenu } from 'primereact/tabmenu';
 import { ILink } from "@/models";
-
-// Mock data
-const usersMock: User[] = [
-  // ... (same mock data as before)
-];
+import { mockUsers } from '@/mocks/mockUsers';
 
 const roleOptions = [
-  { label: 'Author', value: 'ARTIST' },
-  { label: 'Label', value: 'LABEL' },
-  { label: 'Admin', value: 'ADMIN' },
-  { label: 'User', value: 'USER' },
+  { label: 'Автор', value: 'ARTIST' },
+  { label: 'Лейбл', value: 'LABEL' },
+  { label: 'Администратор', value: 'ADMIN' },
+  { label: 'Слушатель', value: 'USER' },
 ];
 
 const roleTabs: ILink[] = [
@@ -41,7 +37,14 @@ type SortOption = {
 };
 
 const UsersPage = () => {
-  const [users, setUsers] = useState<User[]>(usersMock);
+  // Списки пользователей для каждого таба
+  const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
+  const [authors, setAuthors] = useState<User[]>(mockUsers.filter(u => u.roles.includes('ARTIST') && u.isAccountNonLocked && u.isActive));
+  const [labels, setLabels] = useState<User[]>(mockUsers.filter(u => u.roles.includes('LABEL') && u.isAccountNonLocked && u.isActive));
+  const [admins, setAdmins] = useState<User[]>(mockUsers.filter(u => u.roles.includes('ADMIN') && u.isAccountNonLocked && u.isActive));
+  const [listeners, setListeners] = useState<User[]>(mockUsers.filter(u => u.roles.includes('USER') && u.isAccountNonLocked && u.isActive));
+  const [banned, setBanned] = useState<User[]>(mockUsers.filter(u => !u.isAccountNonLocked || !u.isActive));
+
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,27 +60,30 @@ const UsersPage = () => {
   });
   const itemsPerPage = 5;
 
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const dateRef = useRef<HTMLInputElement>(null);
+
   const sortOptions: SortOption[] = [
     { label: 'По логину (A-Z)', value: 'login-asc' },
     { label: 'По логину (Z-A)', value: 'login-desc' },
     { label: 'По дате регистрации (новые)', value: 'date-desc' },
     { label: 'По дате регистрации  (старые)', value: 'date-asc' },
-    // { label: 'По статусу (active first)', value: 'status-asc' },
-    // { label: 'By status (banned first)', value: 'status-desc' },
   ];
 
-  const getTabFilter = (index: number) => {
-    switch (index) {
-      case 0: return 'all';
-      case 1: return 'ARTIST';
-      case 2: return 'LABEL';
-      case 3: return 'ADMIN';
-      case 4: return 'MODERATOR';
-      case 5: return 'banned';
-      default: return 'all';
+  // Получить список пользователей для текущего таба
+  const getUsersForTab = () => {
+    switch (activeTab) {
+      case 0: return allUsers.filter(u => u.isAccountNonLocked && u.isActive);
+      case 1: return authors;
+      case 2: return labels;
+      case 3: return admins;
+      case 4: return listeners;
+      case 5: return banned;
+      default: return allUsers;
     }
   };
 
+  // Сортировка
   const sortUsers = (users: User[]) => {
     return [...users].sort((a, b) => {
       switch (sortOption) {
@@ -85,31 +91,18 @@ const UsersPage = () => {
         case 'login-desc': return b.login.localeCompare(a.login);
         case 'date-asc': return (a.createdAt || '').localeCompare(b.createdAt || '');
         case 'date-desc': return (b.createdAt || '').localeCompare(a.createdAt || '');
-        case 'status-asc': return (a.isAccountNonLocked === b.isAccountNonLocked) ? 0 : a.isAccountNonLocked ? -1 : 1;
-        case 'status-desc': return (a.isAccountNonLocked === b.isAccountNonLocked) ? 0 : a.isAccountNonLocked ? 1 : -1;
         default: return 0;
       }
     });
   };
 
+  // Фильтрация
   const filteredUsers = sortUsers(
-    users.filter(user => {
-      const currentTabFilter = getTabFilter(activeTab);
-      
-      let roleMatch = false;
-      if (currentTabFilter === 'all') {
-        roleMatch = true;
-      } else if (currentTabFilter === 'banned') {
-        roleMatch = !user.isAccountNonLocked || !user.isActive;
-      } else {
-        roleMatch = user.roles.includes(currentTabFilter);
-      }
-      
-      const searchMatch = searchQuery === '' || 
-        user.login.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        user.email.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      return roleMatch && searchMatch;
+    getUsersForTab().filter(user => {
+      const searchMatch = searchQuery === '' ||
+        user.login.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (user.email?.toLowerCase() || '').includes(searchQuery.toLowerCase());
+      return searchMatch;
     })
   );
 
@@ -117,26 +110,41 @@ const UsersPage = () => {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
+  // --- Обновление списков при изменении пользователя ---
+  const updateAllLists = (updatedUsers: User[]) => {
+    setAllUsers(updatedUsers);
+    setAuthors(updatedUsers.filter(u => u.roles.includes('ARTIST') && u.isAccountNonLocked && u.isActive));
+    setLabels(updatedUsers.filter(u => u.roles.includes('LABEL') && u.isAccountNonLocked && u.isActive));
+    setAdmins(updatedUsers.filter(u => u.roles.includes('ADMIN') && u.isAccountNonLocked && u.isActive));
+    setListeners(updatedUsers.filter(u => u.roles.includes('USER') && u.isAccountNonLocked && u.isActive));
+    setBanned(updatedUsers.filter(u => !u.isAccountNonLocked || !u.isActive));
+  };
+
+  // --- Блокировка/разблокировка пользователя ---
   const handleToggleBan = (userId: string) => {
-    setUsers(users.map(user => 
-      user.uuid === userId ? 
-      { ...user, isAccountNonLocked: !user.isAccountNonLocked, isActive: !user.isActive } : 
-      user
-    ));
+    const updatedUsers = allUsers.map(user =>
+      user.uuid === userId
+        ? { ...user, isAccountNonLocked: !user.isAccountNonLocked, isActive: !user.isActive }
+        : user
+    );
+    updateAllLists(updatedUsers);
   };
 
+  // --- Изменение ролей пользователя ---
   const handleUpdateRoles = (userId: string, newRoles: string[]) => {
-    setUsers(users.map(user => 
-      user.uuid === userId ? { ...user, roles: newRoles } : user
-    ));
+    const updatedUsers = allUsers.map(user =>
+      user.uuid === userId
+        ? { ...user, roles: newRoles }
+        : user
+    );
+    updateAllLists(updatedUsers);
   };
 
+  // --- Создание пользователя ---
   const handleCreateUser = () => {
-    if (!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0) return;
-    
+    if (!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0 || !newUser.password) return;
     const user = new User({
       uuid: `user-${Date.now()}`,
       login: newUser.login,
@@ -144,19 +152,63 @@ const UsersPage = () => {
       roles: newUser.roles,
       isAccountNonLocked: newUser.isAccountNonLocked ?? true,
       isActive: newUser.isActive ?? true,
+      password: newUser.password,
+      phoneNumber: newUser.phoneNumber,
+      birthDate: newUser.birthDate,
+      description: newUser.description,
+      urlImage: newUser.urlImage,
       createdAt: new Date().toISOString(),
       lastVisitDate: new Date().toISOString()
     });
-    
-    setUsers([...users, user]);
+    const updatedUsers = [user, ...allUsers];
+    updateAllLists(updatedUsers);
     setNewUser({
       login: '',
       email: '',
       roles: [],
       isAccountNonLocked: true,
-      isActive: true
+      isActive: true,
+      password: '',
+      phoneNumber: '',
+      birthDate: '',
+      description: '',
+      urlImage: undefined
     });
     setShowCreateModal(false);
+    if (phoneRef.current) phoneRef.current.value = '';
+    if (dateRef.current) dateRef.current.value = '';
+    // Переключаемся на таб, куда попал пользователь
+    if (!user.isAccountNonLocked || !user.isActive) setActiveTab(5);
+    else if (user.roles.includes('ARTIST')) setActiveTab(1);
+    else if (user.roles.includes('LABEL')) setActiveTab(2);
+    else if (user.roles.includes('ADMIN')) setActiveTab(3);
+    else if (user.roles.includes('USER')) setActiveTab(4);
+    else setActiveTab(0);
+    setCurrentPage(1);
+  };
+
+  const handleCancelCreate = () => {
+    setNewUser({
+      login: '',
+      email: '',
+      roles: [],
+      isAccountNonLocked: true,
+      isActive: true,
+      password: '',
+      phoneNumber: '',
+      birthDate: '',
+      description: '',
+      urlImage: undefined
+    });
+    setShowCreateModal(false);
+    if (phoneRef.current) phoneRef.current.value = '';
+    if (dateRef.current) dateRef.current.value = '';
+  };
+
+  // --- Сброс пагинации при смене таба ---
+  const handleTabChange = (e: any) => {
+    setActiveTab(e.index);
+    setCurrentPage(1);
   };
 
   const formatDate = (dateString?: string) => {
@@ -170,13 +222,11 @@ const UsersPage = () => {
       <div className={s.header}>
         {/* <h1>User Management</h1> */}
         
-        <PfTabMenu 
-          list={roleTabs} 
-          // activeIndex={activeTab} 
-          onTabChange={(index) => {
-            setActiveTab(index);
-            setCurrentPage(1);
-          }} 
+        <TabMenu
+          className={s.tabs}
+          model={roleTabs}
+          activeIndex={activeTab}
+          onTabChange={handleTabChange}
         />
         
         <div className={s.controls}>
@@ -185,7 +235,7 @@ const UsersPage = () => {
               value={searchQuery}
               style={{width: '100%'}}
               onChange={(e) => setSearchQuery(e.target.value)}
-              title="Search..."
+              title="Поиск..."
               placeholder="Username or email"
             />
           </div>
@@ -214,12 +264,12 @@ const UsersPage = () => {
           <table className={s.usersTable}>
             <thead>
               <tr>
-                <th>User</th>
-                <th>Roles</th>
-                <th>Registered</th>
-                <th>Last Active</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>Пользователь</th>
+                <th>Роли</th>
+                <th>Зарегистрирован</th>
+                <th>Последняя активность</th>
+                <th>Статус</th>
+                <th>Действия</th>
               </tr>
             </thead>
             <tbody>
@@ -245,7 +295,12 @@ const UsersPage = () => {
                       onChange={(e) => handleUpdateRoles(user.uuid, e.value)}
                       optionLabel="label"
                       optionValue="value"
-                      placeholder="Select roles"
+                      placeholder={Array.isArray(user.roles) && user.roles.length > 0
+                        ? user.roles.map(r => {
+                            const found = roleOptions.find(opt => opt.value === r);
+                            return found ? found.label : r;
+                          }).join(', ')
+                        : "Выберите роли"}
                       className={s.rolesDropdown}
                       disabled={!user.isAccountNonLocked}
                     />
@@ -256,7 +311,7 @@ const UsersPage = () => {
                     <span className={`${s.statusBadge} ${
                       user.isAccountNonLocked ? s.active : s.banned
                     }`}>
-                      {user.isAccountNonLocked ? 'Active' : 'Banned'}
+                      {user.isAccountNonLocked ? 'Активен' : 'Заблокирован'}
                     </span>
                   </td>
                   <td>
@@ -264,7 +319,7 @@ const UsersPage = () => {
                       <button 
                         className={`${s.actionButton} ${s.infoButton}`}
                         onClick={() => setSelectedUser(user)}
-                        title="View details"
+                        title="Подробнее"
                       >
                         <i className="pi pi-info-circle"></i>
                       </button>
@@ -273,7 +328,7 @@ const UsersPage = () => {
                           user.isAccountNonLocked ? s.banButton : s.unbanButton
                         }`}
                         onClick={() => handleToggleBan(user.uuid)}
-                        title={user.isAccountNonLocked ? 'Ban user' : 'Unban user'}
+                        title={user.isAccountNonLocked ? 'Заблокировать пользователя' : 'Разблокировать пользователя'}
                       >
                         {user.isAccountNonLocked ? (
                           <i className="pi pi-lock"></i>
@@ -290,9 +345,9 @@ const UsersPage = () => {
         ) : (
           <div className={s.emptyState}>
             {searchQuery ? (
-              <p>No users found for "{searchQuery}"</p>
+              <p>Пользователи не найдены по запросу "{searchQuery}"</p>
             ) : (
-              <p>No users available in this category</p>
+              <p>Нет пользователей в этой категории</p>
             )}
           </div>
         )}
@@ -310,8 +365,9 @@ const UsersPage = () => {
       <Dialog 
         visible={!!selectedUser} 
         onHide={() => setSelectedUser(null)}
-        header="User Details"
+        header="Детали пользователя"
         className={s.userModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         {selectedUser && (
           <div className={s.userDetails}>
@@ -327,51 +383,50 @@ const UsersPage = () => {
                 <span className={`${s.statusBadge} ${
                   selectedUser.isAccountNonLocked ? s.active : s.banned
                 }`}>
-                  {selectedUser.isAccountNonLocked ? 'Active' : 'Banned'}
+                  {selectedUser.isAccountNonLocked ? 'Активен' : 'Заблокирован'}
                 </span>
               </div>
             </div>
-            
+            <div className={s.detailGrid}>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Логин:</span>
+                <span>{selectedUser.login}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Email:</span>
+                <span>{selectedUser.email}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Телефон:</span>
+                <span>{selectedUser.phoneNumber || '-'}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Дата рождения:</span>
+                <span>{selectedUser.birthDate ? formatDate(selectedUser.birthDate) : '-'}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Описание:</span>
+                <span>{selectedUser.description || '-'}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Зарегистрирован:</span>
+                <span>{formatDate(selectedUser.createdAt)}</span>
+              </div>
+              <div className={s.detailItem}>
+                <span className={s.detailLabel}>Последняя активность:</span>
+                <span>{formatDate(selectedUser.lastVisitDate)}</span>
+              </div>
+            </div>
             <div className={s.detailSection}>
-              <h4>Roles</h4>
+              <h4>Роли</h4>
               <div className={s.rolesList}>
                 {selectedUser.roles.map(role => (
                   <span key={role} className={s.roleBadge}>
-                    {role}
+                    {roleOptions.find(opt => opt.value === role)?.label || role}
                   </span>
                 ))}
               </div>
             </div>
-            
-            <div className={s.detailGrid}>
-              <div className={s.detailItem}>
-                <span className={s.detailLabel}>Registered:</span>
-                <span>{formatDate(selectedUser.createdAt)}</span>
-              </div>
-              <div className={s.detailItem}>
-                <span className={s.detailLabel}>Last Active:</span>
-                <span>{formatDate(selectedUser.lastVisitDate)}</span>
-              </div>
-              {selectedUser.phoneNumber && (
-                <div className={s.detailItem}>
-                  <span className={s.detailLabel}>Phone:</span>
-                  <span>{selectedUser.phoneNumber}</span>
-                </div>
-              )}
-              {selectedUser.birthDate && (
-                <div className={s.detailItem}>
-                  <span className={s.detailLabel}>Birth Date:</span>
-                  <span>{formatDate(selectedUser.birthDate)}</span>
-                </div>
-              )}
-            </div>
-            
-            {selectedUser.description && (
-              <div className={s.detailSection}>
-                <h4>Description</h4>
-                <p>{selectedUser.description}</p>
-              </div>
-            )}
           </div>
         )}
       </Dialog>
@@ -379,45 +434,112 @@ const UsersPage = () => {
       {/* Create User Modal */}
       <Dialog 
         visible={showCreateModal} 
-        onHide={() => setShowCreateModal(false)}
-        header="Create New User"
+        onHide={handleCancelCreate}
+        header="Создать пользователя"
         className={s.createModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         <div className={s.formGroup}>
-          <label className={s.formLabel}>Username*</label>
+          <label className={s.formLabel}>Имя пользователя*</label>
           <InputText
             value={newUser.login}
             onChange={(e) => setNewUser({...newUser, login: e.target.value})}
             className={s.formInput}
-            placeholder="Enter username"
+            placeholder="Введите имя пользователя"
           />
         </div>
-        
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Пароль*</label>
+          <InputText
+            type="password"
+            value={newUser.password || ''}
+            onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+            className={s.formInput}
+            placeholder="Введите пароль"
+          />
+        </div>
         <div className={s.formGroup}>
           <label className={s.formLabel}>Email*</label>
           <InputText
             value={newUser.email}
             onChange={(e) => setNewUser({...newUser, email: e.target.value})}
             className={s.formInput}
-            placeholder="Enter email"
+            placeholder="Введите email"
           />
         </div>
-        
         <div className={s.formGroup}>
-          <label className={s.formLabel}>Roles*</label>
-          <MultiSelect
-            value={newUser.roles}
+          <label className={s.formLabel}>Телефон</label>
+          <input
+            type="text"
+            ref={phoneRef}
+            name="phone"
+            placeholder="Телефон"
+            className={s.formInput}
+            value={newUser.phoneNumber || ''}
+            onChange={(e) => setNewUser({...newUser, phoneNumber: e.target.value})}
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Дата рождения</label>
+          <input
+            type="text"
+            ref={dateRef}
+            name="birthdate"
+            placeholder="Дата рождения"
+            className={s.formInput}
+            value={newUser.birthDate || ''}
+            onChange={(e) => setNewUser({...newUser, birthDate: e.target.value})}
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Описание</label>
+          <InputText
+            value={newUser.description || ''}
+            onChange={(e) => setNewUser({...newUser, description: e.target.value})}
+            className={s.formInput}
+            placeholder="Описание"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Фото</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (ev) => {
+                    setNewUser({ ...newUser, urlImage: ev.target?.result as string });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+            {newUser.urlImage && (
+              <img
+                src={newUser.urlImage}
+                alt="Фото пользователя"
+                style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }}
+              />
+            )}
+          </div>
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Роль*</label>
+          <Dropdown
+            value={newUser.roles && newUser.roles.length > 0 ? newUser.roles[0] : null}
             options={roleOptions}
-            onChange={(e) => setNewUser({...newUser, roles: e.value})}
+            onChange={(e) => setNewUser({...newUser, roles: e.value ? [e.value] : []})}
             optionLabel="label"
             optionValue="value"
-            placeholder="Select roles"
+            placeholder="Выберите роль"
             className={s.formInput}
           />
         </div>
-        
         <div className={s.formGroup}>
-          <label className={s.formLabel}>Status</label>
+          <label className={s.formLabel}>Статус</label>
           <div className={s.statusToggle}>
             <input
               type="checkbox"
@@ -430,24 +552,26 @@ const UsersPage = () => {
               })}
             />
             <label htmlFor="activeStatus">
-              {newUser.isAccountNonLocked ? 'Active' : 'Banned'}
+              {newUser.isAccountNonLocked ? 'Активен' : 'Заблокирован'}
             </label>
           </div>
         </div>
-        
         <div className={s.modalFooter}>
           <Button 
-            label="Cancel" 
+            label="Отмена" 
             icon="pi pi-times" 
             className={s.cancelButton}
-            onClick={() => setShowCreateModal(false)}
+            onClick={handleCancelCreate}
           />
           <Button 
-            label="Create User" 
+            label="Создать" 
             icon="pi pi-check" 
             className={s.confirmButton}
-            onClick={handleCreateUser}
-            disabled={!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0}
+            onClick={() => {
+              setNewUser(prev => ({ ...prev, urlImage: '/st.jpg' }));
+              setTimeout(() => handleCreateUser(), 0);
+            }}
+            disabled={!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0 || !newUser.password}
           />
         </div>
       </Dialog>

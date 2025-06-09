@@ -13,19 +13,32 @@
   gap: 32px;
   padding: 10px 24px;
   min-height: 72px;
+  z-index: 9999;
+}
+
+.globalPlayerBar {
+  pointer-events: auto;
+}
+
+.globalPlayerContent {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  // добавляем размытие и полупрозрачность
+  background: rgba(51,51,51,0.92);
+  backdrop-filter: blur(6px);
 }
 
 .playerImage {
-  width: 56px;
-  height: 56px;
-  border-radius: 6px;
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
   object-fit: cover;
   background: #222;
-  flex-shrink: 0;
 }
 
 .songInfo {
-  min-width: 80px;
+  min-width: 0;
   max-width: 320px;
   flex: 1 1 auto;
   display: flex;
@@ -38,8 +51,8 @@
 }
 
 .songTitle {
+  font-weight: 600;
   font-size: 16px;
-  font-weight: 500;
   color: #fff;
   white-space: nowrap;
   overflow: hidden;
@@ -47,8 +60,8 @@
 }
 
 .songArtist {
-  font-size: 14px;
-  color: #ccc;
+  color: #bbb;
+  font-size: 13px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -57,65 +70,77 @@
 .playerControls {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 8px;
   min-width: 160px;
   max-width: 220px;
   flex: none;
   justify-content: center;
 }
 
-.controlButton {
+.controlButton, .playPauseButton {
   background: none;
   border: none;
+  color: #fff;
   font-size: 22px;
   cursor: pointer;
-  padding: 5px;
-  color: #fff;
-  transition: color 0.2s;
-  &:hover {
-    color: #fff;
-  }
+  padding: 8px 12px;
+  margin: 0 2px;
+  transition: color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controlButton:hover, .playPauseButton:hover {
+  color: #7c192a;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
 }
 
 .playPauseButton {
   background: #7c192a;
   color: #fff;
-  border: none;
   border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  margin: 0 12px;
+  font-size: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
   &:hover {
     background: #5a1220;
+    color: #fff;
   }
 }
 
 .progressBarContainer {
-  width: 100%;
-  height: 8px;
-  background: #fff;
-  border-radius: 4px;
-  margin: 0 20px;
-  position: relative;
-  overflow: hidden;
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 3px;
   cursor: pointer;
-  flex: 2;
-  max-width: 500px;
+  position: relative;
+  min-width: 80px;
 }
 
 .progressBar {
+  height: 100%;
+  background: #7c192a;
+  border-radius: 3px;
+  transition: width 0.1s linear;
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
-  background: #7c192a;
-  border-radius: 4px;
-  transition: width 0.2s;
-  pointer-events: none;
-  z-index: 1;
+}
+
+.volumeSlider {
+  width: 90px;
+  accent-color: #7c192a;
+  height: 4px;
+  background: #fff;
+  border-radius: 2px;
+  outline: none;
+  transition: accent-color 0.2s;
 }

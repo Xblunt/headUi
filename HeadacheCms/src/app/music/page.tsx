@@ -10,112 +10,8 @@ import { Dropdown } from 'primereact/dropdown';
 import s from './style.module.scss';
 import TrackRow from "@/components/track";
 import { Pagination } from "@/components/pagination";
-
-export const tagsMock: Tag[] = [
-  new Tag({ uuid: 'tag-1', tagName: 'Rock' }),
-  new Tag({ uuid: 'tag-2', tagName: 'Pop' }),
-  new Tag({ uuid: 'tag-3', tagName: 'Electronic' }),
-  new Tag({ uuid: 'tag-4', tagName: 'Hip-Hop' }),
-  new Tag({ uuid: 'tag-5', tagName: 'Jazz' }),
-];
-
-export const usersMock: User[] = [
-  new User({
-    uuid: 'user-1',
-    login: 'ArtistOne',
-    email: 'artist1@example.com',
-    roles: ['ARTIST'],
-    urlImage: 'https://example.com/artist1.jpg',
-    avgRating: 4.5
-  }),
-  new User({
-    uuid: 'user-2',
-    login: 'LabelOne',
-    email: 'label1@example.com',
-    roles: ['LABEL'],
-    urlImage: 'https://example.com/label1.jpg'
-  }),
-];
-
-export const songsMock: Song[] = [
-  new Song({
-    uuid: 'song-1',
-    name: 'Rock Anthem',
-    avgRating: 4.8,
-    url: '/music/rock-anthem.mp3',
-    urlImage: 'https://example.com/rock-anthem.jpg',
-    status: SongStatus.APPROVED,
-    authorUUID: 'user-1',
-    tags: [tagsMock[0], tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-  new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.AWAITING,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-    new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.AWAITING,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-    new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.AWAITING,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-    new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.AWAITING,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-    new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.AWAITING,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-  new Song({
-    uuid: 'song-3',
-    name: 'Electronic Vibes',
-    avgRating: 4.6,
-    url: '/music/electronic-vibes.mp3',
-    urlImage: 'https://example.com/electronic-vibes.jpg',
-    status: SongStatus.DISAPPROVED,
-    authorUUID: 'user-1',
-    tags: [tagsMock[2]],
-    fileUUID: 'file-1'
-  }),
-];
+import { mockSongs, tags } from '@/mocks/mockSongs';
+import { mockUsers } from '@/mocks/mockUsers';
 
 type SortOption = {
   label: string;
@@ -124,7 +20,7 @@ type SortOption = {
 
 const MusicPage = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [songs, setSongs] = useState<Song[]>(songsMock);
+  const [songs, setSongs] = useState<Song[]>(mockSongs);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
@@ -166,7 +62,7 @@ const MusicPage = () => {
         default: statusMatch = true;
       }
       
-      const artistName = usersMock.find(u => u.uuid === song.authorUUID)?.login || '';
+      const artistName = mockUsers.find(u => u.uuid === song.authorUUID)?.login || '';
       const searchMatch = searchQuery === '' || 
         song.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
         artistName.toLowerCase().includes(searchQuery.toLowerCase());
@@ -260,7 +156,7 @@ const MusicPage = () => {
               onPause={handlePause}
               onArtistClick={handleArtistClick}
               index={index}
-              users={usersMock}
+              users={mockUsers}
               onApprove={activeTab !== 1 ? handleApprove : undefined}
               onReject={activeTab !== 2 ? handleReject : undefined}
               onUpdate={activeTab === 0 ? handleUpdate : undefined}

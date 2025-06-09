@@ -7,108 +7,9 @@ import { PfInputText } from "@/components/ui/input-text";
 import { Dropdown } from 'primereact/dropdown';
 import s from './style.module.scss';
 import { Pagination } from "@/components/pagination";
-
-// Mock data
-export const tagsMock: Tag[] = [
-  new Tag({ uuid: 'tag-1', tagName: 'Rock' }),
-  new Tag({ uuid: 'tag-2', tagName: 'Pop' }),
-  new Tag({ uuid: 'tag-3', tagName: 'Electronic' }),
-];
-
-export const usersMock: User[] = [
-  new User({
-    uuid: 'user-1',
-    login: 'ArtistOne',
-    email: 'artist1@example.com',
-    roles: ['ARTIST'],
-    urlImage: 'https://example.com/artist1.jpg',
-    avgRating: 4.5
-  }),
-  new User({
-    uuid: 'user-2',
-    login: 'LabelOne',
-    email: 'label1@example.com',
-    roles: ['LABEL'],
-    urlImage: 'https://example.com/label1.jpg'
-  }),
-];
-
-export const songsMock: Song[] = [
-  new Song({
-    uuid: 'song-1',
-    name: 'Rock Anthem',
-    avgRating: 4.8,
-    url: '/music/rock-anthem.mp3',
-    urlImage: 'https://example.com/rock-anthem.jpg',
-    status: SongStatus.APPROVED,
-    authorUUID: 'user-1',
-    tags: [tagsMock[0], tagsMock[1]],
-    fileUUID: 'file-1'
-  }),
-  new Song({
-    uuid: 'song-2',
-    name: 'Pop Hit',
-    avgRating: 4.2,
-    url: '/music/pop-hit.mp3',
-    urlImage: 'https://example.com/pop-hit.jpg',
-    status: SongStatus.APPROVED,
-    authorUUID: 'user-1',
-    tags: [tagsMock[1]],
-    fileUUID: 'file-2'
-  }),
-];
-
-export const albumsMock: Album[] = [
-  new Album({
-    uuid: 'album-1',
-    name: 'Greatest Hits',
-    urlImage: 'https://example.com/album1.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-1', 'song-2']
-  }),
-  new Album({
-    uuid: 'album-2',
-    name: 'Summer Vibes',
-    urlImage: 'https://example.com/album2.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-2']
-  }),
-   new Album({
-    uuid: 'album-2',
-    name: 'Summer Vibes',
-    urlImage: 'https://example.com/album2.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-2']
-  }),
-   new Album({
-    uuid: 'album-2',
-    name: 'Summer Vibes',
-    urlImage: 'https://example.com/album2.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-2']
-  }),
-   new Album({
-    uuid: 'album-2',
-    name: 'Summer Vibes',
-    urlImage: 'https://example.com/album2.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-2']
-  }),
-   new Album({
-    uuid: 'album-2',
-    name: 'Summer Vibes',
-    urlImage: 'https://example.com/album2.jpg',
-    authorUUID: 'user-1',
-    savedSongsUUIDs: ['song-2']
-  }),
-  new Album({
-    uuid: 'album-3',
-    name: 'Electronic Dreams',
-    urlImage: 'https://example.com/album3.jpg',
-    authorUUID: 'user-2',
-    savedSongsUUIDs: []
-  }),
-];
+import { mockAlbums } from '@/mocks/mockAlbums';
+import { mockSongs } from '@/mocks/mockSongs';
+import { mockUsers } from '@/mocks/mockUsers';
 
 type SortOption = {
   label: string;
@@ -116,7 +17,7 @@ type SortOption = {
 };
 
 const AlbumsPage = () => {
-  const [albums, setAlbums] = useState<Album[]>(albumsMock);
+  const [albums, setAlbums] = useState<Album[]>(mockAlbums);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOption, setSortOption] = useState<string>('name-asc');
@@ -126,10 +27,10 @@ const AlbumsPage = () => {
   const itemsPerPage = 5;
 
   const sortOptions: SortOption[] = [
-    { label: 'By name (A-Z)', value: 'name-asc' },
-    { label: 'By name (Z-A)', value: 'name-desc' },
-    { label: 'By songs count (↑)', value: 'songs-asc' },
-    { label: 'By songs count (↓)', value: 'songs-desc' },
+    { label: 'По названию (А-Я)', value: 'name-asc' },
+    { label: 'По названию (Я-А)', value: 'name-desc' },
+    { label: 'По количеству треков (↑)', value: 'songs-asc' },
+    { label: 'По количеству треков (↓)', value: 'songs-desc' },
   ];
 
   const sortAlbums = (albums: Album[]) => {
@@ -151,11 +52,10 @@ const AlbumsPage = () => {
 
   const filteredAlbums = sortAlbums(
     albums.filter(album => {
-      const artistName = usersMock.find(u => u.uuid === album.authorUUID)?.login || '';
+      const artistName = mockUsers.find(u => u.uuid === album.authorUUID)?.login || '';
       const searchMatch = searchQuery === '' || 
         album.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
         artistName.toLowerCase().includes(searchQuery.toLowerCase());
-      
       return searchMatch;
     })
   );
@@ -184,7 +84,7 @@ const AlbumsPage = () => {
   };
 
   const getSongsInAlbum = (album: Album) => {
-    return songsMock.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+    return mockSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
   };
 
   return (
@@ -197,8 +97,8 @@ const AlbumsPage = () => {
               value={searchQuery}
               style={{width: '100%'}}
               onChange={(e) => setSearchQuery(e.target.value)}
-              title="Search..."
-              placeholder="Album name or artist"
+              title="Поиск..."
+              placeholder="Название альбома или артист"
             />
           </div>
           
@@ -207,7 +107,7 @@ const AlbumsPage = () => {
               value={sortOption}
               options={sortOptions}
               onChange={(e) => setSortOption(e.value)}
-              placeholder="Sort by"
+              placeholder="Сортировка"
               className={s.sortDropdown}
             />
           </div>
@@ -217,11 +117,15 @@ const AlbumsPage = () => {
       <div className={s.albumList}>
         {paginatedAlbums.length > 0 ? (
           paginatedAlbums.map((album) => {
-            const artist = usersMock.find(u => u.uuid === album.authorUUID);
+            const artist = mockUsers.find(u => u.uuid === album.authorUUID);
             const songsInAlbum = getSongsInAlbum(album);
             
             return (
-              <div key={album.uuid} className={s.albumCard}>
+              <div
+                key={album.uuid}
+                className={s.albumCard}
+                style={{ border: '1px solid #ccc', borderRadius: 12 }}
+              >
                 <div className={s.albumImage}>
                   <img 
                     src={album.urlImage || 'https://via.placeholder.com/150'} 
@@ -245,36 +149,30 @@ const AlbumsPage = () => {
                 
                 <div className={s.albumActions}>
                   <button 
-                    className={s.actionButton}
+                    className={`${s.actionButton} ${s.infoButton}`}
                     onClick={() => setShowInfoModal(album)}
-                    title="Info"
+                    title="Инфо"
                   >
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="currentColor" d="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
-                    </svg>
+                    <i className="pi pi-eye"></i>
                   </button>
                   
                   <button 
-                    className={s.actionButton}
+                    className={`${s.actionButton} ${s.editButton}`}
                     onClick={() => {
                       setShowEditModal(album);
                       setEditedAlbum({ name: album.name, urlImage: album.urlImage });
                     }}
-                    title="Edit"
+                    title="Редактировать"
                   >
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="currentColor" d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                    </svg>
+                    <i className="pi pi-pencil"></i>
                   </button>
                   
                   <button 
-                    className={s.actionButton}
+                    className={`${s.actionButton} ${s.deleteButton}`}
                     onClick={() => handleDeleteAlbum(album.uuid)}
-                    title="Delete"
+                    title="Удалить"
                   >
-                    <svg viewBox="0 0 24 24" width="20" height="20">
-                      <path fill="currentColor" d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
-                    </svg>
+                    <i className="pi pi-trash"></i>
                   </button>
                 </div>
                 
@@ -320,7 +218,7 @@ const AlbumsPage = () => {
         <div className={s.modalOverlay} onClick={() => setShowInfoModal(null)}>
           <div className={s.modalContent} onClick={e => e.stopPropagation()}>
             <div className={s.modalHeader}>
-              <h3>Album Information</h3>
+              <h3>Информация об альбоме</h3>
               <button onClick={() => setShowInfoModal(null)} className={s.closeButton}>
                 &times;
               </button>
@@ -334,19 +232,19 @@ const AlbumsPage = () => {
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Name:</span>
+                <span className={s.infoLabel}>Название:</span>
                 <span className={s.infoValue}>{showInfoModal.name}</span>
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Artist:</span>
+                <span className={s.infoLabel}>Артист:</span>
                 <span className={s.infoValue}>
-                  {usersMock.find(u => u.uuid === showInfoModal.authorUUID)?.login || 'Unknown Artist'}
+                  {mockUsers.find(u => u.uuid === showInfoModal.authorUUID)?.login || 'Неизвестный артист'}
                 </span>
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Tracks:</span>
+                <span className={s.infoLabel}>Треки:</span>
                 <div className={s.infoValue}>
                   {getSongsInAlbum(showInfoModal).length > 0 ? (
                     <ul className={s.songsListModal}>
@@ -357,9 +255,13 @@ const AlbumsPage = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No tracks in this album</p>
+                    <p>Нет треков в альбоме</p>
                   )}
                 </div>
+              </div>
+              <div className={s.infoRow}>
+                <span className={s.infoLabel}>Дата создания:</span>
+                <span className={s.infoValue}>{showInfoModal.createdAt ? new Date(showInfoModal.createdAt).toLocaleDateString() : '-'}</span>
               </div>
             </div>
           </div>
@@ -369,16 +271,16 @@ const AlbumsPage = () => {
       {/* Edit Album Modal */}
       {showEditModal && (
         <div className={s.modalOverlay} onClick={() => setShowEditModal(null)}>
-          <div className={s.modalContent} onClick={e => e.stopPropagation()}>
+          <div className={s.modalContent} onClick={e => e.stopPropagation()} style={{ minWidth: 750, width: 750 }}>
             <div className={s.modalHeader}>
-              <h3>Edit Album</h3>
+              <h3>Редактировать альбом</h3>
               <button onClick={() => setShowEditModal(null)} className={s.closeButton}>
                 &times;
               </button>
             </div>
             <div className={s.modalBody}>
               <div className={s.formGroup}>
-                <label className={s.formLabel}>Album Name:</label>
+                <label className={s.formLabel}>Название альбома:</label>
                 <input
                   type="text"
                   value={editedAlbum.name || ''}
@@ -386,30 +288,43 @@ const AlbumsPage = () => {
                   className={s.formInput}
                 />
               </div>
-              
               <div className={s.formGroup}>
-                <label className={s.formLabel}>Cover Image URL:</label>
-                <input
-                  type="text"
-                  value={editedAlbum.urlImage || ''}
-                  onChange={(e) => setEditedAlbum({...editedAlbum, urlImage: e.target.value})}
-                  className={s.formInput}
-                  placeholder="https://example.com/image.jpg"
-                />
+                <label className={s.formLabel}>Обложка:</label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setEditedAlbum({ ...editedAlbum, urlImage: ev.target?.result as string });
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                  />
+                  {(editedAlbum.urlImage || showEditModal.urlImage) && (
+                    <img
+                      src={editedAlbum.urlImage || showEditModal.urlImage}
+                      alt="Обложка альбома"
+                      style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }}
+                    />
+                  )}
+                </div>
               </div>
-              
               <div className={s.formGroup}>
-                <label className={s.formLabel}>Artist:</label>
+                <label className={s.formLabel}>Артист:</label>
                 <input
                   type="text"
-                  value={usersMock.find(u => u.uuid === showEditModal.authorUUID)?.login || 'Unknown Artist'}
+                  value={mockUsers.find(u => u.uuid === showEditModal.authorUUID)?.login || 'Неизвестный артист'}
                   readOnly
                   className={s.formInput}
                 />
               </div>
-              
               <div className={s.formGroup}>
-                <label className={s.formLabel}>Tracks:</label>
+                <label className={s.formLabel}>Треки:</label>
                 <div className={s.tracksList}>
                   {getSongsInAlbum(showEditModal).length > 0 ? (
                     <ul className={s.songsListEdit}>
@@ -420,17 +335,25 @@ const AlbumsPage = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p>No tracks in this album</p>
+                    <p>Нет треков в альбоме</p>
                   )}
                 </div>
               </div>
             </div>
             <div className={s.modalFooter}>
-              <button onClick={() => setShowEditModal(null)} className={s.cancelButton}>
-                Cancel
+              <button
+                onClick={() => setShowEditModal(null)}
+                className={`${s.cancelButton} ${s.modalButton}`}
+                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
+              >
+                Отмена
               </button>
-              <button onClick={handleUpdateAlbum} className={s.saveButton}>
-                Save Changes
+              <button
+                onClick={handleUpdateAlbum}
+                className={`${s.saveButton} ${s.modalButton}`}
+                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
+              >
+                Сохранить изменения
               </button>
             </div>
           </div>

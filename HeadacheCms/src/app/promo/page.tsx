@@ -8,121 +8,13 @@ import { Dropdown } from 'primereact/dropdown';
 import s from './style.module.scss';
 import { Pagination } from "@/components/pagination";
 import { Dialog } from 'primereact/dialog';
-import { PfTabMenu } from "@/components/ui/tabmenu";
+import { TabMenu } from 'primereact/tabmenu';
 import { ILink } from "@/models";
+import { mockUsers } from '@/mocks/mockUsers';
+import { mockSongs } from '@/mocks/mockSongs';
+import { mockPromotions } from '@/mocks/mockPromotions';
 
-// Моковые данные пользователей
-const usersMock: User[] = [
-  new User({
-    uuid: 'user-1',
-    login: 'ArtistOne',
-    email: 'artist1@example.com',
-    roles: ['ARTIST'],
-    urlImage: 'https://example.com/artist1.jpg'
-  }),
-  new User({
-    uuid: 'user-2',
-    login: 'LabelOne',
-    email: 'label1@example.com',
-    roles: ['LABEL'],
-    urlImage: 'https://example.com/label1.jpg'
-  }),
-];
-
-// Моковые данные песен
-const songsMock: Song[] = [
-  new Song({
-    uuid: 'song-1',
-    name: 'Hit Song',
-    avgRating: 4.8,
-    url: '/music/hit-song.mp3',
-    urlImage: 'https://example.com/hit-song.jpg',
-    status: SongStatus.APPROVED,
-    authorUUID: 'user-1',
-    tags: [],
-    fileUUID: 'file-1'
-  }),
-  new Song({
-    uuid: 'song-2',
-    name: 'New Track',
-    avgRating: 4.2,
-    url: '/music/new-track.mp3',
-    urlImage: 'https://example.com/new-track.jpg',
-    status:  SongStatus.APPROVED,
-    authorUUID: 'user-1',
-    tags: [],
-    fileUUID: 'file-2'
-  }),
-];
-
-// Моковые данные промо-заявок
-const requestsMock: PromotionRequest[] = [
-  new PromotionRequest({
-    uuid: 'req-1',
-    songUUID: 'song-1',
-    msg: 'Хочу продвигать этот трек в топ чартов',
-    dispatchTime: '2023-06-20T10:00:00',
-    status: PromotionStatus.AWAITING_PROMOTION
-  }),
-  new PromotionRequest({
-    uuid: 'req-2',
-    songUUID: 'song-2',
-    msg: 'Нужна помощь в продвижении нового сингла',
-    dispatchTime: '2023-06-18T14:30:00',
-    status: PromotionStatus.PROMOTED,
-    confirmationTime: '2023-06-19T11:20:00'
-  }),
-  new PromotionRequest({
-    uuid: 'req-3',
-    songUUID: 'song-1',
-    msg: 'Запрос на продвижение в соцсетях',
-    dispatchTime: '2023-06-15T09:15:00',
-    status: PromotionStatus.PROCESSING,
-    confirmationTime: '2023-06-16T16:45:00'
-  }),
-  new PromotionRequest({
-    uuid: 'req-4',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.AWAITING_PROMOTION
-  }),
-  new PromotionRequest({
-    uuid: 'req-5',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.AWAITING_PROMOTION
-  }),
-  new PromotionRequest({
-    uuid: 'req-6',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.PROCESSING
-  }),
-  new PromotionRequest({
-    uuid: 'req-7',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.PROCESSING
-  }),
-  new PromotionRequest({
-    uuid: 'req-8',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.PROMOTED
-  }),
-  new PromotionRequest({
-    uuid: 'req-9',
-    songUUID: 'song-2',
-    msg: 'Продвижение на радио',
-    dispatchTime: '2023-06-10T12:00:00',
-    status: PromotionStatus.PROMOTED
-  }),
-];
+// Удалить usersMock, songsMock, requestsMock
 
 const statusTabs: ILink[] = [
   { label: 'Ожидают', icon: 'pi pi-clock' },
@@ -151,7 +43,7 @@ type SortOption = {
 };
 
 const PromotionRequestsPage = () => {
-  const [requests, setRequests] = useState<PromotionRequest[]>(requestsMock);
+  const [requests, setRequests] = useState<PromotionRequest[]>(mockPromotions);
   const [activeTab, setActiveTab] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -170,8 +62,8 @@ const PromotionRequestsPage = () => {
 
   const sortRequests = (requests: PromotionRequest[]) => {
     return [...requests].sort((a, b) => {
-      const songA = songsMock.find(s => s.uuid === a.songUUID)?.name || '';
-      const songB = songsMock.find(s => s.uuid === b.songUUID)?.name || '';
+      const songA = mockSongs.find(s => s.uuid === a.songUUID)?.name || '';
+      const songB = mockSongs.find(s => s.uuid === b.songUUID)?.name || '';
       
       switch (sortOption) {
         case 'song-asc': return songA.localeCompare(songB);
@@ -183,13 +75,13 @@ const PromotionRequestsPage = () => {
     });
   };
 
- const filteredRequests = sortRequests(
+  const filteredRequests = sortRequests(
     requests.filter(request => {
       // Получаем статус для текущей вкладки
       const currentStatus = tabStatusMap[activeTab];
       const statusMatch = request.status === currentStatus;
       
-      const song = songsMock.find(s => s.uuid === request.songUUID)?.name || '';
+      const song = mockSongs.find(s => s.uuid === request.songUUID)?.name || '';
       const searchMatch = searchQuery === '' || 
         request.msg.toLowerCase().includes(searchQuery.toLowerCase()) || 
         song.toLowerCase().includes(searchQuery.toLowerCase());
@@ -235,13 +127,13 @@ const PromotionRequestsPage = () => {
   };
 
   const getSongName = (songUUID: string) => {
-    return songsMock.find(song => song.uuid === songUUID)?.name || 'Неизвестная песня';
+    return mockSongs.find(song => song.uuid === songUUID)?.name || 'Неизвестная песня';
   };
 
   const getArtistName = (songUUID: string) => {
-    const song = songsMock.find(s => s.uuid === songUUID);
+    const song = mockSongs.find(s => s.uuid === songUUID);
     if (!song) return 'Неизвестный';
-    return usersMock.find(u => u.uuid === song.authorUUID)?.login || 'Неизвестный';
+    return mockUsers.find(u => u.uuid === song.authorUUID)?.login || 'Неизвестный';
   };
 
   const handleApprove = (requestId: string) => {
@@ -276,27 +168,31 @@ const PromotionRequestsPage = () => {
     setEditRequest(null);
   };
 
+  // --- Сброс пагинации при смене таба ---
+  const handleTabChange = (e: any) => {
+    setActiveTab(e.index);
+    setCurrentPage(1);
+  };
+
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
-        <PfTabMenu 
-          list={statusTabs} 
-          activeIndex={activeTab} 
-          onTabChange={(index) => {
-            setActiveTab(index);
-            setCurrentPage(1); // Сбрасываем пагинацию при переключении вкладки
-          }} 
+        <TabMenu
+          className={s.tabs}
+          model={statusTabs}
+          activeIndex={activeTab}
+          onTabChange={handleTabChange}
         />
         <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText
               value={searchQuery}
               style={{width: '100%'}}
+              title="Поиск..."
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Поиск по сообщению или песне"
             />
           </div>
-          
           <div className={s.sortContainer}>
             <Dropdown
               value={sortOption}
@@ -413,6 +309,7 @@ const PromotionRequestsPage = () => {
         onHide={() => setSelectedRequest(null)}
         header="Детали промо-заявки"
         className={s.requestModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         {selectedRequest && (
           <div className={s.requestDetails}>
@@ -461,6 +358,7 @@ const PromotionRequestsPage = () => {
         onHide={() => setEditRequest(null)}
         header="Редактирование промо-заявки"
         className={s.requestModal}
+        style={{ minWidth: 750, width: 750 }}
       >
         {editRequest && (
           <div className={s.requestDetails}>
@@ -480,14 +378,16 @@ const PromotionRequestsPage = () => {
             
             <div className={s.dialogActions}>
               <button 
-                className={s.cancelButton}
+                className={`${s.cancelButton} ${s.modalButton}`}
                 onClick={() => setEditRequest(null)}
+                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
                 Отмена
               </button>
               <button 
-                className={s.saveButton}
+                className={`${s.saveButton} ${s.modalButton}`}
                 onClick={handleSaveEdit}
+                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
                 Сохранить
               </button>

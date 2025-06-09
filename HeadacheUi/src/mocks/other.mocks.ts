@@ -1,4 +1,4 @@
-import { IKeyToken, ILink, ITab } from "@/models";
+import { ITab } from "../models";
 
 // Tabs (Hardcode)
 export const userTabs: ITab[] = [

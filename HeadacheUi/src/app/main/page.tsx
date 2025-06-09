@@ -201,15 +201,6 @@ export default function MainPage() {
           </div>
         </section>
       </div>
-      <GlobalPlayer
-        currentSong={globalCurrentSong}
-        isPlaying={globalIsPlaying}
-        progress={0}
-        onPlayPause={globalTogglePlay}
-        onProgressChange={()=>{}}
-        onNext={() => {}}
-        onPrev={() => {}}
-      />
     </div>
   );
 }
