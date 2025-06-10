@@ -27,8 +27,8 @@ const AlbumsPage = () => {
   const itemsPerPage = 5;
 
   const sortOptions: SortOption[] = [
-    { label: 'По названию (А-Я)', value: 'name-asc' },
-    { label: 'По названию (Я-А)', value: 'name-desc' },
+    { label: 'По названию (А-Z)', value: 'name-asc' },
+    { label: 'По названию (Z-А)', value: 'name-desc' },
     { label: 'По количеству треков (↑)', value: 'songs-asc' },
     { label: 'По количеству треков (↓)', value: 'songs-desc' },
   ];
@@ -98,7 +98,7 @@ const AlbumsPage = () => {
               style={{width: '100%'}}
               onChange={(e) => setSearchQuery(e.target.value)}
               title="Поиск..."
-              placeholder="Название альбома или артист"
+              placeholder="запрос"
             />
           </div>
           
@@ -187,7 +187,7 @@ const AlbumsPage = () => {
                         ))}
                       </ul>
                     ) : (
-                      <p>No tracks in this album</p>
+                      <p>Нет треков</p>
                     )}
                   </div>
                 </div>
@@ -197,9 +197,9 @@ const AlbumsPage = () => {
         ) : (
           <div className={s.emptyState}>
             {searchQuery ? (
-              <p>No albums found for "{searchQuery}"</p>
+              <p>Нет альбомов по запросу "{searchQuery}"</p>
             ) : (
-              <p>No albums available</p>
+              <p>Нет альбомов</p>
             )}
           </div>
         )}
@@ -215,8 +215,8 @@ const AlbumsPage = () => {
 
       {/* Album Info Modal */}
       {showInfoModal && (
-        <div className={s.modalOverlay} onClick={() => setShowInfoModal(null)}>
-          <div className={s.modalContent} onClick={e => e.stopPropagation()}>
+        <div className={s.modalOverlay}  onClick={() => setShowInfoModal(null)}>
+          <div className={s.modalContent}  onClick={e => e.stopPropagation()}>
             <div className={s.modalHeader}>
               <h3>Информация об альбоме</h3>
               <button onClick={() => setShowInfoModal(null)} className={s.closeButton}>
@@ -232,20 +232,20 @@ const AlbumsPage = () => {
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Название:</span>
-                <span className={s.infoValue}>{showInfoModal.name}</span>
+                <span className={s.infoLabel} style={{ minWidth: 100, display: 'inline-block' }}>Название:</span>
+                <span className={s.infoValue} style={{ marginLeft: 6 }}>{showInfoModal.name}</span>
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Артист:</span>
-                <span className={s.infoValue}>
+                <span className={s.infoLabel} style={{ minWidth: 100, display: 'inline-block' }}>Артист:</span>
+                <span className={s.infoValue} style={{ marginLeft: 6 }}>
                   {mockUsers.find(u => u.uuid === showInfoModal.authorUUID)?.login || 'Неизвестный артист'}
                 </span>
               </div>
               
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Треки:</span>
-                <div className={s.infoValue}>
+                <span className={s.infoLabel} style={{ minWidth: 100, display: 'inline-block' }}>Треки:</span>
+                <div className={s.infoValue} style={{ marginLeft: 6 }}>
                   {getSongsInAlbum(showInfoModal).length > 0 ? (
                     <ul className={s.songsListModal}>
                       {getSongsInAlbum(showInfoModal).map(song => (
@@ -260,8 +260,8 @@ const AlbumsPage = () => {
                 </div>
               </div>
               <div className={s.infoRow}>
-                <span className={s.infoLabel}>Дата создания:</span>
-                <span className={s.infoValue}>{showInfoModal.createdAt ? new Date(showInfoModal.createdAt).toLocaleDateString() : '-'}</span>
+                <span className={s.infoLabel} style={{ minWidth: 100, display: 'inline-block' }}>Дата создания:</span>
+                <span className={s.infoValue} style={{ marginLeft: 6 }}>{showInfoModal.createdAt ? new Date(showInfoModal.createdAt).toLocaleDateString() : '-'}</span>
               </div>
             </div>
           </div>
@@ -344,16 +344,14 @@ const AlbumsPage = () => {
               <button
                 onClick={() => setShowEditModal(null)}
                 className={`${s.cancelButton} ${s.modalButton}`}
-                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
                 Отмена
               </button>
               <button
                 onClick={handleUpdateAlbum}
                 className={`${s.saveButton} ${s.modalButton}`}
-                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
-                Сохранить изменения
+                Сохранить
               </button>
             </div>
           </div>

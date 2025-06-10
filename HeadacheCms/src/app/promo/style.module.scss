@@ -11,7 +11,7 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 30px;
   margin-bottom: 20px;
 }
 
@@ -206,22 +206,25 @@
     cursor: pointer;
     font-weight: 500;
     
-    &.cancelButton {
-      background-color: #f5f5f5;
-      color: #333;
-      
-      &:hover {
-        background-color: #e0e0e0;
-      }
-    }
     
-    &.saveButton {
-      background-color: #2196F3;
-      color: white;
-      
-      &:hover {
-        background-color: #1976D2;
-      }
+  &.cancelButton {
+    background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    
+    &:hover {
+      background-color: #e0e0e0;
     }
+  }
+  
+  &.saveButton {
+    background-color: #7c192a;
+    color: white;
+    border: none;
+    
+    &:hover {
+      background-color: #5a1220;
+    }
+  }
   }
 }

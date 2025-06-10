@@ -109,7 +109,7 @@ const CooperationRequestsPage = () => {
               style={{width: '100%'}}
                  title="Поиск..."
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Поиск по сообщению или участникам"
+              placeholder="запрос"
             />
           </div>
           

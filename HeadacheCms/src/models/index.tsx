@@ -285,6 +285,7 @@ export interface IKeyToken {
 export interface ITab {
   title: string;
   link: string;
+  icon?: string;
 };
 
 export interface ILink {

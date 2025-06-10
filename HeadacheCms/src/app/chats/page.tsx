@@ -59,8 +59,8 @@ const ChatsPage = () => {
   const sortOptions: SortOption[] = [
     { label: 'По дате (новые)', value: 'date-desc' },
     { label: 'По дате (старые)', value: 'date-asc' },
-    { label: 'По названию (А-Я)', value: 'name-asc' },
-    { label: 'По названию (Я-А)', value: 'name-desc' },
+    { label: 'По названию (А-Z)', value: 'name-asc' },
+    { label: 'По названию (Z-А)', value: 'name-desc' },
   ];
 
   // Фильтрация по табу
@@ -172,7 +172,7 @@ const ChatsPage = () => {
               style={{width: '100%'}}
                  title="Поиск..."
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Поиск по названию чата или участникам"
+              placeholder="запрос"
             />
           </div>
           

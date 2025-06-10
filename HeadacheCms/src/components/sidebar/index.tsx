@@ -7,7 +7,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import 'primeicons/primeicons.css';
 
 interface User {
-  name: string;
+  name?: string;
+  email: string;
   login: string;
   avatar: string;
   role: string;
@@ -19,9 +20,10 @@ export const Sidebar: FC = () => {
   const [isUserMenuVisible, setIsUserMenuVisible] = useState(false);
   
   const user: User = {
-    name: 'Иван Иванов',
+    // name: 'Иван Иванов',
+    email: 'ivanLogin@mail.ru',
     login: 'ivanLogin',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
+    avatar: '/usersAva/sta.jpg',
     role: 'Администратор'
   };
 
@@ -58,8 +60,8 @@ export const Sidebar: FC = () => {
             // onMouseEnter={() => setIsUserMenuVisible(true)}
             onMouseLeave={() => setIsUserMenuVisible(false)}
           >
-            <div className={s.userName}>{user.name}</div>
-            <div className={s.userEmail}>{user.login}</div>
+            <div className={s.userName}>{user.login}</div>
+            <div className={s.userEmail}>{user.email}</div>
             <div className={s.userRole}>{user.role}</div>
             <div className={s.userActions}>
               <button 

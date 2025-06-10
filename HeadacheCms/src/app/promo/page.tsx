@@ -13,6 +13,7 @@ import { ILink } from "@/models";
 import { mockUsers } from '@/mocks/mockUsers';
 import { mockSongs } from '@/mocks/mockSongs';
 import { mockPromotions } from '@/mocks/mockPromotions';
+import { TabMenuNoBg } from "../users/TabMenuNoBg";
 
 // Удалить usersMock, songsMock, requestsMock
 
@@ -177,12 +178,19 @@ const PromotionRequestsPage = () => {
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
-        <TabMenu
+        {/* <TabMenu
           className={s.tabs}
           model={statusTabs}
           activeIndex={activeTab}
           onTabChange={handleTabChange}
-        />
+        /> */}
+
+          <TabMenuNoBg
+                  model={statusTabs}
+                  activeIndex={activeTab}
+                  onTabChange={handleTabChange}
+                />
+                
         <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText
@@ -380,14 +388,14 @@ const PromotionRequestsPage = () => {
               <button 
                 className={`${s.cancelButton} ${s.modalButton}`}
                 onClick={() => setEditRequest(null)}
-                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
+                // style={{ background: 'white',  border: ' 1px solid var(--primary-color)', color: 'var(--primary-color)' }}
               >
                 Отмена
               </button>
               <button 
                 className={`${s.saveButton} ${s.modalButton}`}
                 onClick={handleSaveEdit}
-                style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
+                // style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
                 Сохранить
               </button>

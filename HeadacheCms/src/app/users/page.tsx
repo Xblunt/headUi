@@ -11,9 +11,10 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { MultiSelect } from 'primereact/multiselect';
-import { TabMenu } from 'primereact/tabmenu';
+import { TabMenuNoBg } from './TabMenuNoBg';
 import { ILink } from "@/models";
 import { mockUsers } from '@/mocks/mockUsers';
+import { InputMask } from 'primereact/inputmask';
 
 const roleOptions = [
   { label: 'Автор', value: 'ARTIST' },
@@ -58,6 +59,8 @@ const UsersPage = () => {
     isAccountNonLocked: true,
     isActive: true
   });
+  const [editUser, setEditUser] = useState<User | null>(null);
+  const [editUserData, setEditUserData] = useState<Partial<User>>({});
   const itemsPerPage = 5;
 
   const phoneRef = useRef<HTMLInputElement>(null);
@@ -217,13 +220,25 @@ const UsersPage = () => {
     return date.toLocaleDateString();
   };
 
+  // --- Сохранение изменений пользователя ---
+  const handleSaveEditUser = () => {
+    if (!editUser) return;
+    const updatedUsers = allUsers.map(user =>
+      user.uuid === editUser.uuid
+        ? { ...user, ...editUserData }
+        : user
+    );
+    updateAllLists(updatedUsers);
+    setEditUser(null);
+    setEditUserData({});
+  };
+
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
         {/* <h1>User Management</h1> */}
         
-        <TabMenu
-          className={s.tabs}
+        <TabMenuNoBg
           model={roleTabs}
           activeIndex={activeTab}
           onTabChange={handleTabChange}
@@ -236,7 +251,7 @@ const UsersPage = () => {
               style={{width: '100%'}}
               onChange={(e) => setSearchQuery(e.target.value)}
               title="Поиск..."
-              placeholder="Username or email"
+              placeholder="запрос"
             />
           </div>
           
@@ -245,7 +260,7 @@ const UsersPage = () => {
               value={sortOption}
               options={sortOptions}
               onChange={(e) => setSortOption(e.value)}
-              placeholder="Sort by"
+              placeholder="Сортировка"
               className={s.sortDropdown}
             />
           </div>
@@ -322,6 +337,16 @@ const UsersPage = () => {
                         title="Подробнее"
                       >
                         <i className="pi pi-info-circle"></i>
+                      </button>
+                      <button 
+                        className={`${s.actionButton} ${s.editButton}`}
+                        onClick={() => {
+                          setEditUser(user);
+                          setEditUserData({ ...user });
+                        }}
+                        title="Редактировать"
+                      >
+                        <i className="pi pi-pencil"></i>
                       </button>
                       <button 
                         className={`${s.actionButton} ${
@@ -469,33 +494,29 @@ const UsersPage = () => {
         </div>
         <div className={s.formGroup}>
           <label className={s.formLabel}>Телефон</label>
-          <input
-            type="text"
-            ref={phoneRef}
-            name="phone"
-            placeholder="Телефон"
+          <InputMask
+            mask="+9-999-999-9999"
+            value={newUser.phoneNumber ?? ''}
+            onChange={(e) => setNewUser({ ...newUser, phoneNumber: e.target.value ?? '' })}
             className={s.formInput}
-            value={newUser.phoneNumber || ''}
-            onChange={(e) => setNewUser({...newUser, phoneNumber: e.target.value})}
+            placeholder="Телефон"
           />
         </div>
         <div className={s.formGroup}>
           <label className={s.formLabel}>Дата рождения</label>
-          <input
-            type="text"
-            ref={dateRef}
-            name="birthdate"
-            placeholder="Дата рождения"
+          <InputMask
+            mask="9999-99-99"
+            value={newUser.birthDate ?? ''}
+            onChange={(e) => setNewUser({ ...newUser, birthDate: e.target.value ?? '' })}
             className={s.formInput}
-            value={newUser.birthDate || ''}
-            onChange={(e) => setNewUser({...newUser, birthDate: e.target.value})}
+            placeholder="ГГГГ-ММ-ДД"
           />
         </div>
         <div className={s.formGroup}>
           <label className={s.formLabel}>Описание</label>
           <InputText
             value={newUser.description || ''}
-            onChange={(e) => setNewUser({...newUser, description: e.target.value})}
+            onChange={(e) => setNewUser({ ...newUser, description: e.target.value })}
             className={s.formInput}
             placeholder="Описание"
           />
@@ -556,7 +577,7 @@ const UsersPage = () => {
             </label>
           </div>
         </div>
-        <div className={s.modalFooter}>
+        {/* <div className={s.modalFooter}>
           <Button 
             label="Отмена" 
             icon="pi pi-times" 
@@ -573,6 +594,148 @@ const UsersPage = () => {
             }}
             disabled={!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0 || !newUser.password}
           />
+        </div> */}
+        <div className={s.modalFooter}>
+              <button onClick={handleCancelCreate} className={s.cancelButton}>
+                Отмена
+              </button>
+              <button onClick={() => {
+               setNewUser(prev => ({ ...prev, urlImage: '/st.jpg' }));
+              setTimeout(() => handleCreateUser(), 0);
+              }} className={s.saveButton}>
+                Создать
+              </button>
+            </div>
+      </Dialog>
+
+      {/* Edit User Modal */}
+      <Dialog 
+        visible={!!editUser} 
+        onHide={() => { setEditUser(null); setEditUserData({}); }}
+        header="Редактировать пользователя"
+        className={s.createModal}
+        style={{ minWidth: 750, width: 750 }}
+      >
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Имя пользователя*</label>
+          <InputText
+            value={editUserData.login || ''}
+            onChange={(e) => setEditUserData({...editUserData, login: e.target.value})}
+            className={s.formInput}
+            placeholder="Введите имя пользователя"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Пароль*</label>
+          <InputText
+            type="password"
+            value={editUserData.password || ''}
+            onChange={(e) => setEditUserData({...editUserData, password: e.target.value})}
+            className={s.formInput}
+            placeholder="Введите пароль"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Email*</label>
+          <InputText
+            value={editUserData.email || ''}
+            onChange={(e) => setEditUserData({...editUserData, email: e.target.value})}
+            className={s.formInput}
+            placeholder="Введите email"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Телефон</label>
+          <InputMask
+            mask="+9-999-999-9999"
+            value={editUserData.phoneNumber ?? ''}
+            onChange={(e) => setEditUserData({ ...editUserData, phoneNumber: e.target.value ?? '' })}
+            className={s.formInput}
+            placeholder="Телефон"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Дата рождения</label>
+          <InputMask
+            mask="9999-99-99"
+            value={editUserData.birthDate ?? ''}
+            onChange={(e) => setEditUserData({ ...editUserData, birthDate: e.target.value ?? '' })}
+            className={s.formInput}
+            placeholder="ГГГГ-ММ-ДД"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Описание</label>
+          <InputText
+            value={editUserData.description || ''}
+            onChange={(e) => setEditUserData({ ...editUserData, description: e.target.value })}
+            className={s.formInput}
+            placeholder="Описание"
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Фото</label>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={e => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = (ev) => {
+                    setEditUserData({ ...editUserData, urlImage: ev.target?.result as string });
+                  };
+                  reader.readAsDataURL(file);
+                }
+              }}
+            />
+            {editUserData.urlImage && (
+              <img
+                src={editUserData.urlImage}
+                alt="Фото пользователя"
+                style={{ width: 60, height: 60, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }}
+              />
+            )}
+          </div>
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Роль*</label>
+          <Dropdown
+            value={editUserData.roles && editUserData.roles.length > 0 ? editUserData.roles[0] : null}
+            options={roleOptions}
+            onChange={(e) => setEditUserData({...editUserData, roles: e.value ? [e.value] : []})}
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Выберите роль"
+            className={s.formInput}
+          />
+        </div>
+        <div className={s.formGroup}>
+          <label className={s.formLabel}>Статус</label>
+          <div className={s.statusToggle}>
+            <input
+              type="checkbox"
+              id="editActiveStatus"
+              checked={editUserData.isAccountNonLocked ?? true}
+              onChange={(e) => setEditUserData({
+                ...editUserData, 
+                isAccountNonLocked: e.target.checked,
+                isActive: e.target.checked
+              })}
+            />
+            <label htmlFor="editActiveStatus">
+              {editUserData.isAccountNonLocked ? 'Активен' : 'Заблокирован'}
+            </label>
+          </div>
+        </div>
+        <div className={s.modalFooter}>
+          <button onClick={() => { setEditUser(null); setEditUserData({}); }} className={s.cancelButton}>
+            Отмена
+          </button>
+          <button onClick={handleSaveEditUser} className={s.saveButton}>
+            Сохранить
+          </button>
         </div>
       </Dialog>
     </div>
