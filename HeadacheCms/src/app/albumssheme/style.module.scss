@@ -1,0 +1,122 @@
+.wrapper {
+  padding: 20px;
+  background: #fff;
+  color: #000;
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.controls {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  align-items: center;
+}
+
+.searchContainer, .sortContainer {
+  min-width: 200px;
+}
+
+.inputPlaceholder, .dropdownPlaceholder {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.albumList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.albumCard {
+  display: flex;
+  align-items: center;
+  border: 1px dashed #000;
+  border-radius: 8px;
+  background: none;
+  padding: 16px 20px;
+  min-height: 80px;
+}
+
+.albumImage {
+  width: 60px;
+  height: 60px;
+  border: 1px dashed #000;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 12px;
+  background: none;
+  margin-right: 16px;
+}
+
+.albumInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.albumTitle {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+
+.albumArtist {
+  font-size: 14px;
+  color: #000;
+  opacity: 0.7;
+}
+
+.songsCount {
+  font-size: 13px;
+  color: #000;
+  opacity: 0.7;
+}
+
+.albumActions {
+  display: flex;
+  gap: 8px;
+  margin-left: 12px;
+  color: #000;
+}
+
+.emptyState {
+  padding: 40px;
+  text-align: center;
+  color: #000;
+  font-size: 16px;
+  background: none;
+  border: 1px dashed #000;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.paginationPlaceholder {
+  border: 1px dashed #000;
+  padding: 8px 24px;
+  color: #000;
+  background: none;
+}

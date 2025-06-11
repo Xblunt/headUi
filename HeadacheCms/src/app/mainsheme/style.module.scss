@@ -1,0 +1,97 @@
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  padding: 0;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 65px;
+}
+
+.mainTitle {
+  font-size: 32px;
+  font-weight: 600;
+  height: 50px;
+  color: #000;
+  margin-bottom: 50px;
+  text-align: center;
+  border-bottom: 2px dashed #000;
+  background: none;
+  padding-bottom: 12px;
+}
+
+.tabsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tabCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: none;
+  border-radius: 12px;
+  border: 2px dashed #000;
+  min-height: 180px;
+  aspect-ratio: 1/1;
+  cursor: default;
+  box-shadow: none;
+  transition: none;
+}
+
+.tabIcon {
+  font-size: 2.5rem;
+  color: #000;
+  margin-bottom: 20px;
+  border: 1px dashed #000;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+  margin-top: 10px;
+  border-top: 1px dashed #000;
+  width: 100%;
+  padding-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding-top: 30px;
+  }
+  .tabsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  .tabCard {
+    padding: 25px 15px;
+    min-height: 140px;
+  }
+  .tabIcon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    width: 36px;
+    height: 36px;
+  }
+  .tabTitle {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,148 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  width: 60px;
+  height: 90vh;
+  margin-top: 5vh;
+  margin-left: 200px;
+  position: relative;
+  border-right: 2px solid #000;
+  padding: 15px 0;
+}
+
+.tabContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: default;
+  margin: 0;
+  padding: 0;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: #000;
+  border: 1px dashed #000;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+}
+
+.tooltipVisible {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 15px;
+  background: #fff;
+  color: #000;
+  border: 1px dashed #000;
+  padding: 6px 18px;
+  border-radius: 4px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1001;
+  box-shadow: none;
+  min-width: 120px;
+}
+
+.userContainer {
+  position: relative;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.userAvatar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.avatarPlaceholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 12px;
+  background: none;
+}
+
+.userInfoVisible {
+  position: absolute;
+  left: 100%;
+  bottom: 0;
+  margin-left: 35px;
+  background: #fff;
+  border: 1px dashed #000;
+  padding: 16px 18px;
+  border-radius: 6px;
+  z-index: 1001;
+  min-width: 180px;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userName {
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #000;
+}
+
+.userRole {
+  font-size: 12px;
+  text-decoration: underline;
+  color: #000;
+}
+
+.userActions {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.logoutButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  padding: 8px 0;
+  border-radius: 4px;
+  cursor: default;
+  font-size: 12px;
+  width: 100%;
+}
