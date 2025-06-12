@@ -9,7 +9,7 @@ import 'swiper/css/pagination';
 import s from './style.module.scss';
 import { useRouter } from 'next/navigation';
 import { Album, PromotionRequest, PromotionStatus, Song, SongStatus, Tag, User } from '@/models';
-import { GlobalPlayer } from '@/components/player';
+// import { GlobalPlayer } from '@/components/player';
 import AlbumCard from '@/components/album';
 import TrackRow from '@/components/track';
 import { mockAlbums } from '@/mocks/mockAlbums';

@@ -1,0 +1,125 @@
+.modalBackdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modalWindow {
+  min-width: 500px;
+  width: 500px;
+  background: #fff;
+  border: 2px solid #000;
+  border-radius: 8px;
+  box-shadow: none;
+  padding: 0;
+}
+
+.modalHeader {
+  border-bottom: 1px dashed #000;
+  padding: 16px 24px;
+  background: none;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+}
+
+.modalContent {
+  padding: 24px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 15px;
+  color: #000;
+  font-weight: 500;
+}
+
+.inputPlaceholder {
+  border: 1px dashed #000;
+  padding: 10px 12px;
+  color: #000;
+  background: none;
+  border-radius: 6px;
+  min-height: 36px;
+}
+
+.usersList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px dashed #000;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: none;
+}
+
+.userAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  font-size: 13px;
+  background: none;
+}
+
+.userName {
+  flex: 1;
+  color: #000;
+  font-size: 15px;
+}
+
+.addButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: default;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.cancelButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: default;
+}

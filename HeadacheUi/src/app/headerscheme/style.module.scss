@@ -1,0 +1,156 @@
+.headerSchemeWrapper {
+  width: 100vw;
+  min-height: 100vh;
+  margin-top: 150px;
+  background: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  width: 100%;
+  color: #000;
+  height: 60px;
+    border: 1px dashed black;
+  position: relative;
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+.tabContainer {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.tab {
+  background: none;
+  border: 1px dashed black;
+  color: black;
+  cursor: pointer;
+  padding: 8px 18px;
+  font-size: 15px;
+  border-radius: 10px;
+  transition: background 0.2s;
+  position: relative;
+  min-width: 90px;
+  &.active {
+    background: #fff;
+    color: #000;
+    font-weight: 600;
+  }
+}
+
+.userContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.userAvatar {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarImg {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px dashed #fff;
+  background: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.userInfo {
+  position: absolute;
+  right: 0;
+  top: 110%;
+  margin-top: 10px;
+  background: #fff;
+  padding: 18px 24px;
+  border-radius: 10px;
+  z-index: 1001;
+  box-shadow: 0 4px 12px #0002;
+  min-width: 220px;
+  color: #000;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px dashed #000;
+  transition: opacity 0.2s;
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.userName {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.userEmail {
+  font-size: 13px;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.userRole {
+  font-size: 13px;
+  color: #222;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+.userActions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.infoButton, .logoutButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-size: 15px;
+  cursor: default;
+  width: 100%;
+}
+
+.tabsTooltipsRow {
+  display: flex;
+  gap: 18px;
+  margin: 30px 0 0 0;
+  justify-content: center;
+}
+
+.tabTooltip {
+  position: relative;
+  background: #fff;
+  color: #000;
+  border: 1px dashed #000;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  min-width: 120px;
+  text-align: center;
+  box-shadow: none;
+}

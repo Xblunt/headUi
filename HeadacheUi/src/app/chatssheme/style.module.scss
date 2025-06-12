@@ -1,0 +1,343 @@
+.wrapper {
+  display: flex;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  width: 100%;
+  background: #fff;
+}
+
+.sidebar {
+  width: 300px;
+  background: none;
+  border-right: 2px dashed #000;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px dashed #000;
+}
+
+.sidebarTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+// .newChatButton {
+//   border: 1px dashed #000;
+//   border-radius: 50%;
+//   width: 32px;
+//   height: 32px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: #000;
+//   font-size: 18px;
+//   background: none;
+// }
+
+.searchContainer {
+  position: relative;
+  padding: 15px;
+  border-bottom: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.searchIcon {
+  color: #000;
+  font-size: 16px;
+}
+
+.searchInput {
+  border: 1px dashed #000;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #000;
+  background: none;
+  flex: 1;
+}
+
+.chatList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px dashed #000;
+  cursor: pointer;
+  background: none;
+}
+
+.chatAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  color: #000;
+  background: none;
+}
+
+.chatInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chatName {
+  font-weight: 600;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chatPreview {
+  font-size: 13px;
+  color: #000;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chatMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: 10px;
+  gap: 4px;
+}
+
+.chatTime {
+  font-size: 12px;
+  color: #000;
+}
+
+.unreadBadge {
+  border: 1px dashed #000;
+  color: #000;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: none;
+}
+
+.chatContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px dashed #000;
+  background: none;
+}
+
+.chatHeader {
+  padding: 15px 20px;
+  border-bottom: 1px dashed #000;
+  background: none;
+}
+
+.chatTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+}
+
+.messagesContainer {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.message {
+  display: flex;
+  max-width: 70%;
+  gap: 10px;
+  background: none;
+}
+
+.currentUser {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.otherUser {
+  align-self: flex-start;
+}
+
+.senderAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  background: none;
+}
+
+.messageContent {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.senderName {
+  font-size: 12px;
+  font-weight: 500;
+  color: #000;
+}
+
+.messageText {
+  padding: 10px 15px;
+  border-radius: 18px;
+  font-size: 14px;
+  background: none;
+  border: 1px dashed #000;
+  color: #000;
+}
+
+.messageTime {
+  font-size: 11px;
+  color: #000;
+  opacity: 0.7;
+}
+
+.messageInputContainer {
+  display: flex;
+  padding: 15px;
+  border-top: 1px dashed #000;
+  background: none;
+  gap: 8px;
+}
+
+// .attachButton, .sendButton {
+//   border: 1px dashed #000;
+//   background: none;
+//   color: #000;
+//   border-radius: 50%;
+//   width: 32px;
+//   height: 32px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 18px;
+//   cursor: default;
+// }
+
+.messageInput {
+  flex: 1;
+  border: 1px dashed #000;
+  border-radius: 20px;
+  padding: 8px 12px;
+  color: #000;
+  background: none;
+  font-size: 14px;
+}
+
+.participantsColumn {
+  width: 250px;
+  background: none;
+  border-left: 2px dashed #000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.participantsHeader {
+  font-size: 16px;
+  margin: 0 0 20px 0;
+  color: #000;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// .inviteButton {
+//   border: 1px dashed #000;
+//   border-radius: 50%;
+//   width: 28px;
+//   height: 28px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: #000;
+//   font-size: 16px;
+//   background: none;
+// }
+
+.participantsList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.participantItem {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #000;
+}
+
+.participantAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px dashed #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  color: #000;
+  background: none;
+}
+
+.participantInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.participantName {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.participantEmail {
+  font-size: 12px;
+  color: #000;
+  opacity: 0.7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

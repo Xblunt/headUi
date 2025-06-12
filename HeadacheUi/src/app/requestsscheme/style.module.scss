@@ -1,0 +1,85 @@
+.requestsPage {
+  padding: 32px;
+  background: #fff;
+  min-height: 100vh;
+}
+
+.requestsContainer {
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+.requestsColumn {
+  flex: 1;
+  min-width: 260px;
+  background: none;
+}
+
+.columnTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.requestsList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.requestCard {
+  border: 1px dashed #000;
+  border-radius: 10px;
+  background: none;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.requestHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.requestDate {
+  font-size: 13px;
+  color: #000;
+}
+
+.approvedStatus {
+  color: #0a0;
+  font-size: 18px;
+}
+
+.rejectedStatus {
+  color: #a00;
+  font-size: 18px;
+}
+
+.labelLogin {
+  font-size: 14px;
+  color: #000;
+}
+
+.requestMessage {
+  font-size: 15px;
+  color: #000;
+}
+
+.viewButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 15px;
+  cursor: default;
+  margin-top: 8px;
+  align-self: flex-end;
+}

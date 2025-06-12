@@ -1,0 +1,98 @@
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.authWrapper {
+  display: flex;
+  flex-direction: row;
+  border: 2px dashed #000;
+  border-radius: 16px;
+  background: none;
+  width: 700px;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.welcomePanel {
+  flex: 1;
+  background: none;
+  border-right: 1px dashed #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  gap: 18px;
+}
+
+.welcomeTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: #000;
+}
+
+.welcomeText {
+  font-size: 15px;
+  color: #000;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.toggleButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 15px;
+  cursor: default;
+}
+
+.formPanel {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  gap: 18px;
+}
+
+.formTitle {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 18px;
+}
+
+.formInput {
+  border: 1px dashed #000;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  width: 320px;
+  color: #000;
+  background: none;
+  font-size: 15px;
+}
+
+.buttonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.submitButton {
+  border: 1px dashed #000;
+  background: none;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px 32px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: default;
+}
