@@ -203,7 +203,7 @@ export const mockUsers: User[] = [
     isActive: true,
     description: 'Electronic label',
     imgFileUUID: 'img-label-1',
-    urlImage: 'https://randomuser.me/api/portraits/women/1.jpg',
+    urlImage: '/usersAva/label3.jpg',
     phoneNumber: '+1-666-666-6666',
     email: 'label78@mail.ru',
     birthDate: '1980-01-01',

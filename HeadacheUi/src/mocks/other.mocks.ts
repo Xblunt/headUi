@@ -55,7 +55,7 @@ export const labelTabs: ITab[] = [
   },
   {
     title: 'Заявки',
-    link: 'requests',
+    link: 'cooperation',
   },
 
 ];

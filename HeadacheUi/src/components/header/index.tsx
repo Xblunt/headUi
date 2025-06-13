@@ -40,7 +40,7 @@ const USERS_DB: Record<string, User> = {
     name: 'Мария Сидорова',
     email: 'label78@mail.ru',
     login: 'label78',
-    avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
+    avatar: '/usersAva/label3.jpg',
     role: 'Лейбл'
   },
   'default': {
