@@ -11,6 +11,7 @@ interface AlbumCardProps {
   album: Album;
   users: User[];
   songs: Song[];
+  onModal?: boolean;
   onPlay?: (song: Song) => void;
   onPause?: () => void;
   onArtistClick?: (login: string) => void;
@@ -24,6 +25,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
   users, 
   songs, 
   onPlay, 
+  onModal,
   onPause,
   onArtistClick,
   onUpdate,
@@ -114,6 +116,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           album={album}
           artist={artist}
           songs={albumSongs}
+          onModal={onModal}
           onPause={onPause ? onPause : () => {}}
           onClose={() => setIsModalOpen(false)}
           onPlay={onPlay ? onPlay : () => {}}
@@ -121,7 +124,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
         />
       )}
       {/* Модалка редактирования альбома */}
-      {isAuthor111 && showEdit && (
+      {/* {isAuthor111 && showEdit && (
         <div className={s.modalOverlay}>
           <div className={s.modalContent}>
             <button className={s.closeButton} onClick={() => setShowEdit(false)}>×</button>
@@ -131,23 +134,9 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
             </div>
           </div>
         </div>
-      )}
+      )} */}
       {/* Модалка удаления альбома */}
-      {isAuthor111 && showDelete && (
-        <div className={s.modalOverlay}>
-          <div className={s.modalContent}>
-            <button className={s.closeButton} onClick={() => setShowDelete(false)}>×</button>
-            <h3>Удалить альбом?</h3>
-            <div style={{ padding: 24, textAlign: 'center' }}>
-              <p>Вы уверены, что хотите удалить альбом <b>{album.name}</b>?</p>
-              <div style={{ marginTop: 24, display: 'flex', gap: 16, justifyContent: 'center' }}>
-                <button className={s.cancelButton} onClick={() => setShowDelete(false)}>Отмена</button>
-                <button className={s.deleteButton} onClick={() => { setShowDelete(false); /* Здесь логика удаления */ }}>Удалить</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+    
     </>
   );
 };

@@ -10,6 +10,7 @@ import TrackRow from '@/components/track';
 interface AlbumModalProps {
   album: Album;
   artist?: User;
+  onModal?: boolean;
   songs: Song[];
   onClose: () => void;
   onPlay: (song: Song) => void;
@@ -21,6 +22,7 @@ const AlbumModal: React.FC<AlbumModalProps> = ({
   album, 
   artist, 
   songs, 
+  onModal,
   onClose, 
   onPlay, 
   onPause,
@@ -35,10 +37,101 @@ const AlbumModal: React.FC<AlbumModalProps> = ({
     description: ''
   });
 
+  // --- Локальный плеер для альбома ---
+  const [currentSong, setCurrentSong] = React.useState<Song | null>(null);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const [audio, setAudio] = React.useState<HTMLAudioElement | null>(null);
+  const [progress, setProgress] = React.useState(0);
+  const [duration, setDuration] = React.useState(0);
+
+  React.useEffect(() => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      setProgress(0);
+      setDuration(0);
+      setAudio(null);
+    }
+    if (currentSong) {
+      const newAudio = new Audio(currentSong.url);
+      setAudio(newAudio);
+
+      const updateProgress = () => {
+        setProgress(newAudio.currentTime);
+        setDuration(newAudio.duration || 0);
+      };
+      const handleEnded = () => {
+        setIsPlaying(false);
+        setProgress(0);
+      };
+
+      newAudio.addEventListener('timeupdate', updateProgress);
+      newAudio.addEventListener('ended', handleEnded);
+
+      if (isPlaying) newAudio.play();
+
+      return () => {
+        newAudio.pause();
+        newAudio.removeEventListener('timeupdate', updateProgress);
+        newAudio.removeEventListener('ended', handleEnded);
+      };
+    }
+  }, [currentSong]);
+
+  React.useEffect(() => {
+    if (audio) {
+      if (isPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isPlaying, audio]);
+
+  // Останавливать трек при закрытии модального окна
+  React.useEffect(() => {
+    return () => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+      setIsPlaying(false);
+      setCurrentSong(null);
+      setAudio(null);
+    };
+  }, []);
+
+  const handleTrackPlayLocal = (song: Song) => {
+    setCurrentSong(song);
+    setIsPlaying(true);
+    if (onPlay) onPlay(song);
+  };
+
+  const handleTrackPauseLocal = () => {
+    setIsPlaying(false);
+    if (onPause) onPause();
+  };
+
+  const handleClose = () => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+    setIsPlaying(false);
+    setCurrentSong(null);
+    setAudio(null);
+    onClose();
+  };
+
   return (
     <div className={s.modalOverlay}>
       <div className={s.modalContent}>
-        <button className={s.closeButton} onClick={onClose}>×</button>
+        <button
+          className={s.closeButton}
+          onClick={handleClose}
+        >
+          ×
+        </button>
         
         <div className={s.modalHeader}>
           <img 
@@ -63,13 +156,16 @@ const AlbumModal: React.FC<AlbumModalProps> = ({
             <TrackRow
               key={song.uuid}
               song={song}
-              currentSong={null}
-              isPlaying={false}
-              onPlay={onPlay}
-              onPause={onPause}
+              currentSong={currentSong}
+              isPlaying={currentSong?.uuid === song.uuid && isPlaying}
+              onPlay={handleTrackPlayLocal}
+              onPause={handleTrackPauseLocal}
+              isModal={onModal}
               onArtistClick={onArtistClick}
               index={index}
               users={[artist || fallbackUser]}
+              progress={onModal ? currentSong?.uuid === song.uuid && duration > 0 ? (progress / duration) * 100 : 0 : undefined}
+              showProgressBar={false}
             />
           ))}
         </div>

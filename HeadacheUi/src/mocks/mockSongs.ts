@@ -199,6 +199,42 @@ export const mockSongs: Song[] = [
     fileUUID: 'file-15',
     createdAt: '2024-05-15T00:00:00Z'
   }),
+    new Song({
+    uuid: 'song-144',
+    name: 'Track 144',
+    avgRating: 4.8,
+    url: '/music/14.mp3',
+    urlImage: '/trackImg/14.jpg',
+    status: SongStatus.DISAPPROVED,
+    authorUUID: 'author-1',
+    tags: [tags[8], tags[9], tags[10]],
+    fileUUID: 'file-14',
+    createdAt: '2024-05-14T23:00:00Z'
+  }),
+    new Song({
+    uuid: 'song-166',
+    name: 'Track 166',
+    avgRating: 4.6,
+    url: '/music/16.mp3',
+    urlImage: '/trackImg/16.jpg',
+    status: SongStatus.DISAPPROVED,
+    authorUUID: 'author-1',
+    tags: [tags[10], tags[11], tags[12]],
+    fileUUID: 'file-16',
+    createdAt: '2024-05-16T01:00:00Z'
+  }),
+   new Song({
+    uuid: 'song-177',
+    name: 'Track 177',
+    avgRating: 3.9,
+    url: '/music/17.mp3',
+    urlImage: '/trackImg/17.jpg',
+    status: SongStatus.AWAITING,
+    authorUUID: 'author-1',
+    tags: [tags[11], tags[12], tags[13]],
+    fileUUID: 'file-17',
+    createdAt: '2024-05-17T02:00:00Z'
+  }),
   new Song({
     uuid: 'song-16',
     name: 'Track Sixteen',

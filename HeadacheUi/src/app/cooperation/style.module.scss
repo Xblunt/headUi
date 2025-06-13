@@ -1,0 +1,100 @@
+.wrapper {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #f7f8fa;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(60,60,100,0.06);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #222;
+}
+
+.requestCard {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(60,60,100,0.06);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.requestInfo {
+  flex: 1;
+}
+
+.requestAuthor {
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 4px;
+  color: #7c192a;
+}
+
+.requestMsg {
+  color: #444;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+.requestStatus {
+  color: #888;
+  font-size: 15px;
+}
+
+.editButton {
+  background: #7c192a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 110px;
+  &:hover {
+    background: #5a1220;
+  }
+}
+
+/* Модалка */
+.modalContent {
+  padding: 24px;
+  min-width: 320px;
+  background: #f7f8fa;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalLabel {
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #222;
+}
+
+.modalTextarea {
+  width: 100%;
+  border-radius: 8px;
+  border: 1.5px solid #e3e6f0;
+  padding: 10px;
+  font-size: 15px;
+  resize: vertical;
+  margin-bottom: 14px;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 18px;
+}

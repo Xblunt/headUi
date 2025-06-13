@@ -197,10 +197,13 @@ const TracksPage = () => {
 
       if (isPlaying) newAudio.play();
 
+      // ВАЖНО: возвращаем функцию очистки, чтобы гарантировать,
+      // что предыдущий audio всегда полностью уничтожается
       return () => {
         newAudio.pause();
         newAudio.removeEventListener('timeupdate', updateProgress);
         newAudio.removeEventListener('ended', handleEnded);
+        newAudio.src = '';
       };
     }
     // eslint-disable-next-line

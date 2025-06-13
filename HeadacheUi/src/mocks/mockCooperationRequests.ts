@@ -33,7 +33,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-06-04T13:00:00Z',
     status: CooperationStatus.AWAITING,
     authorUUID: 'author-4',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-5',
@@ -65,7 +65,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-06-08T17:00:00Z',
     status: CooperationStatus.AWAITING,
     authorUUID: 'author-3',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-9',
@@ -97,7 +97,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-06-12T11:00:00Z',
     status: CooperationStatus.AWAITING,
     authorUUID: 'author-2',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-13',
@@ -129,7 +129,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-06-16T15:00:00Z',
     status: CooperationStatus.AWAITING,
     authorUUID: 'author-1',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-17',
@@ -195,7 +195,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-05-04T13:00:00Z',
     status: CooperationStatus.APPROVED,
     authorUUID: 'author-4',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-25',
@@ -227,7 +227,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-05-08T17:00:00Z',
     status: CooperationStatus.APPROVED,
     authorUUID: 'author-3',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-29',
@@ -259,7 +259,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-05-12T11:00:00Z',
     status: CooperationStatus.APPROVED,
     authorUUID: 'author-2',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-33',
@@ -291,7 +291,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-05-16T15:00:00Z',
     status: CooperationStatus.APPROVED,
     authorUUID: 'author-1',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-37',
@@ -329,7 +329,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
   // 20 REJECTED
   new CooperationRequest({
     uuid: 'coop-41',
-    msg: 'К сожалению, не можем добавить ваш трек.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-04-01T10:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-1',
@@ -337,7 +337,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
   }),
   new CooperationRequest({
     uuid: 'coop-42',
-    msg: 'Сотрудничество по промо-кампании отклонено.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-04-02T11:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-2',
@@ -345,7 +345,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
   }),
   new CooperationRequest({
     uuid: 'coop-43',
-    msg: 'Совместный концерт невозможен.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-04-03T12:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-3',
@@ -357,7 +357,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-04-04T13:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-4',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-45',
@@ -389,7 +389,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-04-08T17:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-3',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-49',
@@ -421,7 +421,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-04-12T11:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-2',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-53',
@@ -453,7 +453,7 @@ export const mockCooperationRequests: CooperationRequest[] = [
     dispatchTime: '2024-04-16T15:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-1',
-    labelUUID: 'label-4'
+    labelUUID: 'label78'
   }),
   new CooperationRequest({
     uuid: 'coop-57',

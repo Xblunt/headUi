@@ -120,7 +120,7 @@ export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
   // 3 REJECTED
   new CooperationRequest({
     uuid: 'coop-author1-9',
-    msg: 'К сожалению, не можем добавить ваш трек.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-07-09T13:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-1',
@@ -128,7 +128,7 @@ export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
   }),
   new CooperationRequest({
     uuid: 'coop-author1-10',
-    msg: 'Сотрудничество по промо-кампании отклонено.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-07-10T14:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-1',
@@ -136,7 +136,7 @@ export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
   }),
   new CooperationRequest({
     uuid: 'coop-author1-11',
-    msg: 'Совместный концерт невозможен.',
+    msg: 'Предложение сотрудничества',
     dispatchTime: '2024-07-11T15:00:00Z',
     status: CooperationStatus.REJECTED,
     authorUUID: 'author-1',

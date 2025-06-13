@@ -1,0 +1,80 @@
+.wrapper {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 32px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.schemeHeader {
+  font-size: 28px;
+  font-weight: 700;
+
+  margin-bottom: 32px;
+  text-align: center;
+  color: #000;
+}
+.schemeGrid {
+  display: grid;
+    margin-top: 100px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  align-items: flex-start;
+}
+.schemeColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.schemeColumnTitle {
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 18px;
+  color: #000;
+  text-align: center;
+  border-bottom: 1px dashed #000;
+  padding-bottom: 8px;
+}
+.schemeCard {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1.5px dashed #000;
+  padding: 20px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.schemeAuthor {
+  font-weight: 600;
+  font-size: 17px;
+  color: #000;
+}
+.schemeMsg {
+  color: #000;
+  font-size: 15px;
+}
+.schemeStatus {
+  color: #000;
+  font-size: 15px;
+}
+.schemeEditBtn {
+  margin-top: 8px;
+  align-self: flex-end;
+  background: none;
+  color: #000;
+  border: 1.5px dashed #000;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 110px;
+  text-align: center;
+  transition: background 0.2s, color 0.2s;
+}
+.schemeEditBtn:hover {
+  background: #000;
+  color: #fff;
+}
