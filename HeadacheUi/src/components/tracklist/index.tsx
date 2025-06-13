@@ -22,7 +22,7 @@ import s from './style.module.scss';
 //     coverUrl: 'https://i.ytimg.com/vi/fJ9rUzIMcZQ/maxresdefault.jpg',
 //     duration: '5:55',
 //     status: 'approved',
-//         audioUrl: 'https://example.com/audio1.mp3',
+//         audioUrl: 'https://mail.ru/audio1.mp3',
 //     genre: 'Rock'
 //   },
 //   {
@@ -32,7 +32,7 @@ import s from './style.module.scss';
 //     coverUrl: 'https://i.ytimg.com/vi/4NRXx6U8ABQ/maxresdefault.jpg',
 //     duration: '3:20',
 //     status: 'pending',
-//         audioUrl: 'https://example.com/audio1.mp3',
+//         audioUrl: 'https://mail.ru/audio1.mp3',
 //     genre: 'Pop'
 //   },
 //   {
@@ -40,7 +40,7 @@ import s from './style.module.scss';
 //     title: 'Starboy',
 //     artist: 'The Weeknd ft. Daft Punk',
 //     coverUrl: 'https://i.ytimg.com/vi/34Na4j8AVgA/maxresdefault.jpg',
-//         audioUrl: 'https://example.com/audio1.mp3',
+//         audioUrl: 'https://mail.ru/audio1.mp3',
 //     duration: '3:50',
 //     status: 'rejected',
 //     genre: 'Electronic'
@@ -191,7 +191,7 @@ const mockTracks: Track[] = [
     duration: '3:50',
     status: 'rejected',
     genre: ['Electronic', 'Electronic', 'Electronic', 'Electronic', 'Electronic'],
-    audioUrl: 'https://example.com/audio3.mp3'
+    audioUrl: 'https://mail.ru/audio3.mp3'
   }
 ];
 const WAVEFORM_BARS = 50; // Количество столбцов визуализации

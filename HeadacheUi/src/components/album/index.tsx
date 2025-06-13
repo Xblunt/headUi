@@ -5,14 +5,18 @@ import React, { useState } from 'react';
 import { Album, User, Song } from '@/models';
 import s from './style.module.scss';
 import AlbumModal from './modal';
+import { FiEdit, FiTrash2, FiInfo } from "react-icons/fi";
 
 interface AlbumCardProps {
   album: Album;
   users: User[];
   songs: Song[];
-  onPlay: (song: Song) => void;
-  onPause: () => void;
-  onArtistClick: (login: string) => void;
+  onPlay?: (song: Song) => void;
+  onPause?: () => void;
+  onArtistClick?: (login: string) => void;
+  onUpdate?: (album: Album) => void;
+  onReject?: (album: Album) => void;
+  onInfo?: (album: Album) => void;
 }
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ 
@@ -21,11 +25,23 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
   songs, 
   onPlay, 
   onPause,
-  onArtistClick 
+  onArtistClick,
+  onUpdate,
+  onReject,
+  onInfo,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+
   const artist = users.find(user => user.uuid === album.authorUUID);
   const albumSongs = songs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
+
+  // Проверяем, автор ли это author111
+  let isAuthor111 = false;
+  if (typeof window !== 'undefined') {
+    isAuthor111 = localStorage.getItem('user') === 'author111';
+  }
 
   return (
     <>
@@ -44,7 +60,7 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           <h3 className={s.albumTitle}>{album.name}</h3>
           <p 
             className={s.albumArtist}
-            onClick={() => onArtistClick(artist?.login || '')}
+            onClick={() => onArtistClick && artist?.login ? onArtistClick(artist.login) : undefined}
           >
             {artist?.login || 'Unknown Artist'}
           </p>
@@ -54,6 +70,43 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           >
             Открыть
           </button>
+          {/* Только для author111 показываем кнопки */}
+          {isAuthor111 && (
+            <div className={s.albumActions}>
+              <button
+                className={s.actionButton}
+                title="Информация"
+                onClick={e => {
+                  e.stopPropagation();
+                  onInfo?.(album);
+                }}
+              >
+                <FiInfo size={18} />
+              </button>
+              <button
+                className={s.actionButton}
+                title="Редактировать"
+                onClick={e => {
+                  e.stopPropagation();
+                  setShowEdit(true);
+                  onUpdate?.(album);
+                }}
+              >
+                <FiEdit size={18} />
+              </button>
+              <button
+                className={s.actionButton}
+                title="Удалить"
+                onClick={e => {
+                  e.stopPropagation();
+                  setShowDelete(true);
+                  onReject?.(album);
+                }}
+              >
+                <FiTrash2 size={18} />
+              </button>
+            </div>
+          )}
         </div>
       </div>
       {isModalOpen && (
@@ -61,11 +114,39 @@ const AlbumCard: React.FC<AlbumCardProps> = ({
           album={album}
           artist={artist}
           songs={albumSongs}
-          onPause={onPause}
+          onPause={onPause ? onPause : () => {}}
           onClose={() => setIsModalOpen(false)}
-          onPlay={onPlay}
-          onArtistClick={onArtistClick}
+          onPlay={onPlay ? onPlay : () => {}}
+          onArtistClick={onArtistClick ? onArtistClick : () => {}}
         />
+      )}
+      {/* Модалка редактирования альбома */}
+      {isAuthor111 && showEdit && (
+        <div className={s.modalOverlay}>
+          <div className={s.modalContent}>
+            <button className={s.closeButton} onClick={() => setShowEdit(false)}>×</button>
+            <h3>Редактировать альбом</h3>
+            <div style={{ padding: 24, textAlign: 'center' }}>
+              [ Форма редактирования альбома ]
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Модалка удаления альбома */}
+      {isAuthor111 && showDelete && (
+        <div className={s.modalOverlay}>
+          <div className={s.modalContent}>
+            <button className={s.closeButton} onClick={() => setShowDelete(false)}>×</button>
+            <h3>Удалить альбом?</h3>
+            <div style={{ padding: 24, textAlign: 'center' }}>
+              <p>Вы уверены, что хотите удалить альбом <b>{album.name}</b>?</p>
+              <div style={{ marginTop: 24, display: 'flex', gap: 16, justifyContent: 'center' }}>
+                <button className={s.cancelButton} onClick={() => setShowDelete(false)}>Отмена</button>
+                <button className={s.deleteButton} onClick={() => { setShowDelete(false); /* Здесь логика удаления */ }}>Удалить</button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );

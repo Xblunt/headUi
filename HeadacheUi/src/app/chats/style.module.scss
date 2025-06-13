@@ -644,20 +644,70 @@
   cursor: pointer;
   appearance: none;
   outline: none;
-  
-  &::-webkit-progress-bar {
-    background-color: #e0e0e0;
+  // Цвет прогресс-бара сообщения трека (цвет интерфейса)
+  background: #e0e0e0;
+  position: relative;
+  margin: 0 4px;
+
+  // Для Chrome/Safari
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #7c192a;
+    box-shadow: 0 0 2px #7c192a;
+    border: none;
+    margin-top: -4px;
+    cursor: pointer;
+  }
+  &::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      to right,
+      #7c192a 0%,
+      #7c192a var(--progress, 0%),
+      #e0e0e0 var(--progress, 0%),
+      #e0e0e0 100%
+    );
+  }
+
+  // Для Firefox
+  &::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #7c192a;
+    border: none;
+    cursor: pointer;
+  }
+  &::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(
+      to right,
+      #7c192a 0%,
+      #7c192a var(--progress, 0%),
+      #e0e0e0 var(--progress, 0%),
+      #e0e0e0 100%
+    );
+  }
+
+  // Для IE/Edge
+  &::-ms-fill-lower {
+    background: #7c192a;
     border-radius: 2px;
   }
-  
-  &::-webkit-progress-value {
-    background-color: #7c192a;
+  &::-ms-fill-upper {
+    background: #e0e0e0;
     border-radius: 2px;
   }
-  
-  &::-moz-progress-bar {
-    background-color: #7c192a;
-    border-radius: 2px;
+
+  // Hide outline on focus
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #7c192a33;
   }
 }
 
@@ -750,4 +800,15 @@
   padding: 20px;
   color: #999;
   font-size: 14px;
+}
+
+.songAuthor {
+  margin-left: 8px;
+  color: #7c192a;
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.15s;
+  &:hover {
+    text-decoration: underline;
+  }
 }

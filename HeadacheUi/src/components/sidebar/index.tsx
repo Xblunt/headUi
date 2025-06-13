@@ -20,7 +20,7 @@
   
 //   const user: User = {
 //     name: 'Иван Иванов',
-//     email: 'ivan@example.com',
+//     email: 'ivan@mail.ru',
 //     avatar: 'https://randomuser.me/api/portraits/men/1.jpg',
 //     role: 'Администратор'
 //   };

@@ -1,271 +1,194 @@
-.container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.title {
-  font-size: 28px;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.section {
-  margin-bottom: 40px;
-}
-
-.sectionHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.addButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background-color: #7c192a;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #5a1220;
-  }
-}
-
-.searchContainer {
-  margin-bottom: 20px;
-}
-
-.searchInput {
-  width: 100%;
-  padding: 10px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.list {
+.wrapper {
+  min-height: 100vh;
+  background: #fff;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding-top: 60px;
 }
 
-.item {
+.myMusicHeader {
+  width: 100%;
+//   max-width: 1100px;
   display: flex;
+  margin-top: 40px;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  background-color: white;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.actions {
-  display: flex;
-  gap: 10px;
-}
-
-.actionButton {
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  padding: 5px;
-  border-radius: 4px;
-  transition: all 0.2s;
-
-  &:hover {
-    color: #7c192a;
-    background-color: #f0f0f0;
-  }
-}
-
-.albumGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.albumCard {
-  background-color: white;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
-}
-
-.albumImage {
-  width: 100%;
-  height: 160px;
-  background-color: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-.albumInfo {
-  padding: 12px;
-
-  h3 {
-    margin: 0 0 5px;
-    font-size: 16px;
-  }
-
-  p {
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #222;
     margin: 0;
-    font-size: 14px;
-    color: #666;
   }
 }
 
-.albumActions {
-  display: flex;
-  padding: 0 12px 12px;
-  gap: 8px;
-}
-
-.albumActionButton {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  background-color: #f5f5f5;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #e0e0e0;
-    color: #7c192a;
-  }
-}
-
-.emptyState {
+.tracksBlock {
+  width: 100%;
+  margin-top: 40px;
+//   max-width: 1100px;
+//   background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-
-  p {
-    margin-top: 15px;
-    color: #666;
-  }
+  gap: 18px;
 }
 
-.emptyIcon {
-  color: #ddd;
-}
-
-.modalContent {
-  padding: 20px;
-}
-
-.formGroup {
-  margin-bottom: 15px;
-
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-}
-
-.formInput {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-}
-
-.modalActions {
+.tabsHeader {
   display: flex;
-  justify-content: flex-end;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.tabButton {
+  border: none;
+  background: #f5f5f5;
+  color: #222;
+  font-size: 16px;
+  padding: 8px 28px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  &.active {
+    background: #7c192a;
+    color: #fff;
+  }
+}
+
+.createTrackButton {
+  margin-left: auto;
+  background: #7c192a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #5a1220;
+  }
+}
+
+.trackSearchRow {
+  margin-bottom: 10px;
+}
+
+.trackSearchInput {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+  &:focus {
+    border-color: #7c192a;
+  }
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
+}
+
+.noResults {
+  text-align: center;
+  color: #999;
+  font-size: 15px;
+  padding: 32px 0;
+}
+
+.albumsBlock {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.albumsHeader {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 12px;
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+  }
+}
+
+.createAlbumButton {
+  margin-left: auto;
+  background: #7c192a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: #5a1220;
+  }
+}
+
+.albumSearchRow {
+  margin-bottom: 10px;
+}
+
+.albumSearchInput {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+  &:focus {
+    border-color: #7c192a;
+  }
+}
+
+// Новый стиль для сетки альбомов как на main
+.albumsGridMain {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 28px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .cancelButton {
-  padding: 8px 16px;
   background-color: #f5f5f5;
-  border: none;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
-
+  transition: background-color 0.3s;
   &:hover {
     background-color: #e0e0e0;
-  }
-}
-
-.saveButton {
-  padding: 8px 16px;
-  background-color: #7c192a;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: #5a1220;
   }
 }
 
 .deleteButton {
-  padding: 8px 16px;
-  background-color: #dc3545;
+  background-color: #7c192a;
   color: white;
   border: none;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s;
-
+  transition: background-color 0.3s;
   &:hover {
-    background-color: #bb2d3b;
-  }
-}
-
-.songsList {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.songCheckbox {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-
-  label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-  }
-
-  input {
-    margin-right: 8px;
+    background-color: #5a1220;
   }
 }

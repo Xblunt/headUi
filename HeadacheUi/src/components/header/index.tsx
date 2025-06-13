@@ -17,28 +17,28 @@ interface User {
 const USERS_DB: Record<string, User> = {
   'firstUser': {
     name: 'Иван Иванов',
-    email: 'ivan@mail.ru',
+    email: 'firstUser@mail.ru',
     login: 'firstUser',
     avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
     role: 'Слушатель'
   },
-   'secondtUser': {
+   'secondUser': {
     name: 'Илья Ильин',
-    email: 'ilya@mail.ru',
-    login: 'secondtUser',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    email: 'secondUser@mail.ru',
+    login: 'secondUser',
+    avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
     role: 'Слушатель'
   },
   'author111': {
     name: 'Алексей Петров',
-    email: 'alex@mail.ru',
+    email: 'author111@mail.ru',
     login: 'author111',
     avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
     role: 'Автор'
   },
   'label78': {
     name: 'Мария Сидорова',
-    email: 'maria@mail.ru',
+    email: 'label78@mail.ru',
     login: 'label78',
     avatar: 'https://randomuser.me/api/portraits/women/1.jpg',
     role: 'Лейбл'
@@ -70,7 +70,7 @@ export const Header: FC = () => {
       case 'author111':
         return authorTabs;
       case 'firstUser':
-      case 'secondtUser':
+      case 'secondUser':
       default:
         return userTabs;
     }
@@ -148,8 +148,8 @@ export const Header: FC = () => {
             className={`${s.userInfo} ${isUserMenuVisible ? s.visible : ''}`}
             ref={userMenuRef}
           >
-            <div className={s.userName}>{currentUser.name}</div>
-            <div className={s.userEmail}>{currentUser.login}</div>
+            <div className={s.userName}>{currentUser.login}</div>
+            <div className={s.userEmail}>{currentUser.email}</div>
             <div className={s.userRole}>{currentUser.role}</div>
             <div className={s.userActions}>
               <button 

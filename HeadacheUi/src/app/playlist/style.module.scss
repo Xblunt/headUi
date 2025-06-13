@@ -133,7 +133,7 @@
     transition: all 0.3s;
 
     &:hover {
-      background: darken(#c60021, 10%);
+      background: darken(#5a1220, 10%);
       transform: scale(1.1);
     }
 
@@ -230,7 +230,7 @@
 
   &.active {
     background: #e0e0e0;
-    border-left: 3px solid #c60021;
+    border-left: 3px solid #5a1220;
   }
 }
 
@@ -352,7 +352,7 @@
   border-radius: 50%;
   background: white;
   border: none;
-  color: #c60021;
+  color: #7c192a;
   font-size: 1rem;
   cursor: pointer;
   z-index: 10;
@@ -363,7 +363,7 @@
   justify-content: center;
 
   &:hover {
-    background: #c60021;
+    background: #5a1220;
     color: white;
   }
 

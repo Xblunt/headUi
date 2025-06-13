@@ -105,7 +105,7 @@
 
   &:hover {
     color: #7c192a;
-    background-color: #f0f0f0;
+    // background-color: #f0f0f0;
   }
 }
 
@@ -593,4 +593,30 @@
       transform: translateY(-50%) scale(1);
     }
   }
+}
+
+.trackTagsList {
+  display: flex;
+  gap: 8px;
+  margin: 6px 0 0 0;
+  padding: 0;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.trackTagItem {
+  margin: 0;
+  padding: 0;
+}
+
+.trackTagOval {
+  display: inline-block;
+  background: #e0e0e0;
+  color: #444;
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  user-select: none;
 }

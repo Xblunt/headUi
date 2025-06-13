@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { mockAlbums } from '@/mocks/mockAlbums';
 import { mockSongs } from '@/mocks/mockSongs';
 import { mockUsers } from '@/mocks/mockUsers';
@@ -50,6 +50,16 @@ export default function ArtistPage({ params }: ArtistPageProps) {
   const artistSongs = mockSongs.filter(song => song.authorUUID === artist?.uuid);
   const artistAlbums = mockAlbums.filter(album => album.authorUUID === artist?.uuid);
 
+  // Показывать ли кнопку "Отправить заявку"
+  const [showRequestButton, setShowRequestButton] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userValue = localStorage.getItem('user');
+      setShowRequestButton(userValue?.includes('label78') ?? false);
+    }
+  }, []);
+
   const statistics = getStatistics(login);
 
   const handleSendRequest = () => {
@@ -59,6 +69,100 @@ export default function ArtistPage({ params }: ArtistPageProps) {
       setShowModal(false);
       setShowSuccess(false);
     }, 2000);
+  };
+
+  // --- Плеер ---
+  const [currentSong, setCurrentSong] = useState<any>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.5);
+
+  useEffect(() => {
+    if (audio) {
+      audio.volume = volume;
+    }
+  }, [volume, audio]);
+
+  useEffect(() => {
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      setProgress(0);
+      setDuration(0);
+      setAudio(null);
+    }
+    if (currentSong) {
+      const newAudio = new Audio(currentSong.url);
+      setAudio(newAudio);
+
+      const updateProgress = () => {
+        setProgress(newAudio.currentTime);
+        setDuration(newAudio.duration || 0);
+      };
+      const handleEnded = () => {
+        setIsPlaying(false);
+        setProgress(0);
+      };
+
+      newAudio.addEventListener('timeupdate', updateProgress);
+      newAudio.addEventListener('ended', handleEnded);
+
+      if (isPlaying) newAudio.play();
+
+      return () => {
+        newAudio.pause();
+        newAudio.removeEventListener('timeupdate', updateProgress);
+        newAudio.removeEventListener('ended', handleEnded);
+      };
+    }
+    // eslint-disable-next-line
+  }, [currentSong]);
+
+  useEffect(() => {
+    if (audio) {
+      if (isPlaying) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+    }
+  }, [isPlaying, audio]);
+
+  const handleTrackPlay = (song: any) => {
+    setCurrentSong(song);
+    setIsPlaying(true);
+  };
+
+  const handleTrackPause = () => {
+    setIsPlaying(false);
+  };
+
+  const formatTime = (seconds: number) => {
+    if (!seconds || isNaN(seconds)) return '0:00';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  };
+
+  // --- Кнопки следующий/предыдущий трек ---
+  const handleNext = () => {
+    if (!artistSongs.length || !currentSong) return;
+    const idx = artistSongs.findIndex((s: any) => s.uuid === currentSong.uuid);
+    const nextIdx = (idx + 1) % artistSongs.length;
+    const nextSong = artistSongs[nextIdx];
+    setCurrentSong(nextSong);
+    setIsPlaying(true);
+  };
+
+  const handlePrev = () => {
+    if (!artistSongs.length || !currentSong) return;
+    const idx = artistSongs.findIndex((s: any) => s.uuid === currentSong.uuid);
+    const prevIdx = (idx - 1 + artistSongs.length) % artistSongs.length;
+    const prevSong = artistSongs[prevIdx];
+    setCurrentSong(prevSong);
+    setIsPlaying(true);
   };
 
   if (!artist) {
@@ -84,12 +188,14 @@ export default function ArtistPage({ params }: ArtistPageProps) {
           <div className={styles.headerContent}>
             <h1 className={styles.artistName}>{artist.login}</h1>
             <p className={styles.artistRating}>Рейтинг: {artist.avgRating?.toFixed(1)} ⭐</p>
-            <button
-              className={styles.requestButton}
-              onClick={() => setShowModal(true)}
-            >
-              Отправить заявку
-            </button>
+            {showRequestButton && (
+              <button
+                className={styles.requestButton}
+                onClick={() => setShowModal(true)}
+              >
+                Отправить заявку
+              </button>
+            )}
           </div>
         </div>
 
@@ -183,10 +289,10 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                     <TrackRow
                       key={song.uuid}
                       song={song}
-                      currentSong={null}
-                      isPlaying={false}
-                      onPlay={() => {}}
-                      onPause={() => {}}
+                      currentSong={currentSong}
+                      isPlaying={isPlaying && currentSong?.uuid === song.uuid}
+                      onPlay={handleTrackPlay}
+                      onPause={handleTrackPause}
                       onArtistClick={() => {}}
                       index={index}
                       users={mockUsers}
@@ -205,8 +311,8 @@ export default function ArtistPage({ params }: ArtistPageProps) {
                       album={album}
                       users={mockUsers}
                       songs={mockSongs}
-                      onPlay={() => {}}
-                      onPause={() => {}}
+                      onPlay={handleTrackPlay}
+                      onPause={handleTrackPause}
                       onArtistClick={() => {}}
                     />
                   ))
@@ -217,6 +323,179 @@ export default function ArtistPage({ params }: ArtistPageProps) {
             )}
           </div>
         </div>
+        {/* Мини-плеер */}
+        {currentSong && (
+          <div style={{
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100vw',
+            zIndex: 9999,
+            display: 'flex',
+            justifyContent: 'center',
+            pointerEvents: 'auto',
+            background: 'rgba(51,51,51,0.97)',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
+            padding: '0 0 8px 0',
+          }}>
+            <div style={{
+              width: '100%',
+              maxWidth: 900,
+              borderRadius: 8,
+              background: 'rgba(51,51,51,0.97)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 24,
+              minHeight: 72,
+              padding: '12px 24px',
+            }}>
+              <img
+                src={currentSong.urlImage || '/default-cover.jpg'}
+                alt={currentSong.name}
+                style={{
+                  width: 56,
+                  height: 56,
+                  borderRadius: 6,
+                  objectFit: 'cover',
+                  background: '#222',
+                  flexShrink: 0,
+                }}
+              />
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{ color: '#fff', fontWeight: 600, fontSize: 18, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {currentSong.name}
+                </div>
+                <div style={{ color: '#bbb', fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {mockUsers.find(u => u.uuid === currentSong.authorUUID)?.login || 'Unknown Artist'}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#fff',
+                    fontSize: 24,
+                    cursor: 'pointer',
+                    borderRadius: 4,
+                    padding: 4,
+                  }}
+                  onClick={handlePrev}
+                  aria-label="Prev"
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" fill="currentColor"/>
+                  </svg>
+                </button>
+                <button
+                  style={{
+                    background: '#7c192a',
+                    border: 'none',
+                    color: '#fff',
+                    fontSize: 28,
+                    cursor: 'pointer',
+                    borderRadius: '50%',
+                    width: 44,
+                    height: 44,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 8px',
+                  }}
+                  onClick={() => setIsPlaying((prev) => !prev)}
+                  aria-label="Play/Pause"
+                >
+                  {isPlaying ? (
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <rect x="6" y="5" width="4" height="14" fill="#fff"/>
+                      <rect x="14" y="5" width="4" height="14" fill="#fff"/>
+                    </svg>
+                  ) : (
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <polygon points="8,5 8,19 19,12" fill="#fff"/>
+                    </svg>
+                  )}
+                </button>
+                <button
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#fff',
+                    fontSize: 24,
+                    cursor: 'pointer',
+                    borderRadius: 4,
+                    padding: 4,
+                  }}
+                  onClick={handleNext}
+                  aria-label="Next"
+                >
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                    <path d="M16 18h2V6h-2v12zm-4-6l-8.5 6V6l8.5 6z" fill="currentColor"/>
+                  </svg>
+                </button>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 2, minWidth: 0 }}>
+                <span style={{ color: '#bbb', fontSize: 15, minWidth: 48, textAlign: 'right' }}>
+                  {formatTime(progress)}
+                </span>
+                <div
+                  style={{
+                    flex: 1,
+                    height: 8,
+                    background: 'rgba(255,255,255,0.18)',
+                    borderRadius: 4,
+                    cursor: 'pointer',
+                    position: 'relative',
+                    minWidth: 80,
+                    maxWidth: 420,
+                  }}
+                  onClick={e => {
+                    if (!audio || !duration) return;
+                    const rect = (e.target as HTMLDivElement).getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    const percent = clickX / rect.width;
+                    const newTime = percent * duration;
+                    audio.currentTime = newTime;
+                    setProgress(newTime);
+                  }}
+                >
+                  <div
+                    style={{
+                      width: duration ? `${(progress / duration) * 100}%` : '0%',
+                      height: '100%',
+                      background: '#7c192a',
+                      borderRadius: 4,
+                      transition: 'width 0.1s linear',
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                    }}
+                  />
+                </div>
+                <span style={{ color: '#bbb', fontSize: 15, minWidth: 48, textAlign: 'left' }}>
+                  {formatTime(duration)}
+                </span>
+              </div>
+              <div style={{ minWidth: 110, marginLeft: 24 }}>
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={volume}
+                  onChange={e => setVolume(Number(e.target.value))}
+                  style={{
+                    width: 110,
+                    accentColor: '#7c192a',
+                    verticalAlign: 'middle',
+                  }}
+                  title="Громкость"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

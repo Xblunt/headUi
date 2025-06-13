@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Song } from '@/models';
 import { User } from '@/models';
 import s from './style.module.scss';
-import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiInfo } from 'react-icons/fi';
 import RatingModal from '../raitingModal';
 
 interface TrackRowProps {
@@ -16,8 +16,10 @@ interface TrackRowProps {
   onArtistClick: (login: string) => void;
   index: number;
   users: User[];
-  onEdit?: () => void;
-  onDelete?: () => void;
+  isModal?: boolean;
+  onEdit?: (song: Song) => void;
+  onDelete?: (song: Song) => void;
+  onInfo?: (song: Song) => void;
   showProgressBar?: boolean;
   useGlobalPlayer?: boolean;
   onProgressChange?: (progress: number) => void;
@@ -35,10 +37,12 @@ const TrackRow: React.FC<TrackRowProps> = ({
   users,
   onEdit,
   onDelete,
+  onInfo,
   showProgressBar = false,
   useGlobalPlayer = false,
   onProgressChange,
   progress = 0,
+  isModal = false,
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -46,27 +50,22 @@ const TrackRow: React.FC<TrackRowProps> = ({
   const [isArtistHovered, setIsArtistHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [localProgress, setLocalProgress] = useState(progress);
-  const [userRole, setUserRole] = useState<string | null>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
   const artistName = users.find(user => user.uuid === song.authorUUID)?.login || 'Unknown Artist';
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
 
+  // --- listen localStorage user ---
+  const [userFromStorage, setUserFromStorage] = useState<string | null>(null);
+
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        if (user.startsWith('{')) {
-          const userData = JSON.parse(user);
-          setUserRole(userData.role || userData.label);
-        } else {
-          setUserRole(user);
-        }
-      } catch (e) {
-        setUserRole(user);
-      }
+    function updateUser() {
+      setUserFromStorage(localStorage.getItem('user'));
     }
+    updateUser();
+    window.addEventListener('storage', updateUser);
+    return () => window.removeEventListener('storage', updateUser);
   }, []);
 
   useEffect(() => {
@@ -140,37 +139,82 @@ const TrackRow: React.FC<TrackRowProps> = ({
 
   const isCurrentSongPlaying = currentSong?.uuid === song.uuid && isPlaying;
 
-  const renderActionButtons = () => {
-    if (userRole === 'label78') {
+  // Для модального режима: прогресс-бар как заливка заднего фона
+  const modalProgressBg = isModal ? (
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        height: '100%',
+        width: `${progress}%`,
+        background: 'rgba(124, 25, 42, 0.13)',
+        borderRadius: 8,
+        zIndex: 1,
+        pointerEvents: 'none',
+        transition: 'width 0.1s linear',
+      }}
+    />
+  ) : null;
+
+  // --- Render action buttons depending on localStorage user ---
+  const renderActionButtons = (song: Song) => {
+    if (userFromStorage === 'author111') {
       return (
         <>
-          <div className={s.trackDuration}>3:45</div>
-        </>
-      );
-    } else if (userRole === 'author111') {
-      return (
-        <>
+             <span className={s.ratingValue}>
+            {rating !== null ? rating.toFixed(1) : song.avgRating?.toFixed(1)}
+          </span>
           <button
             className={s.actionButton}
+            title="Информация"
             onClick={e => {
               e.stopPropagation();
-              onEdit?.();
+              onInfo?.(song);
+            }}
+          >
+            <FiInfo size={18} />
+          </button>
+          <button
+            className={s.actionButton}
+            title="Редактировать"
+            onClick={e => {
+              e.stopPropagation();
+              onEdit?.(song);
             }}
           >
             <FiEdit size={18} />
           </button>
           <button
             className={s.actionButton}
+            title="Удалить"
             onClick={e => {
               e.stopPropagation();
-              onDelete?.();
+              onDelete?.(song);
             }}
           >
             <FiTrash2 size={18} />
           </button>
-          <div className={s.trackDuration}>3:45</div>
+     
         </>
       );
+    }  else if (userFromStorage === 'label78') { 
+         return (<>
+            <span className={s.ratingValue}>
+            {rating !== null ? rating.toFixed(1) : song.avgRating?.toFixed(1)}
+          </span>
+            <button
+            className={s.actionButton}
+            title="Информация"
+            onClick={e => {
+              e.stopPropagation();
+              onInfo?.(song);
+            }}
+          >
+            <FiInfo size={18} />
+          </button>
+         
+  </> );
     } else {
       return (
         <>
@@ -219,7 +263,9 @@ const TrackRow: React.FC<TrackRowProps> = ({
       onClick={handlePlayPause}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={isModal ? { position: 'relative', paddingTop: 6, overflow: 'hidden' } : undefined}
     >
+      {isModal && modalProgressBg}
       {showProgressBar && (
         <div
           className={s.progressBarContainer}
@@ -271,10 +317,22 @@ const TrackRow: React.FC<TrackRowProps> = ({
           >
             {artistName}
           </p>
+          {/* Вывод тегов как в cms */}
+          {Array.isArray(song.tags) && song.tags.length > 0 && (
+            <ul className={s.trackTagsList}>
+              {song.tags.map((tag, idx) => (
+                <li key={typeof tag === "string" ? tag : tag.tagName || idx} className={s.trackTagItem}>
+                  <span className={s.trackTagOval}>
+                    {typeof tag === "string" ? tag : tag.tagName}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className={s.trackActions}>
-        {renderActionButtons()}
+        {renderActionButtons(song)}
       </div>
       {showRatingModal && (
         <RatingModal

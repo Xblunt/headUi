@@ -9,7 +9,7 @@ export const cooperationLabelsAuthor1: User[] = [
     phoneNumber: '+7 (123) 456-7890',
     roles: ['LABEL'],
     description: 'Крупный лейбл, специализирующийся на электронной музыке',
-    urlImage: 'https://example.com/label1.jpg'
+    urlImage: 'https://mail.ru/label1.jpg'
   }),
   new User({
     uuid: 'label-2',
@@ -18,7 +18,7 @@ export const cooperationLabelsAuthor1: User[] = [
     phoneNumber: '+7 (987) 654-3210',
     roles: ['LABEL'],
     description: 'Лейбл, работающий с хип-хоп исполнителями',
-    urlImage: 'https://example.com/label2.jpg'
+    urlImage: 'https://mail.ru/label2.jpg'
   }),
   new User({
     uuid: 'label-3',
@@ -27,7 +27,7 @@ export const cooperationLabelsAuthor1: User[] = [
     phoneNumber: '+7 (555) 123-4567',
     roles: ['LABEL'],
     description: 'Специализируется на deep house и техно музыке',
-    urlImage: 'https://example.com/label3.jpg'
+    urlImage: 'https://mail.ru/label3.jpg'
   }),
   new User({
     uuid: 'label-4',
@@ -36,7 +36,7 @@ export const cooperationLabelsAuthor1: User[] = [
     phoneNumber: '+7 (111) 222-3333',
     roles: ['LABEL'],
     description: 'Лейбл для рок-исполнителей',
-    urlImage: 'https://example.com/label4.jpg'
+    urlImage: 'https://mail.ru/label4.jpg'
   }),
   new User({
     uuid: 'label-5',
@@ -45,7 +45,7 @@ export const cooperationLabelsAuthor1: User[] = [
     phoneNumber: '+7 (222) 333-4444',
     roles: ['LABEL'],
     description: 'Лучшие джазовые релизы',
-    urlImage: 'https://example.com/label5.jpg'
+    urlImage: 'https://mail.ru/label5.jpg'
   }),
 ];
 
