@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Song } from '@/models';
 import { User } from '@/models';
 import s from './style.module.scss';
-import { FiEdit, FiTrash2, FiInfo } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiInfo, FiTrendingUp } from 'react-icons/fi';
 import RatingModal from '../raitingModal';
 
 interface TrackRowProps {
@@ -17,6 +17,7 @@ interface TrackRowProps {
   index: number;
   users: User[];
   isModal?: boolean;
+  onPromote?: (song: Song) => void;
   onEdit?: (song: Song) => void;
   onDelete?: (song: Song) => void;
   onInfo?: (song: Song) => void;
@@ -34,6 +35,7 @@ const TrackRow: React.FC<TrackRowProps> = ({
   onPause,
   onArtistClick,
   index,
+  onPromote,
   users,
   onEdit,
   onDelete,
@@ -195,6 +197,17 @@ const TrackRow: React.FC<TrackRowProps> = ({
           >
             <FiTrash2 size={18} />
           </button>
+           <button
+          className={s.actionButton}
+          title="Отправить на продвижение"
+          onClick={e => {
+            e.stopPropagation();
+            // Здесь нужно вызвать функцию для отправки на продвижение
+            onPromote?.(song);
+          }}
+        >
+          <FiTrendingUp size={18} />
+        </button>
      
         </>
       );

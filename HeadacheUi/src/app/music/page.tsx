@@ -33,6 +33,9 @@ const MyMusicPage = () => {
   const [trackToDelete, setTrackToDelete] = useState<Song | null>(null);
   const [albumToDelete, setAlbumToDelete] = useState<Album | null>(null);
   const [infoTrack, setInfoTrack] = useState<Song | null>(null);
+  const [showPromoteModal, setShowPromoteModal] = useState(false);
+  const [promoteSong, setPromoteSong] = useState<Song | null>(null);
+  const [promoteMessage, setPromoteMessage] = useState('');
 
   // --- CRUD handlers (реализация) ---
   const [songs, setSongs] = useState<Song[]>(allAuthorSongs);
@@ -58,6 +61,22 @@ const MyMusicPage = () => {
     setTrackToEdit(null);
     setShowTrackModal(true);
   };
+
+   const handleSubmitPromotion = () => {
+    // Здесь будет логика отправки на сервер
+    console.log('Отправка на продвижение:', {
+      song: promoteSong?.name,
+      message: promoteMessage
+    });
+    setShowPromoteModal(false);
+  };
+
+  const handlePromoteTrack = (song: Song) => {
+    setPromoteSong(song);
+    setPromoteMessage(`"${song.name}" - иновационный продукт нашего времени`);
+    setShowPromoteModal(true);
+  };
+
 
   // Открыть модал редактирования трека
   const handleEditTrack = (song: Song) => {
@@ -312,6 +331,7 @@ const MyMusicPage = () => {
                 onPause={handleTrackPause}
                 onArtistClick={() => {}}
                 index={idx}
+                onPromote={() => handlePromoteTrack(song)}
                 users={mockUsers}
                 onEdit={handleEditTrack}
                 onDelete={() => handleDeleteTrack(song)}
@@ -496,6 +516,52 @@ const MyMusicPage = () => {
           </form>
         </Modal>
       )}
+      {showPromoteModal && promoteSong && (
+  <Modal 
+    isOpen={showPromoteModal} 
+    onClose={() => setShowPromoteModal(false)} 
+    title="Отправить на продвижение"
+  >
+    <div style={{ padding: 24, minWidth: 400 }}>
+      <div style={{ marginBottom: 16 }}>
+        <strong>Трек:</strong> {promoteSong.name}
+      </div>
+      
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 8, fontWeight: 500 }}>
+          Сообщение:
+        </label>
+        <textarea
+          value={promoteMessage}
+          onChange={(e) => setPromoteMessage(e.target.value)}
+          rows={4}
+          style={{
+            width: '100%',
+            padding: '10px',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            resize: 'vertical'
+          }}
+        />
+      </div>
+      
+      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>
+        <button 
+          className={s.cancelButton}
+          onClick={() => setShowPromoteModal(false)}
+        >
+          Отмена
+        </button>
+        <button 
+          className={s.saveButton}
+          onClick={handleSubmitPromotion}
+        >
+          Отправить
+        </button>
+      </div>
+    </div>
+  </Modal>
+)}
       {trackToDelete && (
         <Modal isOpen={!!trackToDelete} onClose={() => setTrackToDelete(null)} title="Удалить трек?">
           <div style={{ padding: 24, textAlign: 'center' }}>
