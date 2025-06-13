@@ -221,6 +221,42 @@ export class Album {
   }
 }
 
+export class Session {
+  uuid: number;
+  is_playing: ActionStatus;
+  current_time: number;
+  position_time: number;
+  sender_uuid: number;
+  song_uuid: string;
+
+   constructor(props: {
+      uuid: number;
+  is_playing: ActionStatus;
+  current_time: number;
+  position_time: number;
+  sender_uuid: number;
+  song_uuid: string;
+  }) {
+      this.uuid = props.uuid;
+      this.is_playing = props.is_playing;
+            this.current_time = props.current_time;
+         this.position_time = props.position_time;
+      this.sender_uuid = props.sender_uuid;
+            this.song_uuid = props.song_uuid;  }
+}
+
+export enum ActionStatus {
+  Play = 'PLAY',
+  Pause = 'PAUSE'
+}
+
+export interface SubscriptionUser {
+  chatId: number;
+  userId: number;
+  subscription: any; // Would be Subscription type from rxjs in actual implementation
+}
+
+
 //ENUMS
 export enum SongStatus {
   APPROVED = 'APPROVED',

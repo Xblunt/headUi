@@ -14,7 +14,7 @@ import { mockSongs } from '@/mocks/mockSongs';
 import { mockUsers } from '@/mocks/mockUsers';
 
 // Тип для сообщения
-type Message = {
+export type Message = {
   id: string;
   text?: string;
   sender: User;
