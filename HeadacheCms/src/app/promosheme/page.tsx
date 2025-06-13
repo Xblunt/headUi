@@ -4,7 +4,7 @@ import s from './style.module.scss';
 
 const PromoshemePage = () => {
   return (
-    <div className={"wrapper"}>
+    <div className={"wrapper"} style={{background: '#fff'}}>
       {/* Header */}
       <div className={s.header}>
         <div className={s.tabsPlaceholder}>

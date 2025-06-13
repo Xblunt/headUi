@@ -4,7 +4,7 @@ import s from './style.module.scss';
 
 const MusicshemePage = () => {
   return (
-    <div className={"wrapper"}>
+    <div className={"wrapper"} style={{background: '#fff'}}>
       <div className={s.header}>
         <div className={s.tabsPlaceholder}>
           <span className={s.tab}>[ Ожидают ]</span>
@@ -24,7 +24,7 @@ const MusicshemePage = () => {
         {[...Array(5)].map((_, i) => (
           <div key={i} className={s.trackRowWrapper}>
             <div className={s.trackInfo}>
-              <div className={s.coverPlaceholder}>[ Обложка ]</div>
+              <div className={s.coverPlaceholder}>[ О ]</div>
               <div className={s.trackMeta}>
                 <div className={s.trackName}>[ Название ]</div>
                 <div className={s.artistName}>[ Артист ]</div>

@@ -4,7 +4,7 @@ import s from './style.module.scss';
 
 const ChatshemePage = () => {
   return (
-    <div className={"wrapper"}>
+    <div className={"wrapper"} style={{background: '#fff'}}>
       {/* ConfirmDialog (modal) */}
       {/* <div className={s.confirmDialogPlaceholder}>[ ConfirmDialog ]</div> */}
 

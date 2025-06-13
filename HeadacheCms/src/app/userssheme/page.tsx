@@ -4,7 +4,7 @@ import s from './style.module.scss';
 
 const UsersshemePage = () => {
   return (
-    <div className={"wrapper"}>
+    <div className={"wrapper"} style={{background: '#fff'}}>
       <div className={s.header}>
         <div className={s.tabsPlaceholder}>
           <span className={s.tab}>[ Все ]</span>

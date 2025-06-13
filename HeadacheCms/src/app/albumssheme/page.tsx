@@ -4,7 +4,7 @@ import s from './style.module.scss';
 
 const AlbumsshemePage = () => {
   return (
-    <div className={'wrapper'}>
+    <div className={'wrapper'} style={{background: '#fff'}}>
       <div className={s.header}>
         <div className={s.controls}>
           <div className={s.searchContainer}>
@@ -18,7 +18,7 @@ const AlbumsshemePage = () => {
       <div className={s.albumList}>
         {[...Array(5)].map((_, i) => (
           <div key={i} className={s.albumCard}>
-            <div className={s.albumImage}>[ Обложка ]</div>
+            <div className={s.albumImage}>[ O ]</div>
             <div className={s.albumInfo}>
               <div className={s.albumTitle}>[ Название ]</div>
               <div className={s.albumArtist}>[ Артист ]</div>
