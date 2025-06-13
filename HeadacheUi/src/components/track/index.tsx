@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Song } from '@/models';
 import { User } from '@/models';
 import s from './style.module.scss';
-import { FiEdit, FiTrash2, FiInfo, FiTrendingUp } from 'react-icons/fi';
+import { FiEdit, FiTrash2, FiInfo, FiTrendingUp, FiStar } from 'react-icons/fi';
 import RatingModal from '../raitingModal';
 
 interface TrackRowProps {
@@ -212,22 +212,29 @@ const TrackRow: React.FC<TrackRowProps> = ({
         </>
       );
     }  else if (userFromStorage === 'label78') { 
-         return (<>
-            <span className={s.ratingValue}>
-            {rating !== null ? rating.toFixed(1) : song.avgRating?.toFixed(1)}
-          </span>
-            <button
-            className={s.actionButton}
-            title="Информация"
-            onClick={e => {
-              e.stopPropagation();
-              onInfo?.(song);
-            }}
-          >
-            <FiInfo size={18} />
-          </button>
-         
-  </> );
+        return (
+  <>
+    <span className={s.ratingValue}>
+      {rating !== null ? rating.toFixed(1) : song.avgRating?.toFixed(1)}
+      <FiStar 
+        size={16} 
+
+        color="#7c192a" 
+        style={{ marginLeft: 4, marginBottom: 2.5,  verticalAlign: 'middle' }}
+      />
+    </span>
+    {/* <button
+      className={s.actionButton}
+      title="Информация"
+      onClick={e => {
+        e.stopPropagation();
+        onInfo?.(song);
+      }}
+    >
+      <FiInfo size={18} />
+    </button> */}
+  </>
+);
     } else {
       return (
         <>
