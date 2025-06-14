@@ -58,7 +58,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [rating, setRating] = useState<number | null>(null);
 
-  // --- listen localStorage user ---
   const [userFromStorage, setUserFromStorage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -141,7 +140,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
 
   const isCurrentSongPlaying = currentSong?.uuid === song.uuid && isPlaying;
 
-  // Для модального режима: прогресс-бар как заливка заднего фона
   const modalProgressBg = isModal ? (
     <div
       style={{
@@ -159,7 +157,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
     />
   ) : null;
 
-  // --- Render action buttons depending on localStorage user ---
   const renderActionButtons = (song: Song) => {
     if (userFromStorage === 'author111') {
       return (
@@ -202,7 +199,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
           title="Отправить на продвижение"
           onClick={e => {
             e.stopPropagation();
-            // Здесь нужно вызвать функцию для отправки на продвижение
             onPromote?.(song);
           }}
         >
@@ -223,16 +219,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
         style={{ marginLeft: 4, marginBottom: 2.5,  verticalAlign: 'middle' }}
       />
     </span>
-    {/* <button
-      className={s.actionButton}
-      title="Информация"
-      onClick={e => {
-        e.stopPropagation();
-        onInfo?.(song);
-      }}
-    >
-      <FiInfo size={18} />
-    </button> */}
   </>
 );
     } else {
@@ -337,7 +323,6 @@ const TrackRow: React.FC<TrackRowProps> = ({
           >
             {artistName}
           </p>
-          {/* Вывод тегов как в cms */}
           {Array.isArray(song.tags) && song.tags.length > 0 && (
             <ul className={s.trackTagsList}>
               {song.tags.map((tag, idx) => (

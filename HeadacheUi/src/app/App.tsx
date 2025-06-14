@@ -1,6 +1,5 @@
 'use client';
 
-import { getValidToken } from "@/utils/authToken";
 import { observer } from "mobx-react-lite";
 import { FC, PropsWithChildren, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";

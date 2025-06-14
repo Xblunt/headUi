@@ -1,7 +1,6 @@
 import { AuthData, Token } from "@/models";
 import { AuthStore } from "@/stores";
 import { AUTH_STORE } from "@/stores/identifiers";
-import { setToken } from "@/utils/authToken";
 import { postLogin } from "@/utils/fetchWrapper";
 
 import Injector from "@/utils/injector";
@@ -26,7 +25,6 @@ class AuthService {
       const response = await postLogin(`auth/sign-in`, JSON.stringify(auth));
       if (response) {
         const res = JSON.parse(response);
-        setToken(res.token);
         
         return res;
       } else {

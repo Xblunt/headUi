@@ -7,11 +7,9 @@ import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import './flags.css';
 import { Header } from "@/components/header";
-// import { Sidebar } from "@/components/sidebar";
 import { PublicEnvScript } from "next-runtime-env";
 import type { Metadata } from "next";
 import { App } from "./App";
-// import { GlobalPlayer } from "@/components/player";
 
 export const metadata: Metadata = {
   title: "UI",
@@ -36,10 +34,8 @@ export default function RootLayout({
               <div className="global_wrapper">
                 <Header />
                 <div className="content">
-                  {/* <Sidebar /> */}
                   {children}
                 </div>
-                  {/* <GlobalPlayer />  */}
               </div>
             </App>
           </StoreProvider>
