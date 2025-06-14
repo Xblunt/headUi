@@ -18,7 +18,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-01-01T10:00:00Z',
     updatedAt: '2024-01-01T10:00:00Z',
     lastVisitDate: '2024-06-01T10:00:00Z',
-    avgRating: 4.5,
+    avgRating: 7.8,
     savedSongsUUIDs: ['song-1', 'song-2']
   }),
   new User({
@@ -37,7 +37,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-02-02T11:00:00Z',
     updatedAt: '2024-02-02T11:00:00Z',
     lastVisitDate: '2024-06-02T11:00:00Z',
-    avgRating: 4.2,
+    avgRating: 6.8,
     savedSongsUUIDs: ['song-3', 'song-4']
   }),
   new User({
@@ -56,7 +56,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-03-03T12:00:00Z',
     updatedAt: '2024-03-03T12:00:00Z',
     lastVisitDate: '2024-06-03T12:00:00Z',
-    avgRating: 3.9,
+    avgRating: 6.7,
     savedSongsUUIDs: ['song-5', 'song-6']
   }),
   new User({
@@ -75,7 +75,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-04-04T13:00:00Z',
     updatedAt: '2024-04-04T13:00:00Z',
     lastVisitDate: '2024-06-04T13:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: ['song-7', 'song-8']
   }),
   new User({
@@ -94,7 +94,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-05-05T14:00:00Z',
     updatedAt: '2024-05-05T14:00:00Z',
     lastVisitDate: '2024-06-05T14:00:00Z',
-    avgRating: 4.7,
+    avgRating: 8.3,
     savedSongsUUIDs: ['song-9', 'song-10']
   }),
   new User({
@@ -113,7 +113,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-06-06T15:00:00Z',
     updatedAt: '2024-06-06T15:00:00Z',
     lastVisitDate: '2024-06-06T15:00:00Z',
-    avgRating: 4.1,
+    avgRating: 7.9,
     savedSongsUUIDs: []
   }),
   new User({
@@ -132,7 +132,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-07-07T16:00:00Z',
     updatedAt: '2024-07-07T16:00:00Z',
     lastVisitDate: '2024-07-07T16:00:00Z',
-    avgRating: 4.0,
+    avgRating: 6.0,
     savedSongsUUIDs: []
   }),
   new User({
@@ -151,7 +151,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-08-08T17:00:00Z',
     updatedAt: '2024-08-08T17:00:00Z',
     lastVisitDate: '2024-08-08T17:00:00Z',
-    avgRating: 4.2,
+    avgRating: 7.3,
     savedSongsUUIDs: []
   }),
   new User({
@@ -170,7 +170,7 @@ export const mockUsers: User[] = [
     createdAt: '2020-09-09T18:00:00Z',
     updatedAt: '2024-09-09T18:00:00Z',
     lastVisitDate: '2024-09-09T18:00:00Z',
-    avgRating: 4.3,
+    avgRating: 7.6,
     savedSongsUUIDs: []
   }),
   new User({
@@ -248,7 +248,7 @@ export const mockUsers: User[] = [
     createdAt: '2017-03-03T12:00:00Z',
     updatedAt: '2024-03-03T12:00:00Z',
     lastVisitDate: '2024-06-08T12:00:00Z',
-    avgRating: 4.7,
+    avgRating: 8.3,
     savedSongsUUIDs: []
   }),
   new User({
@@ -307,7 +307,7 @@ export const mockUsers: User[] = [
     createdAt: '2022-01-01T10:00:00Z',
     updatedAt: '2024-01-01T10:00:00Z',
     lastVisitDate: '2024-06-11T10:00:00Z',
-    avgRating: 4.0,
+    avgRating: 6.0,
     savedSongsUUIDs: ['song-11', 'song-12']
   }),
   new User({
@@ -326,7 +326,7 @@ export const mockUsers: User[] = [
     createdAt: '2022-02-02T11:00:00Z',
     updatedAt: '2024-02-02T11:00:00Z',
     lastVisitDate: '2024-06-12T11:00:00Z',
-    avgRating: 4.1,
+    avgRating: 7.9,
     savedSongsUUIDs: ['song-13']
   }),
   new User({
@@ -345,7 +345,7 @@ export const mockUsers: User[] = [
     createdAt: '2022-03-03T12:00:00Z',
     updatedAt: '2024-03-03T12:00:00Z',
     lastVisitDate: '2024-06-13T12:00:00Z',
-    avgRating: 3.9,
+    avgRating: 6.7,
     savedSongsUUIDs: ['song-14']
   }),
   new User({
@@ -364,7 +364,7 @@ export const mockUsers: User[] = [
     createdAt: '2022-04-04T13:00:00Z',
     updatedAt: '2024-04-04T13:00:00Z',
     lastVisitDate: '2024-06-14T13:00:00Z',
-    avgRating: 4.2,
+    avgRating: 7.3,
     savedSongsUUIDs: ['song-15']
   }),
   new User({
@@ -383,7 +383,7 @@ export const mockUsers: User[] = [
     createdAt: '2022-05-05T14:00:00Z',
     updatedAt: '2024-05-05T14:00:00Z',
     lastVisitDate: '2024-06-15T14:00:00Z',
-    avgRating: 4.3,
+    avgRating: 7.6,
     savedSongsUUIDs: ['song-16']
   }),
 
@@ -404,7 +404,7 @@ export const mockUsers: User[] = [
     createdAt: '2010-01-01T10:00:00Z',
     updatedAt: '2024-01-01T10:00:00Z',
     lastVisitDate: '2024-06-16T10:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: []
   }),
   new User({
@@ -423,7 +423,7 @@ export const mockUsers: User[] = [
     createdAt: '2011-02-02T11:00:00Z',
     updatedAt: '2024-02-02T11:00:00Z',
     lastVisitDate: '2024-06-17T11:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: []
   }),
   new User({
@@ -442,7 +442,7 @@ export const mockUsers: User[] = [
     createdAt: '2012-03-03T12:00:00Z',
     updatedAt: '2024-03-03T12:00:00Z',
     lastVisitDate: '2024-06-18T12:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: []
   }),
   new User({
@@ -461,7 +461,7 @@ export const mockUsers: User[] = [
     createdAt: '2013-04-04T13:00:00Z',
     updatedAt: '2024-04-04T13:00:00Z',
     lastVisitDate: '2024-06-19T13:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: []
   }),
   new User({
@@ -480,7 +480,7 @@ export const mockUsers: User[] = [
     createdAt: '2014-05-05T14:00:00Z',
     updatedAt: '2024-05-05T14:00:00Z',
     lastVisitDate: '2024-06-20T14:00:00Z',
-    avgRating: 5.0,
+    avgRating: 9.0,
     savedSongsUUIDs: []
   }),
 

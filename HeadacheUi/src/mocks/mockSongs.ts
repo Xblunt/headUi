@@ -34,7 +34,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-2',
     name: 'Satie Remix',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/2.mp3',
     urlImage: '/trackImg/2.jpg',
     status: SongStatus.APPROVED,
@@ -94,7 +94,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-7',
     name: 'Track Seven',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/7.mp3',
     urlImage: '/trackImg/7.jpg',
     status: SongStatus.APPROVED,
@@ -118,7 +118,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-9',
     name: 'Track Nine',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/9.mp3',
     urlImage: '/trackImg/9.jpg',
     status: SongStatus.APPROVED,
@@ -130,7 +130,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-10',
     name: 'Track Ten',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/10.mp3',
     urlImage: '/trackImg/10.jpg',
     status: SongStatus.APPROVED,
@@ -142,7 +142,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-11',
     name: 'Track Eleven',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/11.mp3',
     urlImage: '/trackImg/11.jpg',
     status: SongStatus.APPROVED,
@@ -190,7 +190,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-15',
     name: 'Track Fifteen',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/15.mp3',
     urlImage: '/trackImg/15.jpg',
     status: SongStatus.APPROVED,
@@ -214,7 +214,7 @@ export const mockSongs: Song[] = [
     new Song({
     uuid: 'song-166',
     name: 'Track 166',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/16.mp3',
     urlImage: '/trackImg/16.jpg',
     status: SongStatus.DISAPPROVED,
@@ -238,7 +238,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-16',
     name: 'Track Sixteen',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/16.mp3',
     urlImage: '/trackImg/16.jpg',
     status: SongStatus.APPROVED,
@@ -262,7 +262,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-18',
     name: 'Track Eighteen',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/18.mp3',
     urlImage: '/trackImg/18.jpg',
     status: SongStatus.APPROVED,
@@ -274,7 +274,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-19',
     name: 'Track Nineteen',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/19.mp3',
     urlImage: '/trackImg/19.jpg',
     status: SongStatus.APPROVED,
@@ -298,7 +298,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-21',
     name: 'Track Twenty One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/21.mp3',
     urlImage: '/trackImg/21.jpg',
     status: SongStatus.APPROVED,
@@ -322,7 +322,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-23',
     name: 'Track Twenty Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/23.mp3',
     urlImage: '/trackImg/23.jpg',
     status: SongStatus.APPROVED,
@@ -334,7 +334,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-24',
     name: 'Track Twenty Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/24.mp3',
     urlImage: '/trackImg/24.jpg',
     status: SongStatus.APPROVED,
@@ -346,7 +346,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-25',
     name: 'Track Twenty Five',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/25.mp3',
     urlImage: '/trackImg/25.jpg',
     status: SongStatus.APPROVED,
@@ -358,7 +358,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-26',
     name: 'Track Twenty Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/26.mp3',
     urlImage: '/trackImg/26.jpg',
     status: SongStatus.APPROVED,
@@ -382,7 +382,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-28',
     name: 'Track Twenty Eight',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/28.mp3',
     urlImage: '/trackImg/28.jpg',
     status: SongStatus.APPROVED,
@@ -394,7 +394,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-29',
     name: 'Track Twenty Nine',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/29.mp3',
     urlImage: '/trackImg/29.jpg',
     status: SongStatus.APPROVED,
@@ -418,7 +418,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-31',
     name: 'Track Thirty One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/31.mp3',
     urlImage: '/trackImg/31.jpg',
     status: SongStatus.APPROVED,
@@ -442,7 +442,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-33',
     name: 'Track Thirty Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/33.mp3',
     urlImage: '/trackImg/33.jpg',
     status: SongStatus.APPROVED,
@@ -454,7 +454,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-34',
     name: 'Track Thirty Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/34.mp3',
     urlImage: '/trackImg/34.jpg',
     status: SongStatus.APPROVED,
@@ -466,7 +466,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-35',
     name: 'Track Thirty Five',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/35.mp3',
     urlImage: '/trackImg/35.jpg',
     status: SongStatus.APPROVED,
@@ -478,7 +478,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-36',
     name: 'Track Thirty Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/36.mp3',
     urlImage: '/trackImg/36.jpg',
     status: SongStatus.APPROVED,
@@ -502,7 +502,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-38',
     name: 'Track Thirty Eight',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/38.mp3',
     urlImage: '/trackImg/38.jpg',
     status: SongStatus.APPROVED,
@@ -514,7 +514,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-39',
     name: 'Track Thirty Nine',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/39.mp3',
     urlImage: '/trackImg/39.jpg',
     status: SongStatus.APPROVED,
@@ -538,7 +538,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-41',
     name: 'Track Forty One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/41.mp3',
     urlImage: '/trackImg/41.jpg',
     status: SongStatus.APPROVED,
@@ -562,7 +562,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-43',
     name: 'Track Forty Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/43.mp3',
     urlImage: '/trackImg/43.jpg',
     status: SongStatus.APPROVED,
@@ -574,7 +574,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-44',
     name: 'Track Forty Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/44.mp3',
     urlImage: '/trackImg/44.jpg',
     status: SongStatus.APPROVED,
@@ -586,7 +586,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-45',
     name: 'Track Forty Five',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/45.mp3',
     urlImage: '/trackImg/45.jpg',
     status: SongStatus.APPROVED,
@@ -598,7 +598,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-46',
     name: 'Track Forty Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/46.mp3',
     urlImage: '/trackImg/46.jpg',
     status: SongStatus.APPROVED,
@@ -622,7 +622,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-48',
     name: 'Track Forty Eight',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/48.mp3',
     urlImage: '/trackImg/48.jpg',
     status: SongStatus.APPROVED,
@@ -634,7 +634,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-49',
     name: 'Track Forty Nine',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/49.mp3',
     urlImage: '/trackImg/49.jpg',
     status: SongStatus.APPROVED,
@@ -658,7 +658,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-51',
     name: 'Track Fifty One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/51.mp3',
     urlImage: '/trackImg/51.jpg',
     status: SongStatus.APPROVED,
@@ -682,7 +682,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-53',
     name: 'Track Fifty Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/53.mp3',
     urlImage: '/trackImg/53.jpg',
     status: SongStatus.APPROVED,
@@ -694,7 +694,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-54',
     name: 'Track Fifty Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/54.mp3',
     urlImage: '/trackImg/54.jpg',
     status: SongStatus.APPROVED,
@@ -706,7 +706,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-55',
     name: 'Track Fifty Five',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/55.mp3',
     urlImage: '/trackImg/55.jpg',
     status: SongStatus.APPROVED,
@@ -718,7 +718,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-56',
     name: 'Track Fifty Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/56.mp3',
     urlImage: '/trackImg/56.jpg',
     status: SongStatus.APPROVED,
@@ -742,7 +742,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-58',
     name: 'Track Fifty Eight',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/58.mp3',
     urlImage: '/trackImg/58.jpg',
     status: SongStatus.APPROVED,
@@ -754,7 +754,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-59',
     name: 'Track Fifty Nine',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/59.mp3',
     urlImage: '/trackImg/59.jpg',
     status: SongStatus.APPROVED,
@@ -778,7 +778,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-61',
     name: 'Track Sixty One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/61.mp3',
     urlImage: '/trackImg/61.jpg',
     status: SongStatus.APPROVED,
@@ -802,7 +802,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-63',
     name: 'Track Sixty Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/63.mp3',
     urlImage: '/trackImg/63.jpg',
     status: SongStatus.APPROVED,
@@ -814,7 +814,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-64',
     name: 'Track Sixty Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/64.mp3',
     urlImage: '/trackImg/64.jpg',
     status: SongStatus.APPROVED,
@@ -826,7 +826,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-65',
     name: 'Track Sixty Five',
-    avgRating: 4.1,
+    avgRating: 6.7,
     url: '/music/65.mp3',
     urlImage: '/trackImg/65.jpg',
     status: SongStatus.APPROVED,
@@ -838,7 +838,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-66',
     name: 'Track Sixty Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/66.mp3',
     urlImage: '/trackImg/66.jpg',
     status: SongStatus.APPROVED,
@@ -862,7 +862,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-68',
     name: 'Track Sixty Eight',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/68.mp3',
     urlImage: '/trackImg/68.jpg',
     status: SongStatus.APPROVED,
@@ -874,7 +874,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-69',
     name: 'Track Sixty Nine',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/69.mp3',
     urlImage: '/trackImg/69.jpg',
     status: SongStatus.APPROVED,
@@ -898,7 +898,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-71',
     name: 'Track Seventy One',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/71.mp3',
     urlImage: '/trackImg/71.jpg',
     status: SongStatus.APPROVED,
@@ -922,7 +922,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-73',
     name: 'Track Seventy Three',
-    avgRating: 4.0,
+    avgRating: 9.0,
     url: '/music/73.mp3',
     urlImage: '/trackImg/73.jpg',
     status: SongStatus.APPROVED,
@@ -934,7 +934,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-74',
     name: 'Track Seventy Four',
-    avgRating: 4.3,
+    avgRating: 6.5,
     url: '/music/74.mp3',
     urlImage: '/trackImg/74.jpg',
     status: SongStatus.APPROVED,
@@ -946,7 +946,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-75',
     name: 'Track Seventy Five',
-    avgRating: 4.2,
+    avgRating: 8.1,
     url: '/music/75.mp3',
     urlImage: '/trackImg/75.jpg',
     status: SongStatus.APPROVED,
@@ -958,7 +958,7 @@ export const mockSongs: Song[] = [
   new Song({
     uuid: 'song-76',
     name: 'Track Seventy Six',
-    avgRating: 4.6,
+    avgRating: 7.6,
     url: '/music/76.mp3',
     urlImage: '/trackImg/76.jpg',
     status: SongStatus.APPROVED,

@@ -8,6 +8,7 @@ import TrackRow from '@/components/track';
 import AlbumCard from '@/components/album';
 import styles from './style.module.scss';
 import { usePathname } from 'next/navigation';
+import { author1Albums, author1Songs } from '@/mocks/mockAuthor1AlbumsAndSongs';
 
 interface ArtistPageProps {
   params: {
@@ -16,16 +17,16 @@ interface ArtistPageProps {
 }
 
 const statisticsByLogin: Record<string, { plays: number; likes: number; followers: number; albums: number }> = {
-  author111: { plays: 12345, likes: 2345, followers: 789, albums: 4 },
-  artist2: { plays: 9876, likes: 876, followers: 321, albums: 2 },
-  artist3: { plays: 5432, likes: 432, followers: 210, albums: 3 },
-  artist4: { plays: 2222, likes: 333, followers: 111, albums: 1 },
-  artist5: { plays: 8888, likes: 555, followers: 444, albums: 2 },
-  artist6: { plays: 1111, likes: 222, followers: 333, albums: 1 },
-  artist7: { plays: 4444, likes: 555, followers: 666, albums: 2 },
-  artist8: { plays: 7777, likes: 888, followers: 999, albums: 3 },
-  artist9: { plays: 1357, likes: 246, followers: 357, albums: 2 },
-  artist10: { plays: 2468, likes: 135, followers: 864, albums: 1 },
+  author111: { plays: 120, likes: 4, followers: 789, albums: 12 },
+  artist2: { plays: 76, likes: 5, followers: 321, albums: 2 },
+  artist3: { plays: 45, likes: 4, followers: 210, albums: 3 },
+  artist4: { plays: 32, likes: 6, followers: 111, albums: 1 },
+  artist5: { plays: 12, likes: 4, followers: 444, albums: 2 },
+  artist6: { plays: 54, likes: 3, followers: 333, albums: 1 },
+  artist7: { plays: 76, likes: 4, followers: 666, albums: 2 },
+  artist8: { plays: 3, likes: 5, followers: 999, albums: 3 },
+  artist9: { plays: 43, likes: 6, followers: 357, albums: 2 },
+  artist10: { plays: 32, likes: 7, followers: 864, albums: 1 },
 };
 
 const getStatistics = (login: string) => {
@@ -246,22 +247,22 @@ export default function ArtistPage({ params }: ArtistPageProps) {
         <div className={styles.statisticsBlock}>
           <div className={styles.statItem}>
             <span className={styles.statValue}>{statistics.plays}</span>
-            <span className={styles.statLabel}>Прослушивания</span>
+            <span className={styles.statLabel}>Прослушивания (за неделю)</span>
           </div>
           <div className={styles.statItem}>
             <span className={styles.statValue}>{statistics.likes}</span>
             <span className={styles.statLabel}>Лайки</span>
           </div>
-          <div className={styles.statItem}>
+          {/* <div className={styles.statItem}>
             <span className={styles.statValue}>{statistics.followers}</span>
             <span className={styles.statLabel}>Подписчики</span>
-          </div>
+          </div> */}
           <div className={styles.statItem}>
-            <span className={styles.statValue}>{artistAlbums.length}</span>
+            <span className={styles.statValue}>{author1Albums.length}</span>
             <span className={styles.statLabel}>Альбомы</span>
           </div>
           <div className={styles.statItem}>
-            <span className={styles.statValue}>{artistSongs.length}</span>
+            <span className={styles.statValue}>{author1Songs.length}</span>
             <span className={styles.statLabel}>Треки</span>
           </div>
         </div>
@@ -284,8 +285,8 @@ export default function ArtistPage({ params }: ArtistPageProps) {
           <div className={styles.tabContent}>
             {activeTab === 'tracks' ? (
               <div className={styles.tracksList}>
-                {artistSongs.length > 0 ? (
-                  artistSongs.map((song, index) => (
+                {author1Songs.length > 0 ? (
+                  author1Songs.map((song, index) => (
                     <TrackRow
                       key={song.uuid}
                       song={song}

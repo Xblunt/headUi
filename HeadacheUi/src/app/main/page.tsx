@@ -312,7 +312,7 @@ export default function MainPage() {
           </div>
         </section>
         <section className={s.section}>
-          <h2 className={s.sectionTitle}>Рекомендованные альбомы</h2>
+          <h2 className={s.sectionTitle}>Также может понравиться</h2>
           <div className={s.albumsGrid}>
             {albumsSet.map((album: any) => (
               <AlbumCard

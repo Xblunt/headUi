@@ -36,17 +36,19 @@ const StatisticsPage: FC = () => {
   // Данные для author111
   const albumsCount = author1Albums.length;
   const tracksCount = author1Songs.length;
-  const likesCount = 2345; // хардкод
+  const likesCount = 4; // хардкод
   const promoRequestsCount = 11; // хардкод
 
   // Средняя оценка
-  const avgRating =
-    author1Songs.length > 0
-      ? (
-          author1Songs.reduce((sum, song) => sum + (song.avgRating || 0), 0) /
-          author1Songs.length
-        ).toFixed(2)
-      : '0';
+  // const avgRating =
+  //   author1Songs.length > 0
+  //     ? (
+  //         author1Songs.reduce((sum, song) => sum + (song.avgRating || 0), 0) /
+  //         author1Songs.length
+  //       ).toFixed(2)
+  //     : '0';
+
+  const avgRating = 7.8
 
   // График: Средние оценки треков (название и оценка)
   const ratingData = author1Songs.map(song => ({
@@ -62,18 +64,19 @@ const StatisticsPage: FC = () => {
     });
   });
   const genreData = Object.entries(genreCount).map(([name, value]) => ({
-    name: genreRu[name] || name,
+    name:  name,
     value,
     orig: name
   }));
 
   const playsData = [
-    { name: 'Янв', прослушивания: 400 },
-    { name: 'Фев', прослушивания: 300 },
-    { name: 'Мар', прослушивания: 600 },
-    { name: 'Апр', прослушивания: 800 },
-    { name: 'Май', прослушивания: 500 },
-    { name: 'Июн', прослушивания: 900 },
+    { name: 'Пн', прослушивания: 10 },
+    { name: 'Вт', прослушивания: 20 },
+    { name: 'Ср', прослушивания: 20 },
+    { name: 'Чт', прослушивания: 15 },
+    { name: 'Пт', прослушивания: 12 },
+    { name: 'Сб', прослушивания: 8 },
+     { name: 'Вс', прослушивания: 35 },
   ];
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#7c192a', '#a3e635', '#f472b6', '#f59e42'];
@@ -85,11 +88,11 @@ const StatisticsPage: FC = () => {
       {/* Блок с основной статистикой */}
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
-          <h3>Общее количество прослушиваний</h3>
-          <p className={styles.statValue}>12,458</p>
+          <h3>Общее количество прослушиваний (за неделю)</h3>
+          <p className={styles.statValue}>120</p>
         </div>
         <div className={styles.statCard}>
-          <h3>Средняя оценка</h3>
+          <h3>Рейтинг</h3>
           <p className={styles.statValue}>{avgRating}</p>
         </div>
         <div className={styles.statCard}>
@@ -130,7 +133,7 @@ const StatisticsPage: FC = () => {
       {/* Два графика в ряд */}
       <div className={styles.twoCharts}>
         <div className={styles.chartCard}>
-          <h2>Прослушивания по месяцам</h2>
+          <h2>Прослушивания по дням недели</h2>
           <div className={styles.chartWrapper}>
             <ResponsiveContainer width="100%" height={200}>
               <LineChart data={playsData}>

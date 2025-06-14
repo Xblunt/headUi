@@ -259,10 +259,10 @@ const UserProfilePage = () => {
                 <div className={s.fieldValue}>{formatDate(user.lastVisitDate)}</div>
               </div>
 
-              <div className={s.formGroup}>
+              {/* <div className={s.formGroup}>
                 <label>Рейтинг</label>
                 <div className={s.fieldValue}>{user.avgRating || 'Не указан'}</div>
-              </div>
+              </div> */}
             </div>
 
             {/* <div className={s.section}>
