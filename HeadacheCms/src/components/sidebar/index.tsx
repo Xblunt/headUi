@@ -21,8 +21,8 @@ export const Sidebar: FC = () => {
   
   const user: User = {
     // name: 'Иван Иванов',
-    email: 'ivanLogin@mail.ru',
-    login: 'ivanLogin',
+    email: 'admin@mail.ru',
+    login: 'admin',
     avatar: '/usersAva/sta.jpg',
     role: 'Администратор'
   };

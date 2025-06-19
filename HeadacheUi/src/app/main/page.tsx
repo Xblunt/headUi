@@ -32,7 +32,7 @@ export default function MainPage() {
   // --- Данные ---
   let tracksSet = mockSongSets.set5;
   let albumsSet = mockAlbumSets.albumSet2;
-  if (typeof window !== 'undefined' && localStorage.getItem('user') === 'secondUser') {
+  if (typeof window !== 'undefined' && localStorage.getItem('user') === 'label78') {
     tracksSet = mockSongSets.set6;
     albumsSet = mockAlbumSets.albumSet1;
   }

@@ -34,9 +34,9 @@ const set5 = approvedSongs.slice(20, 40);
 const set6 = [
   approvedSongs[10], approvedSongs[30], approvedSongs[50], approvedSongs[70],
   approvedSongs[5], approvedSongs[25], approvedSongs[45], approvedSongs[65],
-  approvedSongs[15], approvedSongs[35], approvedSongs[55], approvedSongs[75],
+  approvedSongs[15], approvedSongs[20], approvedSongs[55], approvedSongs[75],
   approvedSongs[1], approvedSongs[21], approvedSongs[41], approvedSongs[61],
-  approvedSongs[9], approvedSongs[29], approvedSongs[49], approvedSongs[69]
+  approvedSongs[9], approvedSongs[29], approvedSongs[49], approvedSongs[14]
 ];
 
 export const mockSongSets = {

@@ -58,7 +58,7 @@ const UserProfilePage = () => {
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'Не указана';
-    return new Date(dateString).toLocaleString();
+    return new Date(dateString).toLocaleDateString();
   };
 
   if (!user) {

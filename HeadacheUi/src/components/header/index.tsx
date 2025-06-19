@@ -19,35 +19,35 @@ const USERS_DB: Record<string, User> = {
     name: 'Иван Иванов',
     email: 'firstUser@mail.ru',
     login: 'firstUser',
-    avatar: 'https://randomuser.me/api/portraits/men/2.jpg',
+    avatar: '/usersAva/st.jpg',
     role: 'Слушатель'
   },
    'secondUser': {
     name: 'Илья Ильин',
     email: 'secondUser@mail.ru',
     login: 'secondUser',
-    avatar: 'https://randomuser.me/api/portraits/men/5.jpg',
+    avatar: '/usersAva/st.jpg',
     role: 'Слушатель'
   },
   'author111': {
     name: 'Алексей Петров',
     email: 'author111@mail.ru',
     login: 'author111',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg',
+    avatar: '/usersAva/st.jpg',
     role: 'Автор'
   },
   'label78': {
     name: 'Мария Сидорова',
     email: 'label78@mail.ru',
     login: 'label78',
-    avatar: '/usersAva/label3.jpg',
+    avatar: '/usersAva/st.jpg',
     role: 'Лейбл'
   },
   'default': {
-    name: 'Петр Петрович',
-    email: 'petr@mail.ru',
-    login: 'user',
-    avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+    name: 'Иван Иванов',
+    email: 'firstUser@mail.ru',
+    login: 'firstUser',
+    avatar: '/usersAva/st.jpg',
     role: 'Слушатель'
   }
 };
