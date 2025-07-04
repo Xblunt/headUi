@@ -1,7 +1,6 @@
 
 import { mockUsers } from './mockUsers';
 
-// Define the Chat type if not imported from elsewhere
 export interface Chat {
   uuid: string;
   name: string;
@@ -10,11 +9,9 @@ export interface Chat {
   lastMessageTime: string;
 }
 
-// Получаем uuid лейблов и слушателей
 const labelUsers = mockUsers.filter(u => u.roles.includes('LABEL'));
 const userUsers = mockUsers.filter(u => u.roles.includes('USER'));
 
-// 15 чатов только из лейблов
 const labelChats: Chat[] = [
   {
     uuid: 'label-chat-1',
@@ -123,7 +120,6 @@ const labelChats: Chat[] = [
   },
 ];
 
-// 15 чатов только из слушателей (USER)
 const userChats: Chat[] = [
   {
     uuid: 'user-chat-1',

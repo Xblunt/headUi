@@ -1,4 +1,4 @@
-// app/users/page.tsx
+
 'use client';
 
 import { useState, useRef } from "react";
@@ -38,7 +38,6 @@ type SortOption = {
 };
 
 const UsersPage = () => {
-  // Списки пользователей для каждого таба
   const [allUsers, setAllUsers] = useState<User[]>(mockUsers);
   const [authors, setAuthors] = useState<User[]>(mockUsers.filter(u => u.roles.includes('ARTIST') && u.isAccountNonLocked && u.isActive));
   const [labels, setLabels] = useState<User[]>(mockUsers.filter(u => u.roles.includes('LABEL') && u.isAccountNonLocked && u.isActive));
@@ -73,7 +72,6 @@ const UsersPage = () => {
     { label: 'По дате регистрации  (старые)', value: 'date-asc' },
   ];
 
-  // Получить список пользователей для текущего таба
   const getUsersForTab = () => {
     switch (activeTab) {
       case 0: return allUsers.filter(u => u.isAccountNonLocked && u.isActive);
@@ -86,7 +84,6 @@ const UsersPage = () => {
     }
   };
 
-  // Сортировка
   const sortUsers = (users: User[]) => {
     return [...users].sort((a, b) => {
       switch (sortOption) {
@@ -99,7 +96,6 @@ const UsersPage = () => {
     });
   };
 
-  // Фильтрация
   const filteredUsers = sortUsers(
     getUsersForTab().filter(user => {
       const searchMatch = searchQuery === '' ||
@@ -115,7 +111,6 @@ const UsersPage = () => {
   );
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
 
-  // --- Обновление списков при изменении пользователя ---
   const updateAllLists = (updatedUsers: User[]) => {
     setAllUsers(updatedUsers);
     setAuthors(updatedUsers.filter(u => u.roles.includes('ARTIST') && u.isAccountNonLocked && u.isActive));
@@ -125,7 +120,6 @@ const UsersPage = () => {
     setBanned(updatedUsers.filter(u => !u.isAccountNonLocked || !u.isActive));
   };
 
-  // --- Блокировка/разблокировка пользователя ---
   const handleToggleBan = (userId: string) => {
     const updatedUsers = allUsers.map(user =>
       user.uuid === userId
@@ -135,7 +129,6 @@ const UsersPage = () => {
     updateAllLists(updatedUsers);
   };
 
-  // --- Изменение ролей пользователя ---
   const handleUpdateRoles = (userId: string, newRoles: string[]) => {
     const updatedUsers = allUsers.map(user =>
       user.uuid === userId
@@ -145,7 +138,6 @@ const UsersPage = () => {
     updateAllLists(updatedUsers);
   };
 
-  // --- Создание пользователя ---
   const handleCreateUser = () => {
     if (!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0 || !newUser.password) return;
     const user = new User({
@@ -180,7 +172,6 @@ const UsersPage = () => {
     setShowCreateModal(false);
     if (phoneRef.current) phoneRef.current.value = '';
     if (dateRef.current) dateRef.current.value = '';
-    // Переключаемся на таб, куда попал пользователь
     if (!user.isAccountNonLocked || !user.isActive) setActiveTab(5);
     else if (user.roles.includes('ARTIST')) setActiveTab(1);
     else if (user.roles.includes('LABEL')) setActiveTab(2);
@@ -208,7 +199,6 @@ const UsersPage = () => {
     if (dateRef.current) dateRef.current.value = '';
   };
 
-  // --- Сброс пагинации при смене таба ---
   const handleTabChange = (e: any) => {
     setActiveTab(e.index);
     setCurrentPage(1);
@@ -220,7 +210,6 @@ const UsersPage = () => {
     return date.toLocaleDateString();
   };
 
-  // --- Сохранение изменений пользователя ---
   const handleSaveEditUser = () => {
     if (!editUser) return;
     const updatedUsers = allUsers.map(user =>
@@ -236,7 +225,6 @@ const UsersPage = () => {
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
-        {/* <h1>User Management</h1> */}
         
         <TabMenuNoBg
           model={roleTabs}
@@ -386,7 +374,6 @@ const UsersPage = () => {
         />
       </div>
 
-      {/* User Details Modal */}
       <Dialog 
         visible={!!selectedUser} 
         onHide={() => setSelectedUser(null)}
@@ -456,7 +443,6 @@ const UsersPage = () => {
         )}
       </Dialog>
 
-      {/* Create User Modal */}
       <Dialog 
         visible={showCreateModal} 
         onHide={handleCancelCreate}
@@ -577,24 +563,6 @@ const UsersPage = () => {
             </label>
           </div>
         </div>
-        {/* <div className={s.modalFooter}>
-          <Button 
-            label="Отмена" 
-            icon="pi pi-times" 
-            className={s.cancelButton}
-            onClick={handleCancelCreate}
-          />
-          <Button 
-            label="Создать" 
-            icon="pi pi-check" 
-            className={s.confirmButton}
-            onClick={() => {
-              setNewUser(prev => ({ ...prev, urlImage: '/st.jpg' }));
-              setTimeout(() => handleCreateUser(), 0);
-            }}
-            disabled={!newUser.login || !newUser.email || !newUser.roles || newUser.roles.length === 0 || !newUser.password}
-          />
-        </div> */}
         <div className={s.modalFooter}>
               <button onClick={handleCancelCreate} className={s.cancelButton}>
                 Отмена
@@ -608,7 +576,6 @@ const UsersPage = () => {
             </div>
       </Dialog>
 
-      {/* Edit User Modal */}
       <Dialog 
         visible={!!editUser} 
         onHide={() => { setEditUser(null); setEditUserData({}); }}

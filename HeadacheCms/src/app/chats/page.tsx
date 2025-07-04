@@ -1,4 +1,4 @@
-// app/chats/page.tsx
+
 'use client';
 
 import { useState } from "react";
@@ -12,7 +12,6 @@ import { TabMenu } from 'primereact/tabmenu';
 import { mockUsers } from '@/mocks/mockUsers';
 import { mockChats } from '@/mocks/mockChats';
 
-// Модель пользователя
 interface User {
   uuid: string;
   login: string;
@@ -20,7 +19,6 @@ interface User {
   roles: string[];
 }
 
-// Модель чата
 interface Chat {
   uuid: string;
   name: string;
@@ -29,10 +27,8 @@ interface Chat {
   lastMessageTime?: string;
 }
 
-// Моковые данные пользователей
 const usersMock: User[] = mockUsers as any;
 
-// Моковые данные чатов
 const chatsMock: Chat[] = mockChats;
 
 type SortOption = {
@@ -63,14 +59,13 @@ const ChatsPage = () => {
     { label: 'По названию (Z-А)', value: 'name-desc' },
   ];
 
-  // Фильтрация по табу
   const getChatsForTab = () => {
     switch (activeTab) {
-      case 0: // Все чаты
+      case 0: 
         return chats;
-      case 1: // Групповые
+      case 1:
         return chats.filter(chat => chat.participantUUIDs.length > 2);
-      case 2: // Личные
+      case 2:
         return chats.filter(chat => chat.participantUUIDs.length === 2);
       default:
         return chats;
@@ -159,12 +154,6 @@ const ChatsPage = () => {
       />
 
       <div className={s.header}>
-        {/* <TabMenu
-          className={s.tabs}
-          model={chatTabs}
-          activeIndex={activeTab}
-          onTabChange={handleTabChange}
-        /> */}
         <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText

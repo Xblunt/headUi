@@ -61,7 +61,7 @@
   margin-top: 20px;
 }
 
-// TrackRow styles
+
 .trackRow {
   display: flex;
   align-items: center;
@@ -209,7 +209,7 @@
   }
 }
 
-// Modal styles
+
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -259,7 +259,7 @@
   padding: 16px;
 }
 
-// Add these styles to your existing SCSS
+
 .trackProgress {
   position: absolute;
   bottom: 0;
@@ -294,14 +294,14 @@
   text-align: right;
 }
 
-// Update the infoRow in modal to align progress bar
+
 .infoRow {
   .infoValue {
     display: flex;
     align-items: center;
     gap: 8px;
     
-    // When progress bar is present
+
     &.withProgress {
       display: flex;
       align-items: center;

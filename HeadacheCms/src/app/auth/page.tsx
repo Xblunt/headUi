@@ -22,18 +22,7 @@ const AuthPageSettings = observer(() => {
 
   const handleClick = async () => {
     setError('');
-    // setLoading(true);
-     router.push('/main');
-    // try {
-    //   const result = await authService.singIn(data);
-    //   if (result) {
-    //     router.push('/main');
-    //     setLoading(false);
-    //   }
-    // } catch (err) {
-    //   setError('Неверный логин или пароль');
-    //   setLoading(false);
-    // }
+    router.push('/main');
   };
 
   const disableButton = () => {
@@ -43,8 +32,8 @@ const AuthPageSettings = observer(() => {
   return (
     <div className={s.authContainer}>
       <div className={s.title}>
-      <h2>Вход</h2>
-      <h3>Система управления котентом</h3>
+        <h2>Вход</h2>
+        <h3>Система управления котентом</h3>
       </div>
       <div className={s.authWrapper}>
         <PfInputText

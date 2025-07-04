@@ -1,4 +1,4 @@
-import { AllStore, AuthStore  } from "@/stores";
+import { AllStore, AuthStore } from "@/stores";
 import { ALL_STORE, AUTH_STORE } from "@/stores/identifiers";
 import { getValidToken } from "@/utils/authToken";
 import { get, post } from "@/utils/fetchWrapper";
@@ -16,7 +16,7 @@ class AllService {
 
   static getInstance(): AllService {
     if (!AllService.instance) {
-        AllService.instance = new AllService();
+      AllService.instance = new AllService();
     }
     return AllService.instance;
   }
@@ -24,10 +24,6 @@ class AllService {
   // GET - Получение всех данных
   async get<T>(endpoint: string): Promise<T | null> {
     const token = getValidToken();
-    // if (!token) {
-    //   this.authStore.setNotHaveToken(true);
-    //   return null;
-    // }
     console.log('endpoint', endpoint)
     try {
       const response = await get(endpoint, {}, token);
@@ -84,13 +80,8 @@ class AllService {
     }
   }
 
-
   async post<T>(endpoint: string, data: any): Promise<T | null> {
     const token = getValidToken();
-    // if (!token) {
-    //   this.authStore.setNotHaveToken(true);
-    //   return null;
-    // }
 
     this.allStore.setLoading(true);
     try {
@@ -98,9 +89,9 @@ class AllService {
       if (response) {
         return JSON.parse(response) as T;
       }
-      throw new Error(`Failed to update data  in ${endpoint}`);
+      throw new Error(`Failed to update data in ${endpoint}`);
     } catch (error) {
-      console.error(`Ошибка при обновлении данных  в ${endpoint}:`, error);
+      console.error(`Ошибка при обновлении данных в ${endpoint}:`, error);
       throw error;
     } finally {
       this.allStore.setLoading(false);
@@ -117,8 +108,6 @@ class AllService {
 
     this.allStore.setLoading(true);
     try {
-      // Предполагаем, что у вас есть метод delete в fetchWrapper
-      // Если нет, его нужно добавить аналогично get/post
       const response = await post(`${endpoint}/${id}/delete`, "", token);
       if (response) {
         return JSON.parse(response) as T;

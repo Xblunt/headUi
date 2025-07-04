@@ -193,7 +193,7 @@ export const PfTable: FC<IProps> = observer((props) => {
             <InputText type={"search"} placeholder={"Поиск..."} onInput={(e) => { const target = e.target as HTMLInputElement; setGlobalFilter(target.value); }} />
           </IconField>
           {!props.hideActions && <Button icon={"pi pi-plus"} severity={"success"} onClick={openNewRow} />}
-          {/* <Button icon={"pi pi-angle-up"} onClick={() => setVisibleCols(false)} /> */}
+
         </div>) : (<div className={"flex row gap-2"}> <Button icon={"pi pi-angle-down"} onClick={() => setVisibleCols(true)} /></div>)
       }
     </div>

@@ -2,9 +2,7 @@ import { PromotionRequest, PromotionStatus } from '../models';
 import { mockPromotionsAuthor1 } from './mockPromotionsAuthor1';
 
 export const mockPromotions: PromotionRequest[] = [
-  // Используем первый промоушен от author-1 (PROMOTED)
   mockPromotionsAuthor1[0],
-  // ...existing code, начиная со второго промоушена...
   new PromotionRequest({
     uuid: 'promo-2',
     songUUID: 'song-2',
@@ -96,7 +94,6 @@ export const mockPromotions: PromotionRequest[] = [
     urlImg: '/promoImg/10.jpg'
   }),
 
-  // PROCESSING (10)
   new PromotionRequest({
     uuid: 'promo-11',
     songUUID: 'song-11',
@@ -198,7 +195,6 @@ export const mockPromotions: PromotionRequest[] = [
     urlImg: '/promoImg/20.jpg'
   }),
 
-  // AWAITING_PROMOTION (10)
   new PromotionRequest({
     uuid: 'promo-21',
     songUUID: 'song-21',

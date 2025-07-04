@@ -1,7 +1,6 @@
 import { File, FileExtension, FileType } from '../models';
 
 export const mockFiles: File[] = [
-  // SONG FILES
   new File({
     uuid: 'file-1',
     data: new Uint8Array(0),
@@ -183,7 +182,6 @@ export const mockFiles: File[] = [
     type: FileType.SONG
   }),
 
-  // IMAGE FILES (album covers)
   new File({
     uuid: 'file-101',
     data: new Uint8Array(0),

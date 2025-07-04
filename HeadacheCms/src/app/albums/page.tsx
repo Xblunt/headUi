@@ -213,7 +213,6 @@ const AlbumsPage = () => {
         />
       </div>
 
-      {/* Album Info Modal */}
       {showInfoModal && (
         <div className={s.modalOverlay}  onClick={() => setShowInfoModal(null)}>
           <div className={s.modalContent}  onClick={e => e.stopPropagation()}>
@@ -268,7 +267,6 @@ const AlbumsPage = () => {
         </div>
       )}
 
-      {/* Edit Album Modal */}
       {showEditModal && (
         <div className={s.modalOverlay} onClick={() => setShowEditModal(null)}>
           <div className={s.modalContent} onClick={e => e.stopPropagation()} style={{ minWidth: 750, width: 750 }}>

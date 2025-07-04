@@ -1,16 +1,17 @@
+import { CooperationRequest } from "@/models";
 import { makeAutoObservable } from "mobx";
 
-class AllStore {
-  private _data: any | null = null;
+class CooperationStore {
+  private _cooperations: CooperationRequest[] = [];
   private _loading: boolean = false;
   private _canEdit: boolean = false;
-  
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  get data() {
-    return this._data;
+  get cooperations() {
+    return this._cooperations;
   }
 
   get loading() {
@@ -21,8 +22,8 @@ class AllStore {
     return this._canEdit;
   }
 
-  setData = (data: any) => {
-    this._data = data;
+  setCooperations = (cooperations: CooperationRequest[]) => {
+    this._cooperations = cooperations;
   };
 
   setLoading = (loading: boolean) => {
@@ -34,4 +35,4 @@ class AllStore {
   };
 }
 
-export default AllStore;
+export default CooperationStore; 

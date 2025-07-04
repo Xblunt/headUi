@@ -1,38 +1,38 @@
-// import { Main } from "@/models";
-// import { makeAutoObservable } from "mobx";
+import { Main } from "@/models";
+import { makeAutoObservable } from "mobx";
 
-// class MainStore {
-//   private _main: Main | null = null;
-//   private _loading: boolean = false;
-//   private _canEdit: boolean = false;
-  
-//   constructor() {
-//     makeAutoObservable(this);
-//   };
+class MainStore {
+  private _main: Main | null = null;
+  private _loading: boolean = false;
+  private _canEdit: boolean = false;
 
-//   get main() {
-//     return this._main;
-//   };
+  constructor() {
+    makeAutoObservable(this);
+  }
 
-//   get loading() {
-//     return this._loading;
-//   };
+  get main() {
+    return this._main;
+  }
 
-//   get canEdit() {
-//     return this._canEdit;
-//   };
+  get loading() {
+    return this._loading;
+  }
 
-//   setMain = (main: Main) => {
-//     this._main = main;
-//   };
+  get canEdit() {
+    return this._canEdit;
+  }
 
-//   setLoading = (loading: boolean) => {
-//     this._loading = loading;
-//   };
+  setMain = (main: Main | null) => {
+    this._main = main;
+  };
 
-//   setCanEdit = (canEdit: boolean) => {
-//     this._canEdit = canEdit;
-//   };
-// }
+  setLoading = (loading: boolean) => {
+    this._loading = loading;
+  };
 
-// export default MainStore;
+  setCanEdit = (canEdit: boolean) => {
+    this._canEdit = canEdit;
+  };
+}
+
+export default MainStore; 

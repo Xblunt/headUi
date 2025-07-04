@@ -1,16 +1,17 @@
+import { Chat } from "@/models";
 import { makeAutoObservable } from "mobx";
 
-class AllStore {
-  private _data: any | null = null;
+class ChatStore {
+  private _chats: Chat[] = [];
   private _loading: boolean = false;
   private _canEdit: boolean = false;
-  
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  get data() {
-    return this._data;
+  get chats() {
+    return this._chats;
   }
 
   get loading() {
@@ -21,8 +22,8 @@ class AllStore {
     return this._canEdit;
   }
 
-  setData = (data: any) => {
-    this._data = data;
+  setChats = (chats: Chat[]) => {
+    this._chats = chats;
   };
 
   setLoading = (loading: boolean) => {
@@ -34,4 +35,4 @@ class AllStore {
   };
 }
 
-export default AllStore;
+export default ChatStore; 

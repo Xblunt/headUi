@@ -2,37 +2,37 @@
 
 import { FC, ReactNode, createContext, useEffect, useState } from "react";
 import { 
-  // ABOUT_STORE, 
-  // APP_STORE, 
   AUTH_STORE, 
-  ALL_STORE
-  // CAREER_STORE, 
-  // CONTACTS_STORE, 
-  // DIRECTION_STORE, 
-  // MAIN_STORE,
-  // NEWS_STORE
+  ALL_STORE,
+  ALBUM_STORE,
+  SONG_STORE,
+  USER_STORE,
+  PROMOTION_STORE,
+  COOPERATION_STORE,
+  CHAT_STORE,
+  MAIN_STORE
 } from "../identifiers";
-// import AppStore from "../app.store";
 import Injector from "@/utils/injector";
-// import MainStore from "../main.store";
-// import NewsStore from "../news.store"
-// import DirectionStore from "../direction.store";
-// import CareerStore from "../career.store";
-// import AboutStore from "../about.store";
-// import ContactsStore from "../contacts.store";
 import AuthStore from "../auth.store";
 import AllStore from "../all.store";
+import AlbumStore from "../album.store";
+import SongStore from "../song.store";
+import UserStore from "../user.store";
+import PromotionStore from "../promotion.store";
+import CooperationStore from "../cooperation.store";
+import ChatStore from "../chat.store";
+import MainStore from "../main.store";
 
 interface StoreContextValue {
-  // appStore: AppStore;
   authStore: AuthStore;
   allStore: AllStore;
-  // mainStore: MainStore;
-  // newsStore: NewsStore;
-  // directionStore: DirectionStore;
-  // careerStore: CareerStore;
-  // aboutStore: AboutStore;
-  // contactsStore: ContactsStore;
+  albumStore: AlbumStore;
+  songStore: SongStore;
+  userStore: UserStore;
+  promotionStore: PromotionStore;
+  cooperationStore: CooperationStore;
+  chatStore: ChatStore;
+  mainStore: MainStore;
 }
 
 export const StoreContext = createContext<StoreContextValue | undefined>(undefined);
@@ -46,30 +46,28 @@ const StoreProvider: FC<StoreProviderProps> = ({ children }) => {
 
   useEffect(() => {
     setRootStore({
-      // Создаем экземпляры сторов
-      // appStore: new AppStore(),
       authStore: new AuthStore(),
       allStore: new AllStore(),
-      // mainStore: new MainStore(),
-      // newsStore: new NewsStore(),
-      // directionStore: new DirectionStore(),
-      // careerStore: new CareerStore(),
-      // aboutStore: new AboutStore(),
-      // contactsStore: new ContactsStore(),
+      albumStore: new AlbumStore(),
+      songStore: new SongStore(),
+      userStore: new UserStore(),
+      promotionStore: new PromotionStore(),
+      cooperationStore: new CooperationStore(),
+      chatStore: new ChatStore(),
+      mainStore: new MainStore(),
     });
   }, []);
 
-  // Регистрируем сторы в инжекторе
   if (rootStore) {
-    // Injector.register(APP_STORE, rootStore.appStore);
     Injector.register(AUTH_STORE, rootStore.authStore);
     Injector.register(ALL_STORE, rootStore.allStore);
-    // Injector.register(MAIN_STORE, rootStore.mainStore);
-    // Injector.register(NEWS_STORE, rootStore.newsStore);
-    // Injector.register(DIRECTION_STORE, rootStore.directionStore);
-    // Injector.register(CAREER_STORE, rootStore.careerStore);
-    // Injector.register(ABOUT_STORE, rootStore.aboutStore);
-    // Injector.register(CONTACTS_STORE, rootStore.contactsStore);
+    Injector.register(ALBUM_STORE, rootStore.albumStore);
+    Injector.register(SONG_STORE, rootStore.songStore);
+    Injector.register(USER_STORE, rootStore.userStore);
+    Injector.register(PROMOTION_STORE, rootStore.promotionStore);
+    Injector.register(COOPERATION_STORE, rootStore.cooperationStore);
+    Injector.register(CHAT_STORE, rootStore.chatStore);
+    Injector.register(MAIN_STORE, rootStore.mainStore);
 
     return (
       <StoreContext.Provider value={{ ...rootStore }}>

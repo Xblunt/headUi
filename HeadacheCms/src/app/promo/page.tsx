@@ -1,4 +1,3 @@
-// app/promotion-requests/page.tsx
 'use client';
 
 import { useState } from "react";
@@ -14,8 +13,6 @@ import { mockUsers } from '@/mocks/mockUsers';
 import { mockSongs } from '@/mocks/mockSongs';
 import { mockPromotions } from '@/mocks/mockPromotions';
 import { TabMenuNoBg } from "../users/TabMenuNoBg";
-
-// Удалить usersMock, songsMock, requestsMock
 
 const statusTabs: ILink[] = [
   { label: 'Ожидают', icon: 'pi pi-clock' },
@@ -78,7 +75,6 @@ const PromotionRequestsPage = () => {
 
   const filteredRequests = sortRequests(
     requests.filter(request => {
-      // Получаем статус для текущей вкладки
       const currentStatus = tabStatusMap[activeTab];
       const statusMatch = request.status === currentStatus;
       
@@ -178,19 +174,11 @@ const PromotionRequestsPage = () => {
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
-        {/* <TabMenu
-          className={s.tabs}
+        <TabMenuNoBg
           model={statusTabs}
           activeIndex={activeTab}
           onTabChange={handleTabChange}
-        /> */}
-
-          <TabMenuNoBg
-                  model={statusTabs}
-                  activeIndex={activeTab}
-                  onTabChange={handleTabChange}
-                />
-                
+        />
         <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText
@@ -311,7 +299,6 @@ const PromotionRequestsPage = () => {
         />
       </div>
 
-      {/* Диалог просмотра заявки */}
       <Dialog 
         visible={!!selectedRequest} 
         onHide={() => setSelectedRequest(null)}
@@ -360,7 +347,6 @@ const PromotionRequestsPage = () => {
         )}
       </Dialog>
 
-      {/* Диалог редактирования заявки */}
       <Dialog 
         visible={!!editRequest} 
         onHide={() => setEditRequest(null)}
@@ -388,14 +374,12 @@ const PromotionRequestsPage = () => {
               <button 
                 className={`${s.cancelButton} ${s.modalButton}`}
                 onClick={() => setEditRequest(null)}
-                // style={{ background: 'white',  border: ' 1px solid var(--primary-color)', color: 'var(--primary-color)' }}
               >
                 Отмена
               </button>
               <button 
                 className={`${s.saveButton} ${s.modalButton}`}
                 onClick={handleSaveEdit}
-                // style={{ background: 'var(--primary-color)', color: 'var(--primary-text-color)' }}
               >
                 Сохранить
               </button>

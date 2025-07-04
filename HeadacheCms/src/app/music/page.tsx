@@ -162,21 +162,11 @@ const MusicPage = () => {
   return (
     <div className={"wrapper"}>
       <div className={s.header}>
-        {/* <PfTabMenu 
-          list={tabsMusic} 
-          activeIndex={activeTab} 
-          onTabChange={(e) => {
-            setActiveTab(e.index);
-            setCurrentPage(1);
-          }} 
-        /> */}
-
            <TabMenuNoBg
-                          model={tabsMusic}
-                          activeIndex={activeTab}
-                          onTabChange={handleTabChange}
-                        />
-        
+              model={tabsMusic}
+              activeIndex={activeTab}
+              onTabChange={handleTabChange}
+            />
          <div className={s.controls}>
           <div className={s.searchContainer}>
             <PfInputText
@@ -187,7 +177,6 @@ const MusicPage = () => {
               placeholder="запрос"
             />
           </div>
-          
           <div className={s.sortContainer}>
             <Dropdown
               value={sortOption}
@@ -200,7 +189,6 @@ const MusicPage = () => {
         </div>
       </div>
 
-      {/* Глобальный аудиоплеер (скрытый) */}
       <audio
         ref={audioRef}
         src={currentSong?.url}
@@ -286,7 +274,6 @@ const MusicPage = () => {
         />
       </div>
 
-      {/* Модальное окно информации о треке */}
       <Dialog
         visible={!!showModal}
         onHide={() => setShowModal(null)}
@@ -353,7 +340,6 @@ const MusicPage = () => {
         )}
       </Dialog>
 
-      {/* Модальное окно редактирования трека */}
       <Dialog
         visible={!!editSong}
         onHide={() => { setEditSong(null); setEditSongData({}); }}
@@ -363,7 +349,6 @@ const MusicPage = () => {
       >
         {editSong && (
           <div style={{ display: 'flex', gap: 32 }}>
-            {/* Картинка убрана, осталась только форма */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
               <div style={{ marginBottom: 16 }}>
                 <label style={{ fontWeight: 500, display: 'block', marginBottom: 4 }}>Название</label>

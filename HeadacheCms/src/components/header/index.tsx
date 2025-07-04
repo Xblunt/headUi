@@ -14,8 +14,6 @@ export const Header: FC = () => {
 
   return (
     <div className={s.header}>
-      {/* <img src={logo.src} alt="logo" onClick={() => router.push('/')} /> */}
-      {/* {'Система управления контентом'} */}
       <PfButton onClick={() => { localStorage.removeItem(keyToken.key); router.push('/auth') }} severity="danger" text={true} icon='pi pi-sign-out' />
     </div>
   );

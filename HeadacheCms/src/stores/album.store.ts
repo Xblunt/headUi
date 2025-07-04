@@ -1,16 +1,17 @@
+import { Album } from "@/models";
 import { makeAutoObservable } from "mobx";
 
-class AllStore {
-  private _data: any | null = null;
+class AlbumStore {
+  private _albums: Album[] = [];
   private _loading: boolean = false;
   private _canEdit: boolean = false;
-  
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  get data() {
-    return this._data;
+  get albums() {
+    return this._albums;
   }
 
   get loading() {
@@ -21,8 +22,8 @@ class AllStore {
     return this._canEdit;
   }
 
-  setData = (data: any) => {
-    this._data = data;
+  setAlbums = (albums: Album[]) => {
+    this._albums = albums;
   };
 
   setLoading = (loading: boolean) => {
@@ -34,4 +35,4 @@ class AllStore {
   };
 }
 
-export default AllStore;
+export default AlbumStore; 

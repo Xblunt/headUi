@@ -52,12 +52,10 @@ export const Sidebar: FC = () => {
         <div 
           className={s.userAvatar}
           onMouseEnter={() => setIsUserMenuVisible(true)}
-          // onMouseLeave={() => setIsUserMenuVisible(false)}
         >
           <img src={user.avatar} alt="User Avatar" />
           <div 
             className={`${s.userInfo} ${isUserMenuVisible ? s.visible : ''}`}
-            // onMouseEnter={() => setIsUserMenuVisible(true)}
             onMouseLeave={() => setIsUserMenuVisible(false)}
           >
             <div className={s.userName}>{user.login}</div>

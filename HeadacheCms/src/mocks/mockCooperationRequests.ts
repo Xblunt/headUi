@@ -2,7 +2,6 @@ import { CooperationRequest, CooperationStatus } from '../models';
 import { mockCooperationRequestsAuthor1 } from './mockCooperationRequestsAuthor1';
 
 export const mockCooperationRequests: CooperationRequest[] = [
-  // 20 AWAITING
   new CooperationRequest({
     uuid: 'coop-1',
     msg: 'Хотим добавить ваш трек в наш плейлист!',
@@ -164,7 +163,6 @@ export const mockCooperationRequests: CooperationRequest[] = [
     labelUUID: 'label-3'
   }),
 
-  // 20 APPROVED
   new CooperationRequest({
     uuid: 'coop-21',
     msg: 'Ваш трек добавлен в наш плейлист!',
@@ -326,7 +324,6 @@ export const mockCooperationRequests: CooperationRequest[] = [
     labelUUID: 'label-3'
   }),
 
-  // 20 REJECTED
   new CooperationRequest({
     uuid: 'coop-41',
     msg: 'К сожалению, не можем добавить ваш трек.',
@@ -487,6 +484,5 @@ export const mockCooperationRequests: CooperationRequest[] = [
     authorUUID: 'author-5',
     labelUUID: 'label-3'
   }),
-  // Добавляем моки author-1
   ...mockCooperationRequestsAuthor1
 ];

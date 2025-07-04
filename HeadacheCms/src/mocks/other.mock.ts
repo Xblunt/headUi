@@ -1,6 +1,5 @@
 import { IKeyToken, ILink, ITab } from "@/models";
 
-// Tabs (Hardcode)
 export const tabs: ITab[] = [
   {
     title: 'Главная',

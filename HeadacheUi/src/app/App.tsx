@@ -6,27 +6,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { useStores } from "@/utils/hooks/useStores";
 
 export const App: FC<PropsWithChildren> = observer((props) => {
-const { authStore } = useStores();
- const router = useRouter();
- const pathname = usePathname();
+  const { authStore } = useStores();
+  const router = useRouter();
+  const pathname = usePathname();
 
-
-//  useEffect(() => {
-//     if(authStore.notHaveToken) {
-//         router.push('/auth')
-//     }
-//   }, [authStore.notHaveToken]);
- 
- useEffect(() => {
-    // const token = getValidToken();
-  
-    // if (token === null) {
-    //   router.push('/auth');
-    // }
-
-    // if((pathname === '/auth') && (token !== null)){
-        // router.push('/main')
-    // }
+  useEffect(() => {
   }, [router]);
 
   return (

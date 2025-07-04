@@ -3,7 +3,6 @@ import { AuthStore } from "@/stores";
 import { AUTH_STORE } from "@/stores/identifiers";
 import { setToken } from "@/utils/authToken";
 import { postLogin } from "@/utils/fetchWrapper";
-
 import Injector from "@/utils/injector";
 
 class AuthService {
@@ -34,8 +33,7 @@ class AuthService {
       }
       throw new Error("Failed to login");
     } finally { }
-  };
-  
+  }
 }
 
 export default AuthService;

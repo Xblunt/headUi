@@ -16,15 +16,14 @@
     ul > li > a {
         display: block;
         width: 100%;
-        // border-color: #5a1220;
         background: var(--background);
         padding: 0.75rem 1rem;
         box-sizing: border-box;
 
         
       ul > li.p-highlight > a {
-        color: #5a1220; /* красный цвет текста */
-        border-bottom-color: #5a1220; /* красная нижняя линия */
+        color: #5a1220;
+        border-bottom-color: #5a1220;
         font-weight: 600;
       }
       }

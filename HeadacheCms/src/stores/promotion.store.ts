@@ -1,16 +1,17 @@
+import { PromotionRequest } from "@/models";
 import { makeAutoObservable } from "mobx";
 
-class AllStore {
-  private _data: any | null = null;
+class PromotionStore {
+  private _promotions: PromotionRequest[] = [];
   private _loading: boolean = false;
   private _canEdit: boolean = false;
-  
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  get data() {
-    return this._data;
+  get promotions() {
+    return this._promotions;
   }
 
   get loading() {
@@ -21,8 +22,8 @@ class AllStore {
     return this._canEdit;
   }
 
-  setData = (data: any) => {
-    this._data = data;
+  setPromotions = (promotions: PromotionRequest[]) => {
+    this._promotions = promotions;
   };
 
   setLoading = (loading: boolean) => {
@@ -34,4 +35,4 @@ class AllStore {
   };
 }
 
-export default AllStore;
+export default PromotionStore; 

@@ -1,9 +1,31 @@
-// export { default as AppStore } from './app.store';
+import Injector from "@/utils/injector";
+import { AUTH_STORE, ALL_STORE, ALBUM_STORE, SONG_STORE, USER_STORE, PROMOTION_STORE, COOPERATION_STORE, CHAT_STORE, MAIN_STORE } from "./identifiers";
+import AuthStore from "./auth.store";
+import AllStore from "./all.store";
+import AlbumStore from "./album.store";
+import SongStore from "./song.store";
+import UserStore from "./user.store";
+import PromotionStore from "./promotion.store";
+import CooperationStore from "./cooperation.store";
+import ChatStore from "./chat.store";
+import MainStore from "./main.store";
+
+Injector.register(AUTH_STORE, new AuthStore());
+Injector.register(ALL_STORE, new AllStore());
+Injector.register(ALBUM_STORE, new AlbumStore());
+Injector.register(SONG_STORE, new SongStore());
+Injector.register(USER_STORE, new UserStore());
+Injector.register(PROMOTION_STORE, new PromotionStore());
+Injector.register(COOPERATION_STORE, new CooperationStore());
+Injector.register(CHAT_STORE, new ChatStore());
+Injector.register(MAIN_STORE, new MainStore());
+
 export { default as AuthStore } from './auth.store';
 export { default as AllStore } from './all.store';
-// export { default as MainStore } from './main.store';
-// export { default as NewsStore } from './news.store';
-// export { default as CareerStore } from './career.store';
-// export { default as DirectionStore } from './direction.store';
-// export { default as AboutStore } from './about.store';
-// export { default as ContactsStore } from './contacts.store';
+export { default as AlbumStore } from './album.store';
+export { default as SongStore } from './song.store';
+export { default as UserStore } from './user.store';
+export { default as PromotionStore } from './promotion.store';
+export { default as CooperationStore } from './cooperation.store';
+export { default as ChatStore } from './chat.store';
+export { default as MainStore } from './main.store';

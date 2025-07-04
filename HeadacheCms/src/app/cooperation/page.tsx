@@ -1,4 +1,3 @@
-// app/cooperation-requests/page.tsx
 'use client';
 
 import { useState } from "react";

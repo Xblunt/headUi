@@ -11,7 +11,7 @@ const MainPage = observer(() => {
     router.push('/login');
   }, []);
 
-  return <></>; // TODO: сюда бы лоадер
+  return <></>;
 });
 
 export default MainPage;

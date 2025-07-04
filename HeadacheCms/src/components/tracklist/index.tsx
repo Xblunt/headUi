@@ -92,60 +92,7 @@ import s from './style.module.scss';
 //           audioRef.current.pause();
 //         }
 //       };
-//     }, []);
-  
-//     // Остальные обработчики (approve, reject) остаются без изменений
-  
-//     return (
-//       <div className={s.trackList}>
-//         {/* Скрытый аудио элемент для управления воспроизведением */}
-//         <audio ref={audioRef} />
-  
-//         {tracks.map(track => (
-//           <div key={track.id} className={s.trackCard}>
-//             <div className={s.trackCover}>
-//               <img src={track.coverUrl} alt={track.title} />
-//               <button 
-//                 className={`${s.playButton} ${currentTrack === track.id ? s.playing : ''}`}
-//                 onClick={() => handlePlay(track)}
-//               >
-//                 {currentTrack === track.id ? '❚❚' : '▶'}
-//               </button>
-//             </div>
-  
-//             {/* Прогресс-бар фиксированной ширины */}
-           
-  
-//             <div className={s.trackInfo}>
-//               <h3 className={s.title}>{track.title}</h3>
-//               <p className={s.artist}>{track.artist}</p>
-//               <div className={s.meta}>
-//                 <span className={s.genre}>{track.genre}</span>
-//                 <span className={s.duration}>{track.duration}</span>
-//                 <span className={`${s.status} ${s[track.status]}`}>
-//                   {track.status}
-//                 </span>
-//               </div>
-//             </div>
-//             <div className={s.progressBarContainer}>
-//               <div 
-//                 className={s.progressBar}
-//                 style={{ width: `${progress[track.id] || 0}%` }}
-//               />
-//             </div>
-//             {/* Кнопки действий */}
-//             <div className={s.trackActions}>
-//               <button className={`${s.actionBtn} ${s.approve}`}>✓ Одобрить</button>
-//               <button className={`${s.actionBtn} ${s.reject}`}>✕ Отклонить</button>
-//               <button className={`${s.actionBtn} ${s.details}`}>Подробнее</button>
-//             </div>
-//           </div>
-//         ))}
-//       </div>
-//     );
-//   };
-  
-//   export default TrackList;
+
 
 
 
@@ -242,16 +189,13 @@ const TrackList = () => {
       }
    
       const audioBuffer = await audioContextRef.current.decodeAudioData(arrayBuffer);
-    //   setDurations(prev => ({
-    //     ...prev,
-    //     [track.id]: audioBuffer.duration
-    //   }));
+
       const waveform = analyzeAudio(audioBuffer);
       
       setWaveforms(prev => ({...prev, [track.id]: waveform}));
     } catch (error) {
       console.error('Ошибка анализа аудио:', error);
-      // Генерация случайной волны, если анализ не удался
+
       const randomWaveform = Array(WAVEFORM_BARS).fill(0).map(() => Math.floor(Math.random() * 50) + 10);
       setWaveforms(prev => ({...prev, [track.id]: randomWaveform}));
     }
@@ -272,7 +216,7 @@ const TrackList = () => {
       }
     }
 
-    // Если волна еще не загружена - загружаем
+
     if (!waveforms[track.id]) {
       await loadAndAnalyzeTrack(track);
     }
@@ -312,13 +256,13 @@ const TrackList = () => {
     }
   };
 
-  // Преобразование времени в секунды
+
   const durationToSeconds = (duration: string) => {
     const [minutes, seconds] = duration.split(':').map(Number);
     return minutes * 60 + seconds;
   };
 
-  // Очистка при размонтировании
+
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -357,10 +301,7 @@ const TrackList = () => {
       </span>
     ))}
   </div>
-            {/* <span className={s.duration}>{track.duration}</span> */}
-            {/* <span className={`${s.status} ${s[track.status]}`}>
-              {track.status}
-            </span> */}
+
           </div>
         </div>
         <div className={s.waveformContainer}>

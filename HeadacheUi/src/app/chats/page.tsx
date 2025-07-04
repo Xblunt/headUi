@@ -13,7 +13,6 @@ import Modal from '@/components/modal';
 import { mockSongs } from '@/mocks/mockSongs';
 import { mockUsers } from '@/mocks/mockUsers';
 
-// Тип для сообщения
 export type Message = {
   id: string;
   text?: string;
@@ -329,7 +328,6 @@ const ChatsPage = () => {
   };
 
   const handleCreateChat = (chatName: string, selectedUsers: User[]) => {
-    // Добавляем текущего пользователя в участники, если его нет
     const participants = [
       ...(selectedUsers || []),
       ...(currentUser && !selectedUsers.some(u => u.uuid === currentUser.uuid) ? [currentUser] : [])
@@ -350,10 +348,7 @@ const ChatsPage = () => {
     setChatMessages(prev => ({ ...prev, [newChat.id]: [] }));
   };
 
-  // Пример данных чатов с состоянием
 
-
-  // Моковые пользователи для каждого чата
   const chatParticipantsMock: Record<string, User[]> = {
     '1': [
       new User({ uuid: 'u1', login: 'Алексей', roles: ['user'], email: 'alex@mail.ru' }),
@@ -383,7 +378,7 @@ const ChatsPage = () => {
     ],
   };
 
-  // Моковые сообщения для каждого чата
+
   const chatMessagesMock: Record<string, Message[]> = {
     '1': [
       {

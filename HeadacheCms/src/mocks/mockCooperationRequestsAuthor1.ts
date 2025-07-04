@@ -1,6 +1,5 @@
 import { CooperationRequest, CooperationStatus, User } from '../models';
 
-// Моки лейблов, отправивших CooperationRequests author-1
 export const cooperationLabelsAuthor1: User[] = [
   new User({
     uuid: 'label-1',
@@ -49,9 +48,7 @@ export const cooperationLabelsAuthor1: User[] = [
   }),
 ];
 
-// CooperationRequests для author-1
 export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
-  // 5 AWAITING
   new CooperationRequest({
     uuid: 'coop-author1-1',
     msg: 'Хотим добавить ваш трек в наш плейлист!',
@@ -92,7 +89,6 @@ export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
     authorUUID: 'author-1',
     labelUUID: 'label-5'
   }),
-  // 3 APPROVED
   new CooperationRequest({
     uuid: 'coop-author1-6',
     msg: 'Ваш трек добавлен в наш плейлист!',
@@ -117,7 +113,6 @@ export const mockCooperationRequestsAuthor1: CooperationRequest[] = [
     authorUUID: 'author-1',
     labelUUID: 'label-3'
   }),
-  // 3 REJECTED
   new CooperationRequest({
     uuid: 'coop-author1-9',
     msg: 'К сожалению, не можем добавить ваш трек.',

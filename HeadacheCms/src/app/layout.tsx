@@ -22,7 +22,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <head>
@@ -33,12 +32,10 @@ export default function RootLayout({
           <StoreProvider>
             <App>
               <div className="global_wrapper">
-                {/* <Header /> */}
                 <div className="content">
                   <Sidebar />
                   {children}
                 </div>
-                {/* <Header /> */}
               </div>
             </App>
           </StoreProvider>
@@ -46,4 +43,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-};
+}
