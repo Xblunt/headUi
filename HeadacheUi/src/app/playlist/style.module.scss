@@ -23,7 +23,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.75); // затемнение
+    background: rgba(0,0,0,0.75);
     z-index: 1;
     pointer-events: none;
   }
@@ -156,8 +156,7 @@
 
 .searchContainer {
   width: 100%;
-  // padding: 0 4rem;
-  // margin-bottom: 1rem;
+
 }
 
 .searchInput {
@@ -166,13 +165,13 @@
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  // box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
    border: 1px solid #e0e0e0;;
   outline: none;
   transition: all 0.3s;
 
   &:focus {
-    // box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  
     transition: all 0.3s;
     border: 1px solid #7c192a;
   }
@@ -214,7 +213,7 @@
 .track {
   display: flex;
   align-items: center;
-  padding: 0.8rem 0.8rem; // уменьшено
+  padding: 0.8rem 0.8rem;
   border-radius: 0.5rem;
   border: 1px solid #e0e0e0;
   background: white;
@@ -235,9 +234,9 @@
 }
 
 .trackImage {
-  width: 40px; // уменьшено
-  height: 40px; // уменьшено
-  margin-right: 0.7rem; // уменьшено
+  width: 40px;
+  height: 40px;
+  margin-right: 0.7rem;
   border-radius: 4px;
   position: relative;
   

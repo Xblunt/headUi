@@ -14,14 +14,12 @@ const statusLabels: Record<CooperationStatus, string> = {
 };
 
 const CooperationPage = () => {
-  // Фильтруем заявки только для label78
   const requests = mockCooperationRequests.filter(r => r.labelUUID === 'label78');
 
   const [editRequest, setEditRequest] = useState<CooperationRequest | null>(null);
   const [editMsg, setEditMsg] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  // Для имитации обновления (локально)
   const [localRequests, setLocalRequests] = useState<CooperationRequest[]>(requests);
 
   const handleEdit = (req: CooperationRequest) => {
@@ -42,7 +40,6 @@ const CooperationPage = () => {
     setEditMsg('');
   };
 
-  // Разделение по статусам
   const awaiting = localRequests.filter(r => r.status === CooperationStatus.AWAITING);
   const approved = localRequests.filter(r => r.status === CooperationStatus.APPROVED);
   const rejected = localRequests.filter(r => r.status === CooperationStatus.REJECTED);
@@ -56,7 +53,6 @@ const CooperationPage = () => {
         marginTop: '40px',
         alignItems: 'flex-start'
       }}>
-        {/* Ожидают */}
         <div>
          <div style={{fontWeight: 700, fontSize: 18, marginBottom: 16, color: '#333', paddingBottom:'10px', borderBottom: '1px solid #ddd',  textAlign: 'start' }}>Ожидают</div>
           {awaiting.length === 0 && <div style={{ color: '#aaa', textAlign: 'center' }}>Нет заявок</div>}
@@ -93,7 +89,6 @@ const CooperationPage = () => {
             );
           })}
         </div>
-        {/* Одобрено */}
         <div>
           <div style={{fontWeight: 700, fontSize: 18, marginBottom: 16, color: '#333', paddingBottom:'10px', borderBottom: '1px solid #ddd', textAlign: 'start' }}>Одобрено</div>
           {approved.length === 0 && <div style={{ color: '#aaa', textAlign: 'center' }}>Нет заявок</div>}
@@ -123,7 +118,6 @@ const CooperationPage = () => {
             );
           })}
         </div>
-        {/* Отклонено */}
         <div>
  <div style={{fontWeight: 700, fontSize: 18, marginBottom: 16, color: '#333',  paddingBottom:'10px', borderBottom: '1px solid #ddd', textAlign: 'start' }}>Отклонено</div>
           {rejected.length === 0 && <div style={{ color: '#aaa', textAlign: 'center' }}>Нет заявок</div>}
@@ -155,7 +149,6 @@ const CooperationPage = () => {
         </div>
       </div>
 
-      {/* Модальное окно редактирования */}
       {showModal && editRequest && (
         <Modal
           isOpen={showModal}

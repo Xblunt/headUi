@@ -1,5 +1,4 @@
 
-// TAG
 export class Tag {
   uuid: string;
   tagName: string;
@@ -14,7 +13,6 @@ export class Tag {
   }
 };
 
-// FILE
 export class File {
   uuid: string;
   data: Uint8Array;
@@ -34,7 +32,6 @@ export class File {
   }
 };
 
-//USER
 export class User {
   uuid: string;
   login: string;
@@ -92,7 +89,7 @@ export class User {
     this.savedSongsUUIDs = props.savedSongsUUIDs;
   }
 }
-// SONG
+
 export class Song {
   uuid: string;
   name: string;
@@ -132,7 +129,6 @@ export class Song {
   }
 };
 
-// PROMOTION REQUEST
 export class PromotionRequest {
   uuid: string;
   songUUID: string;
@@ -164,7 +160,6 @@ export class PromotionRequest {
   }
 }
 
-// COOPERATION REQUEST
 export class CooperationRequest {
   uuid: string;
   msg: string;
@@ -190,7 +185,6 @@ export class CooperationRequest {
   }
 }
 
-//ALBUM
 export class Album {
   uuid: string;
   name: string;
@@ -253,11 +247,9 @@ export enum ActionStatus {
 export interface SubscriptionUser {
   chatId: number;
   userId: number;
-  subscription: any; // Would be Subscription type from rxjs in actual implementation
+  subscription: any;
 }
 
-
-//ENUMS
 export enum SongStatus {
   APPROVED = 'APPROVED',
   DISAPPROVED = 'DISAPPROVED',
@@ -289,7 +281,6 @@ export enum CooperationStatus {
   REJECTED = 'REJECTED'
 }
 
-// Auth
 export class AuthData {
   username: string;
   password: string;
@@ -317,7 +308,6 @@ export interface IKeyToken {
   key: string;
 }
 
-// Tabs
 export interface ITab {
   title: string;
   link: string;

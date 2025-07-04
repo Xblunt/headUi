@@ -40,7 +40,6 @@ const getStatistics = (login: string) => {
 
 export default function ArtistPage({ params }: ArtistPageProps) {
   const pathname = usePathname();
-  // Получаем логин из pathname, например: /info/author111
   const login = pathname?.split('/').pop() || '';
   const [showModal, setShowModal] = useState(false);
   const [requestMsg, setRequestMsg] = useState('');
@@ -51,7 +50,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
   const artistSongs = mockSongs.filter(song => song.authorUUID === artist?.uuid);
   const artistAlbums = mockAlbums.filter(album => album.authorUUID === artist?.uuid);
 
-  // Показывать ли кнопку "Отправить заявку"
   const [showRequestButton, setShowRequestButton] = useState(false);
 
   useEffect(() => {
@@ -72,7 +70,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
     }, 2000);
   };
 
-  // --- Плеер ---
   const [currentSong, setCurrentSong] = useState<any>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
@@ -118,7 +115,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
         newAudio.removeEventListener('ended', handleEnded);
       };
     }
-    // eslint-disable-next-line
   }, [currentSong]);
 
   useEffect(() => {
@@ -147,7 +143,6 @@ export default function ArtistPage({ params }: ArtistPageProps) {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  // --- Кнопки следующий/предыдущий трек ---
   const handleNext = () => {
     if (!artistSongs.length || !currentSong) return;
     const idx = artistSongs.findIndex((s: any) => s.uuid === currentSong.uuid);

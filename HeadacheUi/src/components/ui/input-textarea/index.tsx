@@ -3,7 +3,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputTextarea, InputTextareaProps } from "primereact/inputtextarea";
 import { FC } from "react";
 
-// interface IProps extends InputTextareaProps { }
+
 
 export const PfInputTextarea: FC<InputTextareaProps> = observer((props) => {
 

@@ -5,10 +5,8 @@ import styles from './style.module.scss';
 import { CooperationRequest, CooperationStatus, User } from '@/models';
 import { mockCooperationRequestsAuthor1, cooperationLabelsAuthor1 } from '@/mocks/mockCooperationRequestsAuthor1';
 
-// Используем моки CooperationRequest для author-1
 const mockRequests: CooperationRequest[] = mockCooperationRequestsAuthor1;
 
-// Моковые данные лейблов
 const mockLabels: Record<string, User> = Object.fromEntries(
   cooperationLabelsAuthor1.map(label => [label.uuid, label])
 );
@@ -20,12 +18,10 @@ const RequestsPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLabelModalOpen, setIsLabelModalOpen] = useState(false);
 
-  // Фильтрация запросов по статусу
   const awaitingRequests = requests.filter(r => r.status === CooperationStatus.AWAITING);
   const approvedRequests = requests.filter(r => r.status === CooperationStatus.APPROVED);
   const rejectedRequests = requests.filter(r => r.status === CooperationStatus.REJECTED);
 
-  // Получение информации о лейбле
   const getLabelInfo = (labelUUID: string): User => {
     return mockLabels[labelUUID] || new User({
       uuid: labelUUID,
@@ -34,7 +30,6 @@ const RequestsPage: FC = () => {
     });
   };
 
-  // Обработчики действий
   const handleOpenModal = (request: CooperationRequest) => {
     setSelectedRequest(request);
     setIsModalOpen(true);
@@ -81,7 +76,6 @@ const RequestsPage: FC = () => {
     handleCloseModal();
   };
 
-  // Форматирование даты
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ru-RU', {
@@ -96,7 +90,6 @@ const RequestsPage: FC = () => {
   return (
     <div className={styles.requestsPage}>
       <div className={styles.requestsContainer}>
-        {/* Ожидающие заявки */}
         <div className={styles.requestsColumn}>
           <h2 className={styles.columnTitle}>Ожидают решения ({awaitingRequests.length})</h2>
           {awaitingRequests.length > 0 ? (
@@ -125,7 +118,6 @@ const RequestsPage: FC = () => {
           )}
         </div>
 
-        {/* Одобренные заявки */}
         <div className={styles.requestsColumn}>
           <h2 className={styles.columnTitle}>Одобренные ({approvedRequests.length})</h2>
           {approvedRequests.length > 0 ? (
@@ -155,7 +147,6 @@ const RequestsPage: FC = () => {
           )}
         </div>
 
-        {/* Отклоненные заявки */}
         <div className={styles.requestsColumn}>
           <h2 className={styles.columnTitle}>Отклоненные ({rejectedRequests.length})</h2>
           {rejectedRequests.length > 0 ? (
@@ -180,7 +171,6 @@ const RequestsPage: FC = () => {
         </div>
       </div>
 
-      {/* Модальное окно для просмотра заявки */}
       {isModalOpen && selectedRequest && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
@@ -210,7 +200,6 @@ const RequestsPage: FC = () => {
         </div>
       )}
 
-      {/* Модальное окно для просмотра информации о лейбле */}
       {isLabelModalOpen && selectedLabel && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>

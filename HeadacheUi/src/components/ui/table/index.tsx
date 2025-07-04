@@ -41,7 +41,6 @@ export const PfTable: FC<IProps> = observer((props) => {
   const [activeRow, setActiveRow] = useState<any>({});
   const [visibleCols, setVisibleCols] = useState<boolean>(true);
 
-  // ACTION BUTTONS: EDIT & DELETE
   const actionBodyTemplate = (rowData: any) => {
     return (
       <React.Fragment>
@@ -142,7 +141,7 @@ export const PfTable: FC<IProps> = observer((props) => {
   useEffect(() => {
     if (!props.data) return;
     const preparedData = props.data.map((item) => {
-      if (item.rows) { // Случай, когда props.data имеети тип Solution
+      if (item.rows) {
         const updatedRows = item.rows?.map((row: any) => {
           return {
             ...row,
@@ -162,7 +161,7 @@ export const PfTable: FC<IProps> = observer((props) => {
           rows: updatedRows,
           additionalLicenseRows: updatedAdditionalLicenseRows
         };
-      } else if (item.variables) { // Случай, когда props.data имеет тип SubRow
+      } else if (item.variables) {
         const updatedVariables = item.variables.map((variable: any) => {
           return {
             ...variable,
@@ -182,7 +181,6 @@ export const PfTable: FC<IProps> = observer((props) => {
     setData(preparedData);
   }, [props.data]);
 
-  // NAME TABLE, SEARCH, ADD BUTTON
   const headerTable = (
     <div className={"flex flex-wrap gap-2 align-items-center justify-content-between"}>
       <h2 className={"m-0"}>{props.title}</h2>
@@ -193,13 +191,11 @@ export const PfTable: FC<IProps> = observer((props) => {
             <InputText type={"search"} placeholder={"Поиск..."} onInput={(e) => { const target = e.target as HTMLInputElement; setGlobalFilter(target.value); }} />
           </IconField>
           {!props.hideActions && <Button icon={"pi pi-plus"} severity={"success"} onClick={openNewRow} />}
-          {/* <Button icon={"pi pi-angle-up"} onClick={() => setVisibleCols(false)} /> */}
         </div>) : (<div className={"flex row gap-2"}> <Button icon={"pi pi-angle-down"} onClick={() => setVisibleCols(true)} /></div>)
       }
     </div>
   );
 
-  // ACTION BUTTONS FOR MODAL DIALOG
   const rowDialogFooter = (
     <React.Fragment>
       <div style={{
@@ -207,7 +203,7 @@ export const PfTable: FC<IProps> = observer((props) => {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        marginTop: '1rem' // Отступ сверху
+        marginTop: '1rem'
       }}>
         <Button 
           label="Отменить" 

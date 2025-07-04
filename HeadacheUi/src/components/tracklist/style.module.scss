@@ -15,9 +15,7 @@
     padding: 12px;
     transition: transform 0.2s;
   
-    // &:hover {
-    //   transform: translateY(-2px);
-    // }
+    
   }
   
   .trackCover {
@@ -60,7 +58,7 @@
   }
   
   .progressBarContainer {
-    width: 120px; // Фиксированная ширина
+    width: 120px;
     height: 4px;
     background: #e0e0e0;
     border-radius: 2px;
@@ -71,7 +69,7 @@
   
   .progressBar {
     height: 100%;
-    background: #610021; // Spotify green
+    background: #610021;
     transition: width 0.1s linear;
   }
   
@@ -197,40 +195,31 @@
     }
   
     &.approve {
-    //   background: #e8f5e9;
     background: none;
       color: #2e7d32;
       &:hover { 
-        // background: #c8e6c9;
         background: none;
-        // box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.3);
       }
     }
     
     &.reject {
-    //   background: #ffebee;
     background: none;
       color: #c62828;
       &:hover { 
         background: none;
-        // background: #ffcdd2;
-        // box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.3);
       }
     }
     
     &.details {
-    //   background: #e3f2fd;
     background: none;
       color: #333;
       &:hover { 
-        // background: #bbdefb;
-        // box-shadow: 0 0 0 2px rgba(21, 101, 192, 0.3);
         background: none;
       }
     }
   }
   
-  // Адаптив для мобильных устройств
+
   @media (max-width: 600px) {
     .trackActions {
       gap: 6px;
@@ -268,7 +257,7 @@
       justify-content: flex-end;
     }
   }
-// ... другие стили остаются без изменений
+
 
 .progressContainer {
     flex: 1;
@@ -293,7 +282,7 @@
     transition: width 0.1s linear;
   
     &.active {
-      background: #610021; // Spotify green
+      background: #610021;
       
       &::after {
         content: '';
@@ -314,7 +303,6 @@
     100% { transform: translateX(50px) scaleX(0); opacity: 0; }
   }
   
-  // Адаптивные стили
   @media (max-width: 600px) {
     .progressContainer {
       order: 1;
@@ -379,7 +367,7 @@
     box-shadow: 0 0 5px rgba(97, 0, 33, 0.7);
   }
   
-  // Анимация для волны
+
   @keyframes wavePulse {
     0% { opacity: 0.8; }
     50% { opacity: 1; }
@@ -391,7 +379,6 @@
     animation-delay: calc(var(--i) * 0.05s);
   }
   
-  // Адаптивные стили
   @media (max-width: 600px) {
     .waveformContainer {
       order: 1;

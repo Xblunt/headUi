@@ -1,9 +1,7 @@
 import { mockSongs } from './mockSongs';
 
-// Используем только одобренные треки
 const approvedSongs = mockSongs.filter(song => song.status === 'APPROVED');
 
-// Вспомогательная функция для случайной выборки без повторов
 function getRandomUnique<T>(arr: T[], count: number, exclude: Set<T> = new Set()): T[] {
   const filtered = arr.filter(item => !exclude.has(item));
   const result: T[] = [];
@@ -18,17 +16,13 @@ function getRandomUnique<T>(arr: T[], count: number, exclude: Set<T> = new Set()
   return result;
 }
 
-// Первый набор: 20 случайных треков из одобренных
 const set1 = getRandomUnique(approvedSongs, 20);
 
-// Второй набор: 20 случайных треков, которых нет в первом наборе
 const set1Set = new Set(set1);
 const set2 = getRandomUnique(approvedSongs, 20, set1Set);
 
-// Третий набор: 20 случайных треков из одобренных (могут быть любые, даже из первых двух наборов)
 const set3 = getRandomUnique(approvedSongs, 20);
 
-// Дополнительные наборы (фиксированные, для стабильности тестов)
 const set4 = approvedSongs.slice(0, 40);
 const set5 = approvedSongs.slice(20, 40);
 const set6 = [

@@ -1,6 +1,5 @@
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { take, delay } from 'rxjs/operators';
-// import WebSocketService from './webSocketService';
 import ClientService from './clientService';
 import { ActionStatus, Session } from '@/models';
 import webSocketServices from './webSocketService';

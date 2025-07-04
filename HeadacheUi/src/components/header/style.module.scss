@@ -139,12 +139,12 @@
     
       &:hover:not(:disabled) {
         background: darken(#e5e7eb, 10%);
-        // transform: translateY(-1px);
+    
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
       }
     
       &:active:not(:disabled) {
-        // transform: translateY(0);
+    
         box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
       }
     
@@ -174,7 +174,7 @@
       font-size: 12px;
 
       &:hover {
-        // background: darken(#7c192a, 10%);
+    
         background: #5a1220;
       }
     }
@@ -223,7 +223,7 @@
 
   .logoutButton {
     background: #333 !important;
-    // color: #7c192a !important;
+
 
     &:hover {
       background: #666 !important;

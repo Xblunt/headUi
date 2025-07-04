@@ -13,7 +13,6 @@ import {
 } from 'recharts';
 import { author1Albums, author1Songs } from '@/mocks/mockAuthor1AlbumsAndSongs';
 
-// Сопоставление жанров с русскими названиями
 const genreRu: Record<string, string> = {
   'Electronic': 'Электроника',
   'Ambient': 'Эмбиент',
@@ -33,30 +32,17 @@ const genreRu: Record<string, string> = {
 };
 
 const StatisticsPage: FC = () => {
-  // Данные для author111
   const albumsCount = author1Albums.length;
   const tracksCount = author1Songs.length;
-  const likesCount = 4; // хардкод
-  const promoRequestsCount = 11; // хардкод
-
-  // Средняя оценка
-  // const avgRating =
-  //   author1Songs.length > 0
-  //     ? (
-  //         author1Songs.reduce((sum, song) => sum + (song.avgRating || 0), 0) /
-  //         author1Songs.length
-  //       ).toFixed(2)
-  //     : '0';
+  const likesCount = 4;
+  const promoRequestsCount = 11;
 
   const avgRating = 7.8
 
-  // График: Средние оценки треков (название и оценка)
   const ratingData = author1Songs.map(song => ({
     name: song.name,
     оценки: song.avgRating,
   }));
-
-  // График: распределение по жанрам (Tag.tagName)
   const genreCount: Record<string, number> = {};
   author1Songs.forEach(song => {
     (song.tags || []).forEach(tag => {
@@ -85,7 +71,6 @@ const StatisticsPage: FC = () => {
     <div className={styles.statisticsPage}>
       <h1 className={styles.title}>Статистика ваших треков</h1>
 
-      {/* Блок с основной статистикой */}
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <h3>Общее количество прослушиваний (за неделю)</h3>
@@ -113,7 +98,6 @@ const StatisticsPage: FC = () => {
         </div>
       </div>
 
-      {/* Основной график */}
       <div className={styles.mainChart}>
         <h2>Средние оценки треков</h2>
         <div className={styles.chartWrapper}>
@@ -130,7 +114,6 @@ const StatisticsPage: FC = () => {
         </div>
       </div>
 
-      {/* Два графика в ряд */}
       <div className={styles.twoCharts}>
         <div className={styles.chartCard}>
           <h2>Прослушивания по дням недели</h2>

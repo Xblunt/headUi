@@ -3,7 +3,7 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputText, InputTextProps } from "primereact/inputtext";
 import { FC } from "react";
 
-// interface IProps extends InputTextProps { }
+
 
 export const PfInputText: FC<InputTextProps & { helperText?: string }> = observer((props) => {
   return (

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { AutoComplete, AutoCompleteProps } from "primereact/autocomplete";
 import { FC } from "react";
 
-// interface IProps extends AutoCompleteProps { }
+
 
 export const PfAutoComplete: FC<AutoCompleteProps> = observer((props) => {
 

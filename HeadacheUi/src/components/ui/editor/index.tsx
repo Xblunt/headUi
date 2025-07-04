@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Editor, EditorProps } from "primereact/editor";
 import { FC } from "react";
 
-// interface IProps extends EditorProps { }
+
 
 export const PfEditor: FC<EditorProps> = observer((props) => {
   const modules = {

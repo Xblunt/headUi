@@ -4,7 +4,7 @@ import { FC, useState, useMemo } from 'react';
 import styles from './style.module.scss';
 import { PromotionRequest, PromotionStatus } from '@/models';
 import { mockPromotionsAuthor1 } from '@/mocks/mockPromotionsAuthor1';
-import { mockSongs } from '@/mocks/mockSongs'; // Импортируем моки треков
+import { mockSongs } from '@/mocks/mockSongs';
 
 const PromotionRequestsPage: FC = () => {
   const [requests, setRequests] = useState<PromotionRequest[]>(mockPromotionsAuthor1);
@@ -12,13 +12,11 @@ const PromotionRequestsPage: FC = () => {
   const [sortField, setSortField] = useState<'dispatchTime' | 'status' | 'songName'>('dispatchTime');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
-  // Функция для получения названия трека по UUID
   const getSongName = (songUuid: string) => {
     const song = mockSongs.find(s => s.uuid === songUuid);
     return song ? song.name : 'Неизвестный трек';
   };
 
-  // Функция для форматирования даты
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ru-RU', {
@@ -30,7 +28,6 @@ const PromotionRequestsPage: FC = () => {
     });
   };
 
-  // Функция для получения класса статуса
   const getStatusClass = (status: PromotionStatus) => {
     switch (status) {
       case PromotionStatus.PROMOTED:
@@ -44,7 +41,6 @@ const PromotionRequestsPage: FC = () => {
     }
   };
 
-  // Функция для отображения статуса
   const getStatusDisplay = (status: PromotionStatus) => {
     switch (status) {
       case PromotionStatus.PROMOTED:
@@ -58,7 +54,6 @@ const PromotionRequestsPage: FC = () => {
     }
   };
 
-  // Фильтрация и сортировка запросов
   const filteredAndSortedRequests = useMemo(() => {
     const filtered = requests.filter(request =>
       request.msg.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -81,7 +76,6 @@ const PromotionRequestsPage: FC = () => {
     });
   }, [requests, searchTerm, sortField, sortDirection]);
 
-  // Обработчик изменения сортировки
   const handleSort = (field: 'dispatchTime' | 'status' | 'songName') => {
     if (sortField === field) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');

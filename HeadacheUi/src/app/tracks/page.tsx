@@ -11,7 +11,6 @@ import { mockSongs } from '@/mocks/mockSongs';
 import { mockAlbums } from '@/mocks/mockAlbums';
 import { mockUsers } from '@/mocks/mockUsers';
 
-// Собираем все уникальные теги из моков треков
 const allTags: Tag[] = Array.from(
   mockSongs.reduce((acc, song) => {
     song.tags.forEach(tag => acc.set(tag.uuid, tag));
@@ -19,26 +18,21 @@ const allTags: Tag[] = Array.from(
   }, new Map<string, Tag>())
 ).map(([_, tag]) => tag);
 
-// Используем только одобренные треки
 const approvedSongs: Song[] = mockSongs.filter(song => song.status === SongStatus.APPROVED);
 
 const TracksPage = () => {
-  // Состояния для активной вкладки
   const [activeTab, setActiveTab] = useState<'tracks' | 'albums'>('tracks');
   
-  // Состояния для фильтрации и сортировки треков
   const [trackSearchQuery, setTrackSearchQuery] = useState('');
   const [selectedTrackTags, setSelectedTrackTags] = useState<string[]>([]);
   const [trackSortOption, setTrackSortOption] = useState<'rating' | 'title' | 'artist'>('rating');
   const [trackSortDirection, setTrackSortDirection] = useState<'asc' | 'desc'>('desc');
   
-  // Состояния для фильтрации и сортировки альбомов
   const [albumSearchQuery, setAlbumSearchQuery] = useState('');
   const [selectedAlbumTags, setSelectedAlbumTags] = useState<string[]>([]);
   const [albumSortOption, setAlbumSortOption] = useState<'rating' | 'title' | 'artist'>('rating');
   const [albumSortDirection, setAlbumSortDirection] = useState<'asc' | 'desc'>('desc');
   
-  // Состояния плеера
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
@@ -48,12 +42,10 @@ const TracksPage = () => {
 
   const router = useRouter();
   
-  // Получаем все уникальные теги для треков
   const allTrackTags = useMemo(() => {
     return Array.from(new Set(approvedSongs.flatMap(song => song.tags.map(tag => tag.tagName))));
   }, []);
   
-  // Получаем все уникальные теги для альбомов (из треков)
   const allAlbumTags = useMemo(() => {
     return Array.from(new Set(mockAlbums.flatMap(album => {
       const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
@@ -61,7 +53,6 @@ const TracksPage = () => {
     })));
   }, []);
   
-  // Функция для вычисления рейтинга альбома
   const getAlbumRating = (album: Album) => {
     const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
     if (albumSongs.length === 0) return 0;
@@ -70,23 +61,19 @@ const TracksPage = () => {
     return totalRating / albumSongs.length;
   };
   
-  // Фильтрация и сортировка треков
   const filteredTracks = useMemo(() => {
     return approvedSongs
       .filter(song => {
-        // Фильтр по поиску
         const matchesSearch = 
           song.name.toLowerCase().includes(trackSearchQuery.toLowerCase()) || 
           mockUsers.find(u => u.uuid === song.authorUUID)?.login.toLowerCase().includes(trackSearchQuery.toLowerCase());
         
-        // Фильтр по тегам
         const matchesTags = selectedTrackTags.length === 0 || 
           selectedTrackTags.some(tagName => song.tags.some(tag => tag.tagName === tagName));
         
         return matchesSearch && matchesTags;
       })
       .sort((a, b) => {
-        // Сортировка
         let comparison = 0;
         
         switch (trackSortOption) {
@@ -107,16 +94,13 @@ const TracksPage = () => {
       });
   }, [trackSearchQuery, selectedTrackTags, trackSortOption, trackSortDirection]);
   
-  // Фильтрация и сортировка альбомов
   const filteredAlbums = useMemo(() => {
     return mockAlbums
       .filter(album => {
-        // Фильтр по поиску
         const matchesSearch = 
           album.name.toLowerCase().includes(albumSearchQuery.toLowerCase()) || 
           mockUsers.find(u => u.uuid === album.authorUUID)?.login.toLowerCase().includes(albumSearchQuery.toLowerCase());
         
-        // Фильтр по тегам
         const matchesTags = selectedAlbumTags.length === 0;
         if (!matchesTags) {
           const albumSongs = approvedSongs.filter(song => album.savedSongsUUIDs.includes(song.uuid));
@@ -130,7 +114,6 @@ const TracksPage = () => {
         return matchesSearch && matchesTags;
       })
       .sort((a, b) => {
-        // Сортировка
         let comparison = 0;
         
         switch (albumSortOption) {
@@ -150,8 +133,6 @@ const TracksPage = () => {
         return albumSortDirection === 'desc' ? -comparison : comparison;
       });
   }, [albumSearchQuery, selectedAlbumTags, albumSortOption, albumSortDirection]);
-  
-  // --- Синхронизация с глобальным плеером (localStorage) ---
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const uuid = localStorage.getItem('currentTrackUuid');
@@ -162,10 +143,8 @@ const TracksPage = () => {
         setIsPlaying(true);
       }
     }
-    // eslint-disable-next-line
   }, []);
 
-  // --- Audio logic ---
   useEffect(() => {
     if (audio) {
       audio.volume = volume;
@@ -197,8 +176,6 @@ const TracksPage = () => {
 
       if (isPlaying) newAudio.play();
 
-      // ВАЖНО: возвращаем функцию очистки, чтобы гарантировать,
-      // что предыдущий audio всегда полностью уничтожается
       return () => {
         newAudio.pause();
         newAudio.removeEventListener('timeupdate', updateProgress);
@@ -206,7 +183,6 @@ const TracksPage = () => {
         newAudio.src = '';
       };
     }
-    // eslint-disable-next-line
   }, [currentSong]);
 
   useEffect(() => {
@@ -219,7 +195,6 @@ const TracksPage = () => {
     }
   }, [isPlaying, audio]);
 
-  // --- Кнопки следующий/предыдущий трек ---
   const handleNext = () => {
     if (!filteredTracks.length || !currentSong) return;
     const idx = filteredTracks.findIndex(s => s.uuid === currentSong.uuid);
@@ -248,7 +223,6 @@ const TracksPage = () => {
     router.push(`/info/${login}`);
   };
   
-  // Обработчики для альбомов
   const handleAlbumPlay = (song: Song) => {
     setCurrentSong(song);
     setIsPlaying(true);
@@ -261,7 +235,6 @@ const TracksPage = () => {
     setIsPlaying(false);
   };
   
-  // --- При смене трека записываем uuid в localStorage ---
   const handleTrackPlay = (song: Song) => {
     setCurrentSong(song);
     setIsPlaying(true);
@@ -274,7 +247,6 @@ const TracksPage = () => {
     setIsPlaying(false);
   };
 
-  // Мини-плеер
   const formatTime = (seconds: number) => {
     if (!seconds || isNaN(seconds)) return '0:00';
     const mins = Math.floor(seconds / 60);
@@ -284,7 +256,6 @@ const TracksPage = () => {
 
   return (
     <div className={'wrapper'}>
-      {/* Переключение вкладок */}
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${activeTab === 'tracks' ? styles.active : ''}`}
@@ -300,10 +271,8 @@ const TracksPage = () => {
         </button>
       </div>
       
-      {/* Контент вкладки "Треки" */}
       {activeTab === 'tracks' && (
         <div className={styles.tabContent}>
-          {/* Поиск и фильтры для треков */}
           <div className={styles.searchContainer}>
             <input
               type="text"
@@ -315,9 +284,7 @@ const TracksPage = () => {
           </div>
           
           <div className={styles.filters}>
-            {/* Фильтр по тегам */}
             <div className={styles.tagFilter}>
-              {/* <h4>Теги:</h4> */}
               <div className={styles.tagsList}>
                 {allTrackTags.map(tag => (
                   <button
@@ -335,7 +302,6 @@ const TracksPage = () => {
               </div>
             </div>
             
-            {/* Сортировка треков */}
             <div className={styles.sortControls}>
               <select
                 value={trackSortOption}
@@ -356,7 +322,6 @@ const TracksPage = () => {
             </div>
           </div>
           
-          {/* Список треков */}
           <div className={styles.tracksList}>
             {filteredTracks.length > 0 ? (
               filteredTracks.map((song, index) => (
@@ -379,10 +344,8 @@ const TracksPage = () => {
         </div>
       )}
       
-      {/* Контент вкладки "Альбомы" */}
       {activeTab === 'albums' && (
         <div className={styles.tabContent}>
-          {/* Поиск и фильтры для альбомов */}
           <div className={styles.searchContainer}>
             <input
               type="text"
@@ -394,9 +357,7 @@ const TracksPage = () => {
           </div>
           
           <div className={styles.filters}>
-            {/* Фильтр по тегам */}
             <div className={styles.tagFilter}>
-              {/* <h4>Теги:</h4> */}
               <div className={styles.tagsList}>
                 {allAlbumTags.map(tag => (
                   <button
@@ -414,7 +375,6 @@ const TracksPage = () => {
               </div>
             </div>
             
-            {/* Сортировка альбомов */}
             <div className={styles.sortControls}>
               <select
                 value={albumSortOption}
@@ -435,7 +395,6 @@ const TracksPage = () => {
             </div>
           </div>
           
-          {/* Список альбомов */}
           <div className={styles.albumsGrid}>
             {filteredAlbums.length > 0 ? (
               filteredAlbums.map(album => (
@@ -456,7 +415,6 @@ const TracksPage = () => {
         </div>
       )}
       
-      {/* Мини-плеер */}
       {currentSong && (
         <div className={styles.miniPlayer} style={{
           position: 'fixed',

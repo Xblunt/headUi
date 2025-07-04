@@ -20,7 +20,7 @@ import { mockAlbumSets } from '@/mocks/mockAlbumSets';
 export default function MainPage() {
   const router = useRouter();
 
-  // --- Глобальный плеер ---
+
   const [playlist, setPlaylist] = useState<Song[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(-1);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -29,7 +29,7 @@ export default function MainPage() {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.5);
 
-  // --- Данные ---
+
   let tracksSet = mockSongSets.set5;
   let albumsSet = mockAlbumSets.albumSet2;
   if (typeof window !== 'undefined' && localStorage.getItem('user') === 'label78') {
@@ -38,18 +38,15 @@ export default function MainPage() {
   }
   const promotions = mockPromotions.filter((promo: any) => promo.status === 'PROMOTED');
 
-  // --- Глобальный плеер: эффекты ---
   useEffect(() => {
     if (audio) {
       audio.volume = volume;
     }
   }, [volume, audio]);
 
-  // Сохраняем ref на текущий Audio, чтобы гарантировать что только один трек играет
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Остановить и удалить предыдущий audio
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -82,7 +79,6 @@ export default function MainPage() {
         newAudio.removeEventListener('ended', handleEnded);
       };
     }
-    // eslint-disable-next-line
   }, [currentIndex, playlist]);
 
   useEffect(() => {
@@ -95,14 +91,12 @@ export default function MainPage() {
     }
   }, [isPlaying]);
 
-  // --- Глобальный плеер: управление ---
   const handlePlaySong = (song: Song, list?: Song[], idx?: number) => {
     let playList = list || tracksSet;
     let index = typeof idx === 'number' ? idx : playList.findIndex(s => s.uuid === song.uuid);
     setPlaylist(playList);
     setCurrentIndex(index);
     setIsPlaying(true);
-    // Сохраняем uuid текущего трека в localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem('currentTrackUuid', song.uuid);
     }
@@ -145,7 +139,6 @@ export default function MainPage() {
     router.push(`/info/${login}`);
   };
 
-  // --- UI ---
   const currentSong = playlist[currentIndex] || null;
 
   return (
@@ -202,7 +195,7 @@ export default function MainPage() {
                           onClick={e => {
                             e.stopPropagation();
                             if (playing) {
-                              setIsPlaying(false); // Остановить трек если уже играет
+                              setIsPlaying(false);
                             } else {
                               handlePlaySong(
                                 song,
@@ -299,7 +292,7 @@ export default function MainPage() {
                 song={song}
                 useGlobalPlayer={false}
                 showProgressBar={false}
-                // playLine={true}
+
                 currentSong={currentSong}
                 isPlaying={isPlaying}
                 onPlay={() => handlePlaySong(song, tracksSet, tracksSet.findIndex(s => s.uuid === song.uuid))}
@@ -322,10 +315,8 @@ export default function MainPage() {
                 users={mockUsers}
                 songs={mockSongs}
                 onPlay={(song: any) => {
-                  // Найти все треки альбома
                   const albumSongs = mockSongs.filter((s: any) => album.savedSongsUUIDs.includes(s.uuid));
                   const songIndex = albumSongs.findIndex((s: any) => s.uuid === song.uuid);
-                  // Передать именно albumSongs как плейлист, чтобы плеер играл треки альбома
                   handlePlaySong(song, albumSongs, songIndex);
                 }}
                 onArtistClick={handleArtistClick}
@@ -512,7 +503,6 @@ export default function MainPage() {
   );
 }
 
-// Вспомогательная функция для форматирования времени
 function formatTime(seconds: number) {
   if (!seconds || isNaN(seconds)) return '0:00';
   const mins = Math.floor(seconds / 60);

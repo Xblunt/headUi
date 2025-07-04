@@ -1,4 +1,4 @@
-// components/RatingModal/RatingModal.tsx
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -22,7 +22,6 @@ const RatingModal: React.FC<RatingModalProps> = ({
   const [hasChanged, setHasChanged] = useState(false);
 
   useEffect(() => {
-    // Сбрасываем флаг изменений при изменении currentRating извне
     setHasChanged(false);
   }, [currentRating]);
 

@@ -6,14 +6,12 @@ import { User } from '@/models';
 import { mockUsers } from '@/mocks/mockUsers';
 import { PfInputMask } from '@/components/ui/input-mask';
 
-
 const UserProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | undefined>(undefined);
 
-  // Получаем пользователя из localStorage и mockUsers
   useEffect(() => {
     let login = 'firstUser';
     if (typeof window !== 'undefined') {
@@ -49,7 +47,6 @@ const UserProfilePage = () => {
 
   const handleSave = async () => {
     setIsSaving(true);
-    // Здесь должен быть реальный API-запрос на сохранение
     setTimeout(() => {
       setIsSaving(false);
       setIsEditing(false);
@@ -126,7 +123,6 @@ const UserProfilePage = () => {
                   style={{ display: 'none' }}
                   onChange={handleAvatarChange}
                 />
-                {/* <span style={{ cursor: 'pointer', color: '#7c192a' }}>Заменить аватар</span> */}
               </label>
             )}
           </div>
@@ -167,12 +163,10 @@ const UserProfilePage = () => {
                 {isEditing ? (
                   <PfInputMask
                     value={user.phoneNumber || ''}
-                    // title="Телефон"
                     mask="+9 (999) 999-9999"
                     placeholder="+7 (___) ___-____"
                     name="phoneNumber"
                     onChange={event => {
-                      // event.val содержит новое значение
                       setUser(prev => prev ? ({
                         ...prev,
                         phoneNumber: event?.target?.value ?? ''
@@ -210,12 +204,10 @@ const UserProfilePage = () => {
                             : user.birthDate
                         : ''
                     }
-                    // title="Дата рождения"
                     mask="99.99.9999"
                     placeholder="ДД.ММ.ГГГГ"
                     name="birthDate"
                     onChange={event => {
-                      // event.val содержит новое значение
                       const val = event?.target?.value ?? '';
                       const [dd, mm, yyyy] = val.split('.');
                       let iso = '';
@@ -258,52 +250,7 @@ const UserProfilePage = () => {
                 <label>Последний визит</label>
                 <div className={s.fieldValue}>{formatDate(user.lastVisitDate)}</div>
               </div>
-
-              {/* <div className={s.formGroup}>
-                <label>Рейтинг</label>
-                <div className={s.fieldValue}>{user.avgRating || 'Не указан'}</div>
-              </div> */}
             </div>
-
-            {/* <div className={s.section}>
-              <h2>Дополнительная информация</h2>
-              <div className={s.formGroup}>
-                <label>Роли</label>
-                <div className={s.fieldValue}>
-                  {user.roles?.join(', ') || 'Нет ролей'}
-                </div>
-              </div>
-
-              <div className={s.formGroup}>
-                <label>Статус аккаунта</label>
-                {isEditing ? (
-                  <div className={s.checkboxGroup}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="isAccountNonLocked"
-                        checked={user.isAccountNonLocked || false}
-                        onChange={handleInputChange}
-                      />
-                      Аккаунт не заблокирован
-                    </label>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="isActive"
-                        checked={user.isActive || false}
-                        onChange={handleInputChange}
-                      />
-                      Аккаунт активен
-                    </label>
-                  </div>
-                ) : (
-                  <div className={s.fieldValue}>
-                    {user.isAccountNonLocked ? 'Не заблокирован' : 'Заблокирован'}, {user.isActive ? 'Активен' : 'Не активен'}
-                  </div>
-                )}
-              </div>
-            </div> */}
           </div>
         </div>
       </div>

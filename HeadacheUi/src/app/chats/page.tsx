@@ -384,7 +384,7 @@ const ChatsPage = () => {
       {
         id: 'm1',
         text: 'Привет всем! Как дела?',
-        sender: chatParticipantsMock['1'][0], // Алексей
+        sender: chatParticipantsMock['1'][0],
         timestamp: '12:25',
         isCurrentUser: false
       },
@@ -398,7 +398,7 @@ const ChatsPage = () => {
       {
         id: 'm3',
         text: 'Я тоже в порядке, спасибо что спросил!',
-        sender: chatParticipantsMock['1'][1], // Мария
+        sender: chatParticipantsMock['1'][1],
         timestamp: '12:30',
         isCurrentUser: false
       }
@@ -407,7 +407,7 @@ const ChatsPage = () => {
       {
         id: 'm4',
         song: mockSongs[0],
-        sender: chatParticipantsMock['2'][0], // Дмитрий
+        sender: chatParticipantsMock['2'][0],
         timestamp: '11:40',
         isCurrentUser: false
       },
@@ -423,14 +423,14 @@ const ChatsPage = () => {
       {
         id: 'm6',
         text: 'Кто идет на вечеринку в субботу?',
-        sender: chatParticipantsMock['3'][0], // Алексей
+        sender: chatParticipantsMock['3'][0],
         timestamp: '10:15',
         isCurrentUser: false
       },
       {
         id: 'm7',
         text: 'Я буду!',
-        sender: chatParticipantsMock['3'][1], // Сергей
+        sender: chatParticipantsMock['3'][1],
         timestamp: '10:18',
         isCurrentUser: false
       },
@@ -446,7 +446,7 @@ const ChatsPage = () => {
       {
         id: 'm9',
         text: 'Напоминаю, что дедлайн завтра!',
-        sender: chatParticipantsMock['4'][0], // Павел
+        sender: chatParticipantsMock['4'][0],
         timestamp: 'Вчера 18:30',
         isCurrentUser: false
       }
@@ -455,7 +455,7 @@ const ChatsPage = () => {
       {
         id: 'm10',
         text: 'Где встречаемся в пятницу?',
-        sender: chatParticipantsMock['5'][0], // Алексей
+        sender: chatParticipantsMock['5'][0],
         timestamp: 'Вчера 20:15',
         isCurrentUser: false
       },
@@ -471,7 +471,7 @@ const ChatsPage = () => {
 
   const [messages, setMessages] = useState<Message[]>(chatMessagesMock[activeChat] || []);
   
-  // Обновление сообщений при смене чата
+
   useEffect(() => {
     setMessages(chatMessages[activeChat] || []);
     scrollToBottom();
@@ -503,14 +503,13 @@ const ChatsPage = () => {
       setMessages(updatedMessages);
       setMessageInput('');
       
-      // Обновляем последнее сообщение в чате
       const updatedChats = chats.map(chat => {
         if (chat.id === activeChat) {
           return { 
             ...chat, 
             lastMessage: messageInput, 
             lastMessageTime: 'Только что',
-            unread: 0 // Сбрасываем непрочитанные, так как это наше сообщение
+            unread: 0
           };
         }
         return chat;
@@ -532,14 +531,13 @@ const ChatsPage = () => {
     setMessages(updatedMessages);
     setShowTracksModal(false);
     
-    // Обновляем последнее сообщение в чате
     const updatedChats = chats.map(chat => {
       if (chat.id === activeChat) {
         return { 
           ...chat, 
           lastMessage: `Трек: ${song.name}`, 
           lastMessageTime: 'Только что',
-          unread: 0 // Сбрасываем непрочитанные, так как это наше сообщение
+          unread: 0
         };
       }
       return chat;
@@ -551,24 +549,24 @@ const ChatsPage = () => {
     song.name.toLowerCase().includes(trackSearchQuery.toLowerCase())
   );
 
-  // Для аудио в сообщениях
+
   const [audioStates, setAudioStates] = useState<Record<string, { audio: HTMLAudioElement | null; isPlaying: boolean; progress: number; duration: number }>>({});
 
-  // Для TrackRow в модалке
+
   const [trackRowAudio, setTrackRowAudio] = useState<{ uuid: string; audio: HTMLAudioElement | null; isPlaying: boolean; progress: number; duration: number } | null>(null);
   const [showTracksModal, setShowTracksModal] = useState(false);
 
-  // --- Аудио для сообщений ---
+
   const handlePlayAudio = (url: string, messageId: string) => {
     setAudioStates(prev => {
-      // Остановить все остальные
+
       Object.values(prev).forEach(state => state.audio?.pause());
-      // Если уже играет этот трек - пауза
+      
       if (prev[messageId]?.isPlaying) {
         prev[messageId]?.audio?.pause();
         return { ...prev, [messageId]: { ...prev[messageId], isPlaying: false } };
       }
-      // Новый аудио
+      
       const audio = new Audio(url);
       audio.play();
       const update = (progress = 0, duration = 0) => {
@@ -606,7 +604,7 @@ const ChatsPage = () => {
     if (timestamp.includes('Только что')) return 'Только что';
     if (timestamp.includes('Вчера')) return 'Вчера';
     
-    // Проверяем, сегодня ли было сообщение
+
     const now = new Date();
     const messageTime = new Date(timestamp);
     
@@ -614,7 +612,7 @@ const ChatsPage = () => {
       return messageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
     
-    // Проверяем, было ли сообщение вчера
+
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
     
@@ -622,10 +620,10 @@ const ChatsPage = () => {
       return 'Вчера';
     }
     
-    // Если сообщение было раньше, чем вчера
+
     return 'Ранее';
   }
-  // --- Аудио для TrackRow в модалке ---
+
   const handleTrackRowPlay = (song: Song) => {
     setTrackRowAudio(prev => {
       if (prev?.isPlaying && prev.uuid === song.uuid) {
@@ -665,7 +663,7 @@ const ChatsPage = () => {
     });
   };
 
-  // В модалках и при добавлении участников показываем только пользователей или только лейблы
+
   const availableParticipants = userKey === 'label78'
     ? mockUsers.filter(u => u.login.startsWith('label'))
     : mockUsers.filter(u => u.login.startsWith('user'));
@@ -684,7 +682,7 @@ const ChatsPage = () => {
           </button>
         </div>
 
-        {/* Поиск по чатам */}
+
         <div className={s.searchContainer}>
           <FiSearch className={s.searchIcon} />
           <input
@@ -696,7 +694,7 @@ const ChatsPage = () => {
           />
         </div>
 
-        {/* Список чатов */}
+
         <div className={s.chatList}>
           {filteredChats.map(chat => (
             <div
@@ -713,16 +711,14 @@ const ChatsPage = () => {
               </div>
               <div className={s.chatMeta}>
                 <div className={s.chatTime}>{formatMessageTime(chat.lastMessageTime)}</div>
-                {/* {chat.unread > 0 && (
-                  <div className={s.unreadBadge}>{chat.unread}</div>
-                )} */}
+
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Основное содержимое - чат */}
+
       {activeChat ? (
         <div className={s.chatContent}>
           <div className={s.chatHeader}>
@@ -754,9 +750,9 @@ const ChatsPage = () => {
                       <div className={s.songInfo}>
                         <FiMusic className={s.songIcon} />
                         <span className={s.songTitle}>{message.song.name}</span>
-                        {/* Добавляем тире между названием и автором */}
+
                         <span style={{ margin: '0 6px', color: '#bbb' }}>—</span>
-                        {/* Автор трека */}
+
                         {(() => {
                           const author = allUsers.find(u => u.uuid === message.song?.authorUUID);
                           return author ? (
@@ -868,7 +864,7 @@ const ChatsPage = () => {
         </div>
       )}
 
-      {/* Колонка участников чата */}
+
       <div className={s.participantsColumn}>
         {activeChat ? (
           <>
@@ -890,7 +886,7 @@ const ChatsPage = () => {
                     <div key={user.uuid} className={s.participantItem}>
                       <div className={s.participantAvatar}>
                         {currentUser && user.uuid === currentUser.uuid ? (
-                          // "Вы" + иконка
+
                           <>
                             <FiUser size={16} />
                           </>
@@ -927,11 +923,11 @@ const ChatsPage = () => {
         )}
       </div>
 
-      {/* Модальное окно выбора треков */}
+
       {showTracksModal && (
         <Modal isOpen={showTracksModal} onClose={() => setShowTracksModal(false)} title="Отправить трек">
           <div className={s.tracksModalContent}>
-            {/* Добавьте поле поиска */}
+
             <div className={s.trackSearchContainer}>
               <FiSearch className={s.trackSearchIcon} />
               <input
@@ -943,7 +939,7 @@ const ChatsPage = () => {
               />
             </div>
             
-            {/* Отображаем отфильтрованные треки */}
+
             {filteredTracks.length > 0 ? (
               filteredTracks.map(song => (
                 <div key={song.uuid} className={s.trackItem}>
@@ -988,7 +984,7 @@ const ChatsPage = () => {
         />
       )}
 
-      {/* Модальное окно создания нового чата */}
+
       {showNewChatModal && (
         <CreateChatModal
           users={availableParticipants}

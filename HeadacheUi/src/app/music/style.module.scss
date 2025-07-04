@@ -9,7 +9,6 @@
 
 .myMusicHeader {
   width: 100%;
-//   max-width: 1100px;
   display: flex;
   margin-top: 40px;
   align-items: center;
@@ -25,8 +24,6 @@
 .tracksBlock {
   width: 100%;
   margin-top: 40px;
-//   max-width: 1100px;
-//   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.04);
   display: flex;
@@ -158,7 +155,7 @@
   }
 }
 
-// Новый стиль для сетки альбомов как на main
+
 .albumsGridMain {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));

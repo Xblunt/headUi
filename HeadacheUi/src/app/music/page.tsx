@@ -37,17 +37,13 @@ const MyMusicPage = () => {
   const [promoteSong, setPromoteSong] = useState<Song | null>(null);
   const [promoteMessage, setPromoteMessage] = useState('');
 
-  // --- CRUD handlers (реализация) ---
   const [songs, setSongs] = useState<Song[]>(allAuthorSongs);
   const [albums, setAlbums] = useState<Album[]>(allAuthorAlbums);
 
-  // Форма для трека
   const [trackForm, setTrackForm] = useState<Partial<Song & { urlImageFile?: File; audioFile?: File; tagList?: Tag[] | string[] }>>({});
 
-  // Форма для альбома
   const [albumForm, setAlbumForm] = useState<Partial<Album & { coverFile?: File; trackUuids?: string[] }>>({});
 
-  // Открыть модал создания трека
   const handleCreateTrack = () => {
     setTrackForm({
       name: '',
@@ -63,7 +59,6 @@ const MyMusicPage = () => {
   };
 
    const handleSubmitPromotion = () => {
-    // Здесь будет логика отправки на сервер
     console.log('Отправка на продвижение:', {
       song: promoteSong?.name,
       message: promoteMessage
@@ -77,8 +72,6 @@ const MyMusicPage = () => {
     setShowPromoteModal(true);
   };
 
-
-  // Открыть модал редактирования трека
   const handleEditTrack = (song: Song) => {
     setTrackForm({
       ...song,
@@ -90,10 +83,8 @@ const MyMusicPage = () => {
     setShowTrackModal(true);
   };
 
-  // Сохранить трек (создать или обновить)
   const handleSaveTrack = () => {
     if (!trackForm.name || (!trackForm.url && !trackForm.audioFile)) return;
-    // Обработка файлов (заглушка, обычно upload на сервер)
     let urlImageUrl = trackForm.urlImage;
     let audioUrl = trackForm.url;
     if (trackForm.urlImageFile) {
@@ -102,7 +93,6 @@ const MyMusicPage = () => {
     if (trackForm.audioFile) {
       audioUrl = URL.createObjectURL(trackForm.audioFile);
     }
-    // Преобразование tagList в массив Tag если нужно
     let tagsResult: Tag[] = [];
     if (trackForm.tagList && typeof trackForm.tagList[0] === 'string') {
       tagsResult = tags.filter(t => (trackForm.tagList as string[]).includes(t.tagName));
@@ -130,7 +120,6 @@ const MyMusicPage = () => {
     setTrackForm({});
   };
 
-  // Удалить трек
   const handleDeleteTrack = (song: Song) => {
     setTrackToDelete(song);
   };
@@ -139,12 +128,10 @@ const MyMusicPage = () => {
     setTrackToDelete(null);
   };
 
-  // Просмотр информации о треке
   const handleInfoTrack = (song: Song) => {
     setInfoTrack(song);
   };
 
-  // Открыть модал создания альбома
   const handleCreateAlbum = () => {
     setAlbumForm({
       name: '',
@@ -157,7 +144,6 @@ const MyMusicPage = () => {
     setShowAlbumModal(true);
   };
 
-  // Открыть модал редактирования альбома
   const handleEditAlbum = (album: Album) => {
     setAlbumForm({
       ...album,
@@ -168,7 +154,6 @@ const MyMusicPage = () => {
     setShowAlbumModal(true);
   };
 
-  // Сохранить альбом (создать или обновить)
   const handleSaveAlbum = () => {
     if (!albumForm.name) return;
     let coverUrl = albumForm.urlImage;
@@ -196,7 +181,6 @@ const MyMusicPage = () => {
     setAlbumForm({});
   };
 
-  // Удалить альбом
   const handleDeleteAlbum = (album: Album) => {
     setAlbumToDelete(album);
   };
@@ -205,13 +189,11 @@ const MyMusicPage = () => {
     setAlbumToDelete(null);
   };
 
-  // Просмотр информации об альбоме
   const [infoAlbum, setInfoAlbum] = useState<Album | null>(null);
   const handleInfoAlbum = (album: Album) => {
     setInfoAlbum(album);
   };
 
-  // Фильтрация треков по статусу и поиску
   const filteredTracks = useMemo(() => {
     return songs
       .filter(song => song.status === activeTrackTab)
@@ -221,21 +203,18 @@ const MyMusicPage = () => {
       );
   }, [songs, activeTrackTab, trackSearch]);
 
-  // Фильтрация альбомов по поиску
   const filteredAlbums = useMemo(() => {
     return albums.filter(album =>
       album.name.toLowerCase().includes(albumSearch.toLowerCase())
     );
   }, [albums, albumSearch]);
 
-  // --- Локальный плеер для TrackRow ---
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // --- Audio logic для треков и альбомов ---
   React.useEffect(() => {
     if (audio) {
       audio.pause();
@@ -346,7 +325,6 @@ const MyMusicPage = () => {
         </div>
       </div>
 
-      {/* Альбомы */}
       <div className={s.albumsBlock}>
         <div className={s.albumsHeader}>
           <h2>Альбомы</h2>
@@ -383,7 +361,6 @@ const MyMusicPage = () => {
         </div>
       </div>
 
-      {/* Модальные окна */}
       {showTrackModal && (
         <Modal isOpen={showTrackModal} onClose={() => setShowTrackModal(false)} title={trackToEdit ? 'Редактировать трек' : 'Создать трек'}>
           <form
@@ -393,7 +370,6 @@ const MyMusicPage = () => {
               handleSaveTrack();
             }}
           >
-            {/* Название */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
               <label style={{ fontWeight: 500 }}>Название трека</label>
               <input
@@ -406,7 +382,6 @@ const MyMusicPage = () => {
                 style={{ width: '100%' }}
               />
             </div>
-            {/* Обложка */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
               <label style={{ fontWeight: 500 }}>Обложка</label>
               <input
@@ -430,7 +405,6 @@ const MyMusicPage = () => {
                 />
               )}
             </div>
-            {/* Трек файл */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
               <label style={{ fontWeight: 500 }}>Трек файл</label>
               <input
@@ -454,7 +428,6 @@ const MyMusicPage = () => {
                 />
               )}
             </div>
-            {/* Теги */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
               <label style={{ fontWeight: 500 }}>Теги</label>
               <select
@@ -490,21 +463,6 @@ const MyMusicPage = () => {
                 )}
               </div>
             </div>
-            {/* Статус только при создании */}
-            {/* {!trackToEdit && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 4 }}>
-                <label style={{ fontWeight: 500 }}>Статус</label>
-                <select
-                  value={trackForm.status || SongStatus.AWAITING}
-                  onChange={e => setTrackForm(f => ({ ...f, status: e.target.value as SongStatus }))}
-                  className={s.input}
-                >
-                  <option value={SongStatus.APPROVED}>Одобрен</option>
-                  <option value={SongStatus.AWAITING}>На модерации</option>
-                  <option value={SongStatus.DISAPPROVED}>Отклонён</option>
-                </select>
-              </div>
-            )} */}
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 8 }}>
               <button type="button" className={s.cancelButton} onClick={() => setShowTrackModal(false)}>
                 Отмена

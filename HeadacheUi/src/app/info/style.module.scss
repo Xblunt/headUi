@@ -109,19 +109,19 @@
   align-items: center;
   position: relative;
   box-sizing: border-box;
-  min-height: 36px; // или любой другой подходящий размер
+  min-height: 36px;
 
   &:hover {
     background: #e9ecef;
     border-color: #999;
   }
 
-  // Стили для текста внутри кнопки
+
   &::after {
     content: 'Загрузить новый';
   }
 
-  // Скрытие оригинального input
+
   input[type="file"] {
     position: absolute;
     left: 0;

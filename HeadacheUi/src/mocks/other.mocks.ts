@@ -1,6 +1,5 @@
 import { ITab } from "../models";
 
-// Tabs (Hardcode)
 export const userTabs: ITab[] = [
   {
     title: 'Главная',

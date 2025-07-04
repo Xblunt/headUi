@@ -1,7 +1,6 @@
 import { User } from '../models';
 
 export const mockUsers: User[] = [
-  // ARTIST (author)
   new User({
     uuid: 'author-1',
     login: 'author111',
@@ -193,7 +192,6 @@ export const mockUsers: User[] = [
     savedSongsUUIDs: []
   }),
 
-  // LABEL
   new User({
     uuid: 'label-1',
     login: 'label78',
@@ -290,7 +288,6 @@ export const mockUsers: User[] = [
     savedSongsUUIDs: []
   }),
 
-  // USER (listener)
   new User({
     uuid: 'user-1',
     login: 'firstUser',
@@ -387,7 +384,6 @@ export const mockUsers: User[] = [
     savedSongsUUIDs: ['song-16']
   }),
 
-  // ADMIN
   new User({
     uuid: 'admin-1',
     login: 'admin1',
@@ -484,8 +480,6 @@ export const mockUsers: User[] = [
     savedSongsUUIDs: []
   }),
 
-  // 20 других пользователей (по 5 каждой роли, 15 st.jpg, 5 sta.jpg)
-  // ARTIST
   new User({
     uuid: 'other-artist-1',
     login: 'otherartist1',
@@ -581,7 +575,7 @@ export const mockUsers: User[] = [
     avgRating: 3.5,
     savedSongsUUIDs: []
   }),
-  // LABEL
+
   new User({
     uuid: 'other-label-1',
     login: 'otherlabel1',
@@ -677,7 +671,7 @@ export const mockUsers: User[] = [
     avgRating: 3.5,
     savedSongsUUIDs: []
   }),
-  // USER
+
   new User({
     uuid: 'other-user-1',
     login: 'otheruser1',
@@ -773,7 +767,7 @@ export const mockUsers: User[] = [
     avgRating: 3.5,
     savedSongsUUIDs: []
   }),
-  // ADMIN
+
   new User({
     uuid: 'other-admin-1',
     login: 'otheradmin1',
